@@ -1,5 +1,5 @@
 package field;
 
-public class Field {
+public class Field implements IField{
 
 }

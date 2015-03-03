@@ -7,13 +7,21 @@ public class Account implements IAccount{
 	int balance;
 
 	@Override
-	public void deposit(int amount) { //TODO: Må ikke være minus (Exception?)
-		balance += amount;	
+	public void deposit(int amount) {
+		if(amount < 0){
+			System.out.println("Minus"); //TODO: Smid Syso ud i brugergrænsefladen
+		}else{
+			balance += amount;
+		}
 	}
 
 	@Override
-	public void withdraw(int amount) { //TODO: Må ikke være minus (Exception?)
-		balance -= amount;	
+	public void withdraw(int amount) { 
+		if(amount < 0){
+			System.out.println("Minus"); //TODO: Smid Syso ud i brugergrænsefladen
+		}else{
+			balance -= amount;	
+		}
 	}
 
 	@Override
