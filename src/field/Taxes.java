@@ -1,9 +1,19 @@
 package field;
 
-public class Taxes extends Field {
+import user.User;
 
-	public Taxes(String string, int i) {
-		// TODO Auto-generated constructor stub
+public class Taxes extends Field {
+	private int tax;
+
+	public Taxes(String name, int tax) {
+		super(name);
+		this.tax = tax;
+	}
+
+	@Override
+	public void landOnField(User user) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

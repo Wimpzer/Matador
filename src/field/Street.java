@@ -1,9 +1,22 @@
 package field;
 
-public class Street extends Ownable{
+import user.User;
 
-	public Street(String name, int i, int j, Object object, String string){
-		
+public class Street extends Ownable{
+	private String color;
+	
+	public Street(String name, int rentPrice, int fieldPrice, User owner, String color){
+		super(name);
+		this.rentPrice = rentPrice;
+		this.fieldPrice = fieldPrice;
+		this.setOwner(owner);
+		this.color = color;
+	}
+
+	@Override
+	public int rent() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }
