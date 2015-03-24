@@ -2,8 +2,20 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import user.User;
+import field.Field;
+import field.Ownable;
+
+/**
+ * @author Bjarke
+ *
+ */
 
 public class Database {
 
@@ -28,6 +40,118 @@ public class Database {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	public void connectDatabase() throws SQLException{
+		PreparedStatement connectDatabase = conn.prepareStatement("USE matador");
+		connectDatabase.execute();
+	}
+
+	/**
+	 * Methods for saving the game
+	 * 
+	 * @param users
+	 * @param fields
+	 * @param userTurn
+	 * @throws SQLException
+	 */
+
+	public void saveGame(User[] users, Ownable[] fields, int userTurn) throws SQLException{
+		saveUsers(users);
+		saveFields(fields);
+		saveUserTurn(userTurn);
+	}
+
+	private void saveUsers(User[] users) throws SQLException{
+		PreparedStatement saveUsers;
+		String saveUsersString = "INSERT INTO user (userNumber, userName, currentPosition, balance) VALUES (?, ?, ?, ?)";
+
+		saveUsers = conn.prepareStatement(saveUsersString);
+
+		for (int i = 0; i < users.length; i++) {
+			saveUsers.setInt(1, users[i].getUserNumber());
+			saveUsers.setString(2, users[i].getUserName());
+			saveUsers.setInt(3, users[i].getCurrentPosition());
+			saveUsers.setInt(4, users[i].getBalance());
+			saveUsers.executeUpdate();
+		}
+	}
+
+	private void saveFields(Ownable[] fields) throws SQLException{
+		PreparedStatement saveGame;
+		String saveGameString = "INSERT INTO ownable (fieldNumber, ownerNumber, houseAmount, hotelAmount) VALUES (?, ?, ?, ?)";
+
+		saveGame = conn.prepareStatement(saveGameString);
+
+		for (int i = 0; i < fields.length; i++) {
+			saveGame.setInt(1, i);
+			saveGame.setInt(2, fields[i].getOwner());
+			saveGame.setInt(3, fields[i].getHouseAmount);				//TODO: Tjek op på dette
+			saveGame.setInt(4, fields[i].getHotelAmount);
+			saveGame.executeUpdate();
+		}
+	}
+
+	private void saveUserTurn(int userTurn) throws SQLException {
+		stt.executeUpdate("INSERT INTO controller " + "(userTurn) VALUES ('" + userTurn + "')");
+	}
+
+	/**
+	 * Methods for loading the game
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	
+	public ArrayList<User> loadGameUser() throws SQLException{
+		int userNumber;
+		String userName;
+		int currentPosition;
+		int balance;
+		ArrayList<User> users = new ArrayList<User>();
+
+		PreparedStatement loadGameUser;
+		String loadGameUserString = "SELECT * FROM user";
+
+		loadGameUser = conn.prepareStatement(loadGameUserString);
+
+		ResultSet res = loadGameUser.executeQuery();
+
+		while(res.next()){
+			userNumber = res.getInt("userNumber");
+			userName = res.getString("userName");
+			currentPosition = res.getInt("currentPosition");
+			balance = res.getInt("balance");
+			User user = new User(userName, userNumber, currentPosition);
+			user.deposit(balance);
+			users.add(user);
+		}		
+		return users;
+	}
+
+	public Ownable[] loadFields() throws SQLException{
+		int ownerNumber;
+		int houseAmount;
+		int hotelAmount;
+		Ownable[] fields = new Ownable[40];
+
+		PreparedStatement loadFields;
+		String loadFieldsString = "SELET * FROM ownable";
+
+		loadFields = conn.prepareStatement(loadFieldsString);
+
+		ResultSet res = loadFields.executeQuery();
+
+		while(res.next()){
+			ownerNumber = res.getInt("ownerNumber");
+			houseAmount = res.getInt("houseAmount");
+			hotelAmount = res.getInt("hotelAmount");
+			fields[res.getInt("fieldNumber")].setOwner(ownerNumber);
+			fields[res.getInt("fieldNumber")].setHouseAmount(houseAmount);
+			fields[res.getInt("fieldNumber")].setHotelAmount(hotelAmount);
+		}
+		
+		return fields;
 	}
 
 }
