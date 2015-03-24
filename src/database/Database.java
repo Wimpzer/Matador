@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-package database;
-
-public class Database {
-
-	
-	
-}
-=======
 package database;
 
 public class Database {
@@ -16,7 +7,7 @@ public class Database {
 	String DBpassword = "123QWEasd";
 	Connection conn;
 	Statement stt;
-	
+
 	{
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -27,6 +18,6 @@ public class Database {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
-	
+
 }
->>>>>>> 683239968a3f96fca8af0c35e8383048f7e5e379
+
