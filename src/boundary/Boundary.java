@@ -1,8 +1,10 @@
 package boundary;
 
+import java.util.Scanner;
+
 public class Boundary {
 
-	Scanner scan = new Scanner();
+	Scanner scan = new Scanner(System.in);
 	
 	public void showOut(String text){
 		System.out.println(text);
