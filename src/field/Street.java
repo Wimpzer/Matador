@@ -13,10 +13,19 @@ public class Street extends Ownable{
 		this.color = color;
 	}
 
+	
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public int rent() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void addStreet(Street field) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
