@@ -4,8 +4,10 @@ import user.User;
 
 public class Street extends Ownable{
 	private String color;
+	int rent, price, housePrice, rentHouse1, rentHouse2, rentHouse3, rentHouse4, rentHotel;
 	
-	public Street(String name, int rentPrice, int fieldPrice, User owner, String color){
+	public Street(int number, String name, int price, int housePrice, int rent, int rentHouse1, int rentHouse2, int rentHouse3, int rentHouse4, int rentHotel)
+	{
 		super(name);
 		this.rentPrice = rentPrice;
 		this.fieldPrice = fieldPrice;
