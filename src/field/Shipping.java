@@ -4,10 +4,10 @@ import user.User;
 
 public class Shipping extends Ownable {
 
-	public Shipping(String name, int rentPrice, User owner) {
+	public Shipping(String name, int rentPrice, int userNumber) {
 		super(name);
 		this.rentPrice = rentPrice;
-		this.setOwner(owner);
+		this.setOwner(userNumber);
 		this.fieldPrice = 4000;
 	}
 

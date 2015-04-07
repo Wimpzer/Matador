@@ -20,8 +20,8 @@ public abstract class Ownable extends Field {
 		return ownerNumber;
 	}
 	
-	public void setOwner(int ownerNumber){
-		this.ownerNumber = ownerNumber;
+	public void setOwner(int userNumber){
+		this.ownerNumber = userNumber;
 	}
 	
 	public int getFieldPrice(){

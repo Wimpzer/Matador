@@ -5,11 +5,11 @@ import user.User;
 
 public class Brewery extends Ownable {
 
-	public Brewery(String name, int rentPrice, User owner) {
+	public Brewery(String name, int rentPrice, int userNumber) {
 		super(name);
 		this.fieldPrice = 3000;
 		this.rentPrice = rentPrice;
-		this.setOwner(owner);
+		this.setOwner(userNumber);
 	}
 
 	@Override
