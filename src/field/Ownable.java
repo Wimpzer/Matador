@@ -5,7 +5,7 @@ import user.User;
 public abstract class Ownable extends Field {
 	protected int fieldPrice;
 	protected int rentPrice;
-	private int ownerNumber;
+	private User owner;
 
 	public Ownable(String name){
 		super(name);
@@ -14,14 +14,22 @@ public abstract class Ownable extends Field {
 	abstract public int rent();
 	
 	public void landOnField(User user){
+		if(getOwner() != null && getOwner() != user){
+			getOwner().deposit(rentPrice);
+			user.withdraw(rentPrice);
+		}
+		if(getOwner() == null){
+			setOwner(user);
+			user.withdraw(fieldPrice);
+		}
 	}
 	
-	public int getOwner(){
-		return ownerNumber;
+	public User getOwner(){
+		return owner;
 	}
 	
-	public void setOwner(int userNumber){
-		this.ownerNumber = userNumber;
+	public void setOwner(User user){
+		this.owner = user;
 	}
 	
 	public int getFieldPrice(){
