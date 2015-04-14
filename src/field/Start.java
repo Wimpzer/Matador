@@ -3,11 +3,11 @@ package field;
 import user.User;
 
 public class Start extends Field {
-	private int bonus;
+	private int bonus = 4000;
 
-	public Start(String name) {
+	public Start(int fieldNumber, String name) {
 		super(name);
-		this.bonus = 4000;
+		this.fieldNumber = fieldNumber;
 	}
 	
 	public void crossStart(User user){

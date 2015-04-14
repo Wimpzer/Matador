@@ -4,8 +4,9 @@ import user.User;
 
 public class Chance extends Field {
 
-	public Chance(String name) {
+	public Chance(int fieldNumber, String name) {
 		super(name);
+		this.fieldNumber = fieldNumber;
 	}
 
 	@Override

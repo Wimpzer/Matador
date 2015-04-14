@@ -23,7 +23,7 @@ public class Board {
 			fields[9] = new Street    (10, "Allegade", 2400, 1000, 150, 800, 2000, 6000, 9000, 12000, "orange");
 			fields[10] = new Jail     (11, "Fængsel");
 			fields[11] = new Street   (12, "Frederiksberg Alle", 2800, 2000, 200, 1000, 3000, 9000, 12500, 15000, "green");
-			fields[12] = new Brewery  (13, "Bryggeri - Carlsberg", 3000, 100, 200);
+			fields[12] = new Brewery  (13, "Bryggeri - Carlsberg", 3000);
 			fields[13] = new Street   (14, "Bulowsvej", 2800, 2000, 200, 1000, 3000, 9000, 12500, 15000, "green");	
 			fields[14] = new Street   (15, "Gl. Kongevej", 3200, 2000, 250, 1250, 3750, 10000, 14000, 18000, "green");	
 			fields[15] = new Shipping (16, "Shipping - Kalundborg/Århus", 4000);	
@@ -31,7 +31,7 @@ public class Board {
 			fields[17] = new Chance    (18, "Prøv Lykken");	
 			fields[18] = new Street   (19, "Hellerupvej", 3600, 2000, 300, 1400, 4000, 11000, 15000, 19000, "grey");	
 			fields[19] = new Street   (20, "Strandvej", 4000, 2000, 350, 1600, 4400, 12000, 16000, 20000, "grey");	
-			fields[20] = new Refuge   (21, "Parkering", 5000);	
+			fields[20] = new Refuge   (21, "Parkering");	
 			fields[21] = new Street   (22, "Trianglen", 4400, 3000, 350, 1800, 5000, 14000, 17500, 21000, "red");	
 			fields[22] = new Chance    (23, "Prøv Lykken");	
 			fields[23] = new Street   (24, "Østerbrogade", 4400, 3000, 350, 1800, 5000, 14000, 17500, 21000, "red");	
@@ -39,7 +39,7 @@ public class Board {
 			fields[25] = new Shipping (26, "Shipping - Mols-Linien A/S", 4000);	
 			fields[26] = new Street   (27, "Bredgade", 5200, 3000, 450, 2200, 6600, 16000, 19500, 23000, "white");	
 			fields[27] = new Street   (28, "Kgs. Nytorv", 5200, 3000, 450, 2200, 6600, 16000, 19500, 23000, "white");	
-			fields[28] = new Brewery  (29, "Bryggeri - Coca-Cola", 3000, 100, 200);	
+			fields[28] = new Brewery  (29, "Bryggeri - Coca-Cola", 3000);	
 			fields[29] = new Street   (30, "Østergade", 5600, 3000, 500, 2400, 7200, 17000, 20500, 24000, "white");	
 			fields[30] = new Jail     (31, "De Faengsles");	
 			fields[31] = new Street   (32, "Amagertorv", 6000, 4000, 550, 2600, 7800, 18000, 22000, 25000, "yellow");	

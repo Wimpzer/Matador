@@ -4,11 +4,12 @@ import game.Controller;
 
 
 public class Brewery extends Ownable {
-
-	public Brewery(String name, int rentPrice) {
+	private int rentPrice;
+	
+	public Brewery(int fieldNumber, String name, int fieldPrice) {
 		super(name);
-		this.fieldPrice = 3000;
-		this.rentPrice = rentPrice;
+		this.fieldNumber = fieldNumber;
+		this.fieldPrice = fieldPrice;
 	}
 
 	@Override

@@ -5,8 +5,9 @@ import user.User;
 
 public class Jail extends Field {
 
-	public Jail(String name) {
+	public Jail(int fieldNumber, String name) {
 		super(name);
+		this.fieldNumber = fieldNumber;
 	}
 
 	@Override
