@@ -9,10 +9,13 @@ public class Start extends Field {
 		super(name);
 		this.bonus = 4000;
 	}
+	
+	public void crossStart(User user){
+		user.deposit(bonus);
+	}
 
 	@Override
 	public void landOnField(User user) {
-		// TODO Auto-generated method stub
 		
 	}
 
