@@ -1,5 +1,6 @@
 package field;
 
+import game.Dice;
 import user.User;
 
 public class Faengsel extends Field {
@@ -10,7 +11,9 @@ public class Faengsel extends Field {
 
 	@Override
 	public void landOnField(User user) {
-		// TODO Auto-generated method stub
+		Dice diceCup = new Dice();
+		int 
+		
 		
 	}
 
