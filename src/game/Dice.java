@@ -4,26 +4,33 @@ import interfaces.IDice;
 
 public class Dice implements IDice{
 	private final int max = 6;
-	private int faceValue;
+	private int faceValue1;
+	private int faceValue2;
 	
 	@Override
 	public int roll() {
-		faceValue = (int) (Math.random() * max) + 1;
-		return faceValue;
+		faceValue1 = (int) (Math.random() * max) + 1;
+		
+		faceValue2 = (int) (Math.random() * max) + 1;
+	
+		return faceValue1+faceValue2;
+	}
+	
+	public int getSum(){
+		return faceValue1+faceValue2;
 	}
 
-	@Override
-	public int getFaceValue() {
-		return faceValue;
-	}
 
-	@Override
-	public void setFaceValue(int value) {
-		faceValue = value;
+	public boolean checkEqual()
+	{
+		if(faceValue1 == faceValue2)
+			return true;
+		else
+			return false;
 	}
 
 	public String toString(){
-		String result = Integer.toString(faceValue);
+		String result = Integer.toString(roll());
 		return result;
 	}
 	

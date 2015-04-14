@@ -1,5 +1,6 @@
 package field;
 
+import game.Controller;
 import user.User;
 
 
@@ -14,12 +15,13 @@ public class Brewery extends Ownable {
 
 	@Override
 	public int rent() {
-		if(this.getOwner().get == 1)
+		if(this.getOwner().getOwnedBrewery() == 1){
+			rentPrice = Controller.getSum() * 100;
+		}
+		if(this.getOwner().getOwnedBrewery() == 2){
+			rentPrice = Controller.getSum() * 200;
+		}
 	}
 	
-	@Override
-	public void landOnField(User user) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }
