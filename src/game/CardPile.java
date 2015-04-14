@@ -13,7 +13,7 @@ public class CardPile {
 		new BonusCard("De havde en række med elleve rigtige i tipning. Modtag kr. 1.000.", 1000),
 		new BonusCard("Deres præmieobligation er kommet ud. De modtager kr. 1.000 af banken.", 1000),
 		new BonusCard("Deres præmieobligation er kommet ud. De modtager kr. 1.000 af banken.", 1000),
-		new BirthdayCard(),
+		//new BirthdayCard(),
 		new BonusCard("Værdien af egen avl fra nyttehaven udgør kr. 200, som De modtager af banken.", 200),
 		new FineCard("Betal Deres bilforsikring kr. 1.000.", 1000),
 		//13 
@@ -21,8 +21,8 @@ public class CardPile {
 		//15
 		//16
 		new MoveCard("Tag med LB-færgerne - flyt brikken frem, og hvis De passere Start indkasser da kr. 4.000.", 0, 6),
-		new JailCard(),
-		new JailCard(),
+		//new JailCard(),
+		//new JailCard(),
 		new BonusCard("Grunder dyrtiden har De fået gageforhøjelse. Modtag kr. 1.000.", 1000),
 		new MoveCard("Ryk frem til Frederiksberg Allé. Hvis de passerer Start indkasser kr. 4.000.", 0, 12),
 		new BonusCard("De har vundet i Klasselotteriet. Modtag kr. 500.", 500),
