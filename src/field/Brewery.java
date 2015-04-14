@@ -5,17 +5,16 @@ import user.User;
 
 public class Brewery extends Ownable {
 
-	public Brewery(String name, int rentPrice, int userNumber) {
+	public Brewery(String name, int rentPrice, User user) {
 		super(name);
 		this.fieldPrice = 3000;
 		this.rentPrice = rentPrice;
-		this.setOwner(userNumber);
+		this.setOwner(user);
 	}
 
 	@Override
 	public int rent() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(this.getOwner().get == 1)
 	}
 	
 	@Override

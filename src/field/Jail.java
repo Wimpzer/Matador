@@ -3,17 +3,21 @@ package field;
 import game.Dice;
 import user.User;
 
-public class Faengsel extends Field {
+public class Jail extends Field {
 
-	public Faengsel(String name) {
+	public Jail(String name) {
 		super(name);
 	}
 
 	@Override
 	public void landOnField(User user) {
 		Dice diceCup = new Dice();
-		int 
+		int jailFine = 1000;
+		int rollCount = 0;
 		
+		if(user.getCurrentPosition() == 30){
+			u
+		}
 		
 	}
 
