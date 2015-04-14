@@ -5,7 +5,6 @@ import user.User;
 public class Street extends Ownable{
 	private int houseAmount;
 	private int hotelAmount;
-	private User owner;
 	private int rentHouse1;
 	private int rentHouse2;
 	private int rentHouse3;
@@ -65,12 +64,6 @@ public class Street extends Ownable{
 		this.hotelAmount = hotelAmount;
 	}
 	
-	public User getOwner(){
-		return owner;
-	}
-	
-	public void setOwner(User user){
-		this.owner = user;
-	}
+
 	
 }
