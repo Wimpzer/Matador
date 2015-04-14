@@ -9,8 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import user.User;
-import field.Field;
-import field.Ownable;
+import field.*;
 
 /**
  * @author Bjarke
@@ -56,9 +55,11 @@ public class Database {
 	 * @throws SQLException
 	 */
 
-	public void saveGame(User[] users, Ownable[] fields, int userTurn) throws SQLException{
+	public void saveGame(User[] users, Brewery[] breweryFields, Shipping[] shippingFields, Street[] streetFields, int userTurn) throws SQLException{
 		saveUsers(users);
-		saveFields(fields);
+		saveBrewery(breweryFields);
+		saveShipping(shippingFields);
+		saveStreet(streetFields);
 		saveUserTurn(userTurn);
 	}
 
@@ -77,17 +78,46 @@ public class Database {
 		}
 	}
 
-	private void saveFields(Ownable[] fields) throws SQLException{
+	//For streets
+	private void saveStreet(Street[] fields) throws SQLException{
 		PreparedStatement saveGame;
-		String saveGameString = "INSERT INTO ownable (fieldNumber, ownerNumber, houseAmount, hotelAmount) VALUES (?, ?, ?, ?)";
+		String saveGameString = "INSERT INTO street (fieldNumber, ownerNumber, houseAmount, hotelAmount) VALUES (?, ?, ?, ?)";
 
 		saveGame = conn.prepareStatement(saveGameString);
 
 		for (int i = 0; i < fields.length; i++) {
 			saveGame.setInt(1, i);
 			saveGame.setInt(2, fields[i].getOwner());
-			saveGame.setInt(3, fields[i].getHouseAmount);				//TODO: Tjek op på dette
-			saveGame.setInt(4, fields[i].getHotelAmount);
+			saveGame.setInt(3, fields[i].getHouseAmount());
+			saveGame.setInt(4, fields[i].getHotelAmount());
+			saveGame.executeUpdate();
+		}
+	}
+	
+	//For Brewery
+	private void saveBrewery(Brewery[] fields) throws SQLException{
+		PreparedStatement saveGame;
+		String saveGameString = "INSERT INTO brewery (fieldNumber, ownerNumber) VALUES (?, ?)";
+
+		saveGame = conn.prepareStatement(saveGameString);
+
+		for (int i = 0; i < fields.length; i++) {
+			saveGame.setInt(1, i);
+			saveGame.setInt(2, fields[i].getOwner());
+			saveGame.executeUpdate();
+		}
+	}
+	
+	//For shipping
+	private void saveShipping(Shipping[] fields) throws SQLException{
+		PreparedStatement saveGame;
+		String saveGameString = "INSERT INTO shipping (fieldNumber, ownerNumber) VALUES (?, ?)";
+
+		saveGame = conn.prepareStatement(saveGameString);
+
+		for (int i = 0; i < fields.length; i++) {
+			saveGame.setInt(1, i);
+			saveGame.setInt(2, fields[i].getOwner());
 			saveGame.executeUpdate();
 		}
 	}
@@ -129,7 +159,7 @@ public class Database {
 		return users;
 	}
 
-	public Ownable[] loadFields() throws SQLException{
+	public Street[] loadStreet() throws SQLException{
 		int ownerNumber;
 		int houseAmount;
 		int hotelAmount;
