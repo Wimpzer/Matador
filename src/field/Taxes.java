@@ -5,8 +5,9 @@ import user.User;
 public class Taxes extends Field {
 	private int tax;
 
-	public Taxes(String name, int tax) {
+	public Taxes(int fieldNumber, String name, int tax) {
 		super(name);
+		this.fieldNumber = fieldNumber;
 		this.tax = tax;
 	}
 

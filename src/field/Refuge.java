@@ -4,8 +4,9 @@ import user.User;
 
 public class Refuge extends Field {
 
-	public Refuge(String name) {
+	public Refuge(int fieldNumber, String name) {
 		super(name);
+		this.fieldNumber = fieldNumber;
 	}
 
 	@Override

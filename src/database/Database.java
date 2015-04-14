@@ -9,8 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import user.User;
-import field.Field;
-import field.Ownable;
+import field.*;
 
 /**
  * @author Bjarke
@@ -56,9 +55,11 @@ public class Database {
 	 * @throws SQLException
 	 */
 
-	public void saveGame(User[] users, Ownable[] fields, int userTurn) throws SQLException{
+	public void saveGame(User[] users, Brewery[] breweryFields, Shipping[] shippingFields, Street[] streetFields, int userTurn) throws SQLException{
 		saveUsers(users);
-		saveFields(fields);
+		saveBrewery(breweryFields);
+		saveShipping(shippingFields);
+		saveStreet(streetFields);
 		saveUserTurn(userTurn);
 	}
 
@@ -77,17 +78,46 @@ public class Database {
 		}
 	}
 
-	private void saveFields(Ownable[] fields) throws SQLException{
+	//For streets
+	private void saveStreet(Street[] fields) throws SQLException{
 		PreparedStatement saveGame;
-		String saveGameString = "INSERT INTO ownable (fieldNumber, ownerNumber, houseAmount, hotelAmount) VALUES (?, ?, ?, ?)";
+		String saveGameString = "INSERT INTO street (fieldNumber, ownerNumber, houseAmount, hotelAmount) VALUES (?, ?, ?, ?)";
 
 		saveGame = conn.prepareStatement(saveGameString);
 
 		for (int i = 0; i < fields.length; i++) {
-			saveGame.setInt(1, i);
-			saveGame.setInt(2, fields[i].getOwner());
-			saveGame.setInt(3, fields[i].getHouseAmount);				//TODO: Tjek op på dette
-			saveGame.setInt(4, fields[i].getHotelAmount);
+			saveGame.setInt(1, fields[i].getFieldNumber());
+			saveGame.setInt(2, fields[i].getOwner().getUserNumber());
+			saveGame.setInt(3, fields[i].getHouseAmount());
+			saveGame.setInt(4, fields[i].getHotelAmount());
+			saveGame.executeUpdate();
+		}
+	}
+	
+	//For Brewery
+	private void saveBrewery(Brewery[] fields) throws SQLException{
+		PreparedStatement saveGame;
+		String saveGameString = "INSERT INTO brewery (fieldNumber, ownerNumber) VALUES (?, ?)";
+
+		saveGame = conn.prepareStatement(saveGameString);
+
+		for (int i = 0; i < fields.length; i++) {
+			saveGame.setInt(1, fields[i].getFieldNumber());
+			saveGame.setInt(2, fields[i].getOwner().getUserNumber());
+			saveGame.executeUpdate();
+		}
+	}
+	
+	//For shipping
+	private void saveShipping(Shipping[] fields) throws SQLException{
+		PreparedStatement saveGame;
+		String saveGameString = "INSERT INTO shipping (fieldNumber, ownerNumber) VALUES (?, ?)";
+
+		saveGame = conn.prepareStatement(saveGameString);
+
+		for (int i = 0; i < fields.length; i++) {
+			saveGame.setInt(1, fields[i].getFieldNumber());
+			saveGame.setInt(2, fields[i].getOwner().getUserNumber());
 			saveGame.executeUpdate();
 		}
 	}
@@ -128,31 +158,102 @@ public class Database {
 		}		
 		return users;
 	}
-
-	public Ownable[] loadFields() throws SQLException{
+//for street
+	public Street[] loadStreet(User[] users) throws SQLException{
+		int fieldNumber;
 		int ownerNumber;
 		int houseAmount;
 		int hotelAmount;
-		Ownable[] fields = new Ownable[40];
+		int i = 0;
+		Street[] fields = new Street[10];
 
 		PreparedStatement loadFields;
-		String loadFieldsString = "SELET * FROM ownable";
+		String loadFieldsString = "SELET * FROM street";
 
 		loadFields = conn.prepareStatement(loadFieldsString);
 
 		ResultSet res = loadFields.executeQuery();
 
 		while(res.next()){
+			fieldNumber = res.getInt("fieldNumber");
 			ownerNumber = res.getInt("ownerNumber");
 			houseAmount = res.getInt("houseAmount");
 			hotelAmount = res.getInt("hotelAmount");
-			fields[res.getInt("fieldNumber")].setOwner(ownerNumber);
-			fields[res.getInt("fieldNumber")].setHouseAmount(houseAmount);
-			fields[res.getInt("fieldNumber")].setHotelAmount(hotelAmount);
+			fields[i].setFieldNumber(fieldNumber);
+			fields[i].setHouseAmount(houseAmount);
+			fields[i].setHotelAmount(hotelAmount);
+			
+			for (User user : users) {
+				if(ownerNumber == user.getUserNumber()){
+					fields[i].setOwner(user);
+				}
+			}
+			i++;
 		}
 		
 		return fields;
 	}
+	
+	//for brewery
+		public Brewery[] loadBrewery(User[] users) throws SQLException{
+			int fieldNumber;
+			int ownerNumber;
+			int i = 0;
+			Brewery[] fields = new Brewery[2];
+
+			PreparedStatement loadFields;
+			String loadFieldsString = "SELET * FROM brewery";
+
+			loadFields = conn.prepareStatement(loadFieldsString);
+
+			ResultSet res = loadFields.executeQuery();
+
+			while(res.next()){
+				fieldNumber = res.getInt("fieldNumber");
+				ownerNumber = res.getInt("ownerNumber");
+				fields[i].setFieldNumber(fieldNumber);
+				
+				for (User user : users) {
+					if(ownerNumber == user.getUserNumber()){
+						fields[i].setOwner(user);
+					}
+				}
+				i++;
+			}
+			
+			return fields;
+		}
+		
+		//for shipping
+		public Shipping[] loadShipping(User[] users) throws SQLException{
+			int fieldNumber;
+			int ownerNumber;
+			int i = 0;
+			Shipping[] fields = new Shipping[4];
+
+			PreparedStatement loadFields;
+			String loadFieldsString = "SELET * FROM shipping";
+
+			loadFields = conn.prepareStatement(loadFieldsString);
+
+			ResultSet res = loadFields.executeQuery();
+
+			while(res.next()){
+				fieldNumber = res.getInt("fieldNumber");
+				ownerNumber = res.getInt("ownerNumber");
+				fields[i].setFieldNumber(fieldNumber);
+				
+				for (User user : users) {
+					if(ownerNumber == user.getUserNumber()){
+						fields[i].setOwner(user);
+					}
+				}
+				
+				i++;
+			}
+			
+			return fields;
+		}
 
 }
 
