@@ -1,13 +1,10 @@
 package field;
 
-import user.User;
-
 public class Shipping extends Ownable {
 
-	public Shipping(String name, int rentPrice, User user) {
+	public Shipping(String name, int rentPrice) {
 		super(name);
 		this.rentPrice = rentPrice;
-		this.setOwner(user);
 		this.fieldPrice = 4000;
 	}
 

@@ -1,16 +1,14 @@
 package field;
 
 import game.Controller;
-import user.User;
 
 
 public class Brewery extends Ownable {
 
-	public Brewery(String name, int rentPrice, User user) {
+	public Brewery(String name, int rentPrice) {
 		super(name);
 		this.fieldPrice = 3000;
 		this.rentPrice = rentPrice;
-		this.setOwner(user);
 	}
 
 	@Override
