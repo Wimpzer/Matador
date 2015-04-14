@@ -12,7 +12,7 @@ public class User implements IUser {
 	private int ownedShipping;
 	private int freeJailCards;
 	private int jailTimeCounter;
-	private boolean Jail;
+	private boolean inJail;
 	
 	public User(String userName, int userNumber, int currentPosition) {
 		this.userName = userName;
@@ -22,7 +22,7 @@ public class User implements IUser {
 		this.ownedShipping = 0;
 		this.freeJailCards = 0;
 		this.jailTimeCounter = 0;
-		this.Jail = false;
+		this.inJail = false;
 	}
 	
 	public String getUserName() {
@@ -89,12 +89,12 @@ public class User implements IUser {
 		this.jailTimeCounter = jailTimeCounter;
 	}
 
-	public boolean isJail() {
-		return Jail;
+	public boolean getInJail() {
+		return inJail;
 	}
 
-	public void setJail(boolean jail) {
-		Jail = jail;
+	public void setInJail(boolean inJail) {
+		inJail = inJail;
 	}
 	
 	

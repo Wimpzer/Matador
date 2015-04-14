@@ -1,17 +1,12 @@
 package game;
 
 import field.*;
-import java.util.ArrayList;
 
 public class Board {
 	public Field[]fields ;
-	public ArrayList<Street> street;
 	public Board()
 	{
-	
 	fields =new Field[40];
-	street = new ArrayList<Street>();
-	
 	}
 	
 	public void NewBoard()
