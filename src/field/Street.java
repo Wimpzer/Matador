@@ -3,20 +3,29 @@ package field;
 import user.User;
 
 public class Street extends Ownable{
-	private String color;
-	int rent, price, housePrice, rentHouse1, rentHouse2, rentHouse3, rentHouse4, rentHotel;
+	private int houseAmount;
+	private int hotelAmount;
+	private int rentHouse1;
+	private int rentHouse2;
+	private int rentHouse3;
+	private int rentHouse4;
+	private int rentHotel;
+	private int housePrice;
+	private String colour;
 	
-	public Street(int number, String name, int price, int housePrice, int rent, int rentHouse1, int rentHouse2, int rentHouse3, int rentHouse4, int rentHotel, String colorS)
+	public Street(int fieldNumber, String name, int fieldPrice, int housePrice, int rentPrice, int rentHouse1, int rentHouse2, int rentHouse3, int rentHouse4, int rentHotel, String colour)
 	{
-		super(number, name); 
-		this.price = price;
-		this.rent = rent;
+		super(name);
+		this.fieldNumber = fieldNumber;
+		this.fieldPrice = fieldPrice;
+		this.rentPrice = rentPrice;
 		this.housePrice=housePrice;
 		this.rentHouse1=rentHouse1;
 		this.rentHouse2=rentHouse2;
 		this.rentHouse3 = rentHouse3;
 		this.rentHouse4 = rentHouse4;
 		this.rentHotel = rentHotel;
+		this.colour = colour;
 		
 	}
 
@@ -32,7 +41,28 @@ public class Street extends Ownable{
 
 	public void addStreet(Street field) {
 		// TODO Auto-generated method stub
-		
 	}
+
+
+	public int getHouseAmount() {
+		return houseAmount;
+	}
+
+
+	public void setHouseAmount(int houseAmount) {
+		this.houseAmount = houseAmount;
+	}
+
+
+	public int getHotelAmount() {
+		return hotelAmount;
+	}
+
+
+	public void setHotelAmount(int hotelAmount) {
+		this.hotelAmount = hotelAmount;
+	}
+	
+	
 	
 }
