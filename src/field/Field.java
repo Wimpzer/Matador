@@ -4,7 +4,9 @@ import user.User;
 import interfaces.IField;
 
 public abstract class Field implements IField{
-
+	private String name;
+	protected int fieldNumber;
+		
 	public int getFieldNumber() {
 		return fieldNumber;
 	}
@@ -13,9 +15,6 @@ public abstract class Field implements IField{
 		this.fieldNumber = fieldNumber;
 	}
 
-	private String name;
-	protected int fieldNumber;
-	
 	public Field(String name){
 		this.setName(name);
 	}

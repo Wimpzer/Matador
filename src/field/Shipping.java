@@ -1,9 +1,10 @@
 package field;
 
 public class Shipping extends Ownable {
-
-	public Shipping(String name, int rentPrice) {
+	
+	public Shipping(int fieldNumber, String name, int rentPrice) {
 		super(name);
+		this.fieldNumber = fieldNumber;
 		this.rentPrice = rentPrice;
 		this.fieldPrice = 4000;
 	}
