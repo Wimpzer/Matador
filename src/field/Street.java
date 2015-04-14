@@ -3,16 +3,32 @@ package field;
 import user.User;
 
 public class Street extends Ownable{
-	private String color;
 	private int houseAmount;
 	private int hotelAmount;
+	private User owner;
+	private int rentHouse1;
+	private int rentHouse2;
+	private int rentHouse3;
+	private int rentHouse4;
+	private int rentHotel;
+	private int housePrice;
+	String colour;
 	
-	public Street(String name, int rentPrice, int fieldPrice, User user, String color){
+	
+	public Street(int fieldNumber, String name, int fieldPrice, int rentPrice, int rentHouse1, int rentHouse2, int rentHouse3, int rentHouse4,
+			int rentHotel, int housePrice, String colour){
 		super(name);
-		this.rentPrice = rentPrice;
+		this.fieldNumber = fieldNumber;
 		this.fieldPrice = fieldPrice;
-		this.setOwner(user);
-		this.color = color;
+		this.rentPrice = rentPrice;
+		this.rentHouse1 = rentHouse1;
+		this.rentHouse2 = rentHouse2;
+		this.rentHouse3 = rentHouse3;
+		this.rentHouse4 = rentHouse4;
+		this.rentHotel = rentHotel;
+		this.housePrice = housePrice;
+		this.colour = colour;
+		
 	}
 
 	
@@ -49,6 +65,12 @@ public class Street extends Ownable{
 		this.hotelAmount = hotelAmount;
 	}
 	
+	public User getOwner(){
+		return owner;
+	}
 	
+	public void setOwner(User user){
+		this.owner = user;
+	}
 	
 }

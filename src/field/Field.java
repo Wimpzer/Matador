@@ -5,7 +5,16 @@ import interfaces.IField;
 
 public abstract class Field implements IField{
 
+	public int getFieldNumber() {
+		return fieldNumber;
+	}
+
+	public void setFieldNumber(int fieldNumber) {
+		this.fieldNumber = fieldNumber;
+	}
+
 	private String name;
+	protected int fieldNumber;
 	
 	public Field(String name){
 		this.setName(name);
