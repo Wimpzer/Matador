@@ -1,8 +1,15 @@
 package game;
 
-public class Controller {
-  
-  public static void main (String[] args) {
-   new Controller().start();
+import desktop_resources.*;
 
+public class Controller {
+	
+  public void run(){
+	  startMenu();
+  }
+
+  public void startMenu(){
+	  
+  }
+  
 }

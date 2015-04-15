@@ -4,21 +4,21 @@ import java.util.Scanner;
 
 public class Boundary {
 
-	Scanner scan = new Scanner(System.in);
+	static Scanner scan = new Scanner(System.in);
 	
-	public void showOut(String text){
+	public static void showOutput(String text){
 		System.out.println(text);
 	}
 	
-	public int scanInt(){
+	public static int scanInt(){
 		return scan.nextInt();
 	}
 	
-	public double scanDouble(){
+	public static double scanDouble(){
 		return scan.nextDouble();
 	}
 	
-	public String scanString(){
+	public static String scanString(){
 		return scan.nextLine();
 	}
 	
