@@ -23,6 +23,7 @@ public class User implements IUser {
 		this.freeJailCards = 0;
 		this.jailTimeCounter = 0;
 		this.inJail = false;
+		deposit(30000);
 	}
 	
 	public String getUserName() {
