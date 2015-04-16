@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import user.User;
 import desktop_resources.*;
+import field.*;
 
 public class Controller {
 	ArrayList<User> users = new ArrayList<User>();
@@ -62,12 +63,26 @@ public class Controller {
 					user.setInJail(false);
 				}
 			}else{
-			playerMove(user);
-			board.getFields()[user.getCurrentPosition()].landOnField(user);;
+				playerMove(user);
+				if(board.getFields()[user.getCurrentPosition()] instanceof Shipping){
+					if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
+						String[] options = {"Ja", "Nej"};
+						String input = GUI.getUserSelection("Feltet er frit, vil du købe det?", options);
+						if(input.equals("Ja")){
+							GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
+							user.setOwnedShipping(user.getOwnedShipping()+1);
+							((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+						}
+					}else{
+						GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
+						((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
+						board.getFields()[user.getCurrentPosition()].landOnField(user);
+					}
+				}
 			}
 
 
-			
+
 			GUI.setBalance(user.getUserName(), user.getBalance());
 
 			users.set(playerTurn, user);
