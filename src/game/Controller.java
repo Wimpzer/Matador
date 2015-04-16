@@ -69,6 +69,7 @@ public class Controller {
 
 			if(user.getBalance() <= 0){
 				GUI.showMessage(user.getUserName() + "er gået fallit. Spillet er slut for dig");
+				GUI.removeCar(user.getCurrentPosition(), user.getUserName());
 				users.remove(playerTurn);
 			}else{
 				users.set(playerTurn, user);
@@ -85,6 +86,7 @@ public class Controller {
 			}
 		}
 		GUI.showMessage(users.get(0).getUserName() + " har vundet spillet!");
+		GUI.close();
 	}
 
 	private void playerMove(User user) {
@@ -109,6 +111,7 @@ public class Controller {
 					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
 					user.setOwnedShipping(user.getOwnedShipping()+1);
 					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+					GUI.setOwner(user.getCurrentPosition(), user.getUserName());
 				}
 			}else{
 				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
@@ -126,6 +129,7 @@ public class Controller {
 					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
 					user.setOwnedShipping(user.getOwnedShipping()+1);
 					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+					GUI.setOwner(user.getCurrentPosition(), user.getUserName());
 				}
 			}else{
 				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
@@ -143,6 +147,7 @@ public class Controller {
 					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
 					user.setOwnedShipping(user.getOwnedShipping()+1);
 					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+					GUI.setOwner(user.getCurrentPosition(), user.getUserName());
 				}
 			}else{
 				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
