@@ -95,7 +95,7 @@ public class User implements IUser {
 	}
 
 	public void setInJail(boolean inJail) {
-		inJail = inJail;
+		this.inJail = inJail;
 	}
 	
 	

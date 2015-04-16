@@ -66,9 +66,8 @@ public class Controller {
 				playerMove(user);
 				if(board.getFields()[user.getCurrentPosition()] instanceof Shipping){
 					if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
-						String[] options = {"Ja", "Nej"};
-						String input = GUI.getUserSelection("Feltet er frit, vil du købe det?", options);
-						if(input.equals("Ja")){
+						boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
+						if(input == true){
 							GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
 							user.setOwnedShipping(user.getOwnedShipping()+1);
 							((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
