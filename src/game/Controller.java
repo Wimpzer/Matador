@@ -1,43 +1,36 @@
 package game;
 
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import user.User;
 import desktop_resources.*;
+import user.User;
 import field.*;
 
 public class Controller {
 	ArrayList<User> users = new ArrayList<User>();
 	Board board = new Board();
-	Dice dice1 = new Dice();
-	Dice dice2 = new Dice();
+	static Dice diceCup = new Dice();
 	int playerTurn = 0;
 
 	public void run(){
-		//		startMenu();
+		//				startMenu();
 		testMenu();
 		game();
 	}
 
 	//TEST MENU
 	public void testMenu(){
-		users.add(new User("Bjarke", 1, 30));
+		users.add(new User("Bjarke", 1, 0));
 		GUI.addPlayer(users.get(0).getUserName(), users.get(0).getBalance());
-		GUI.setCar(31, "Bjarke");
+		GUI.setCar(1, "Bjarke");
 		users.add(new User("Joakim", 2, 0));
 		GUI.addPlayer(users.get(1).getUserName(), users.get(1).getBalance());
 		GUI.setCar(1, "Joakim");
 	}	
 
-
-
 	public void startMenu(){
-		Object[] options = {"Start nyt spil",	"Hent seneste gemte spil"};
-		int n = JOptionPane.showOptionDialog(null, "Vælg en mulighed", "Matador spillet", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+		boolean input = GUI.getUserLeftButtonPressed("Start nyt spil eller hent seneste gemte", "Nyt spil", "Seneste gemte");
 
-		if(n == 0){
+		if(input == true){
 			GUI.showMessage("Velkommen til spillet");
 			int userAmount = GUI.getUserInteger("Indtast antal spillere", 2, 6);
 			for (int i = 0; i < userAmount; i++) {
@@ -47,13 +40,13 @@ public class Controller {
 				GUI.addPlayer(users.get(i).getUserName(), users.get(i).getBalance());
 				GUI.setCar(1, userName);
 			}			
-		}else if(n == 1){
+		}else if(input == false){
 			GUI.showMessage("Dit gamle spil er hentet");
 		}
 	}
 
 	public void game(){
-		while(true){
+		while(users.size() > 1){
 			User user = users.get(playerTurn);
 			if (user.getInJail() == true) {
 				user.setJailTimeCounter(user.getJailTimeCounter() + 1);
@@ -64,47 +57,102 @@ public class Controller {
 				}
 			}else{
 				playerMove(user);
-				if(board.getFields()[user.getCurrentPosition()] instanceof Shipping){
-					if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
-						boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
-						if(input == true){
-							GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
-							user.setOwnedShipping(user.getOwnedShipping()+1);
-							((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
-						}
-					}else{
-						GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
-						((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
-						board.getFields()[user.getCurrentPosition()].landOnField(user);
-					}
+				instanceOfShipping(user);
+				instanceOfBrewery(user);
+				instanceOfStreet(user);
+				if(board.getFields()[user.getCurrentPosition()] instanceof Start || board.getFields()[user.getCurrentPosition()] instanceof Refuge || board.getFields()[user.getCurrentPosition()] instanceof Jail || board.getFields()[user.getCurrentPosition()] instanceof Taxes || board.getFields()[user.getCurrentPosition()] instanceof Chance){
+					board.getFields()[user.getCurrentPosition()].landOnField(user);
 				}
 			}
 
-
-
 			GUI.setBalance(user.getUserName(), user.getBalance());
 
-			users.set(playerTurn, user);
+			if(user.getBalance() <= 0){
+				GUI.showMessage(user.getUserName() + "er gået fallit. Spillet er slut for dig");
+				users.remove(playerTurn);
+			}else{
+				users.set(playerTurn, user);
+			}
+
+			for (int i = 0; i < users.size(); i++) {
+				GUI.setBalance(users.get(i).getUserName(), users.get(i).getBalance());
+			}
+			
 			if(playerTurn == users.size()-1){
 				playerTurn = 0;
 			}else{
 				playerTurn++;
 			}
 		}
+		GUI.showMessage(users.get(0).getUserName() + " har vundet spillet!");
 	}
 
 	private void playerMove(User user) {
 		GUI.showMessage("Det er spiller " + user.getUserNumber() + "'s tur" + " - Slå med terninger");
-		int facevalue1 = dice1.roll();
-		int facevalue2 = dice2.roll();
-		GUI.setDice(facevalue1, facevalue2);
+		diceCup.roll();
+		GUI.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
 		GUI.removeCar(user.getCurrentPosition()+1, user.getUserName());
-		if(user.getCurrentPosition()+facevalue1+facevalue2 > 39){
-			user.setCurrentPosition(user.getCurrentPosition() + facevalue1 + facevalue2-40);
+		if(user.getCurrentPosition()+diceCup.getSum() > 39){
+			user.setCurrentPosition(user.getCurrentPosition() + diceCup.getSum()-40);
 			user.deposit(4000);
 		}else{
-			user.setCurrentPosition(user.getCurrentPosition() + facevalue1 + facevalue2);
+			user.setCurrentPosition(user.getCurrentPosition() + diceCup.getSum());
 		}
 		GUI.setCar(user.getCurrentPosition()+1, user.getUserName());
+	}
+
+	private void instanceOfStreet(User user) {
+		if(board.getFields()[user.getCurrentPosition()] instanceof Street){
+			if(((Street) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
+				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
+				if(input == true){
+					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
+					user.setOwnedShipping(user.getOwnedShipping()+1);
+					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+				}
+			}else{
+				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
+				((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
+				board.getFields()[user.getCurrentPosition()].landOnField(user);
+			}
+		}
+	}
+
+	private void instanceOfBrewery(User user) {
+		if(board.getFields()[user.getCurrentPosition()] instanceof Brewery){
+			if(((Brewery) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
+				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
+				if(input == true){
+					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
+					user.setOwnedShipping(user.getOwnedShipping()+1);
+					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+				}
+			}else{
+				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
+				((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
+				board.getFields()[user.getCurrentPosition()].landOnField(user);
+			}
+		}
+	}
+
+	private void instanceOfShipping(User user) {
+		if(board.getFields()[user.getCurrentPosition()] instanceof Shipping){
+			if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
+				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
+				if(input == true){
+					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
+					user.setOwnedShipping(user.getOwnedShipping()+1);
+					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+				}
+			}else{
+				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
+				((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
+				board.getFields()[user.getCurrentPosition()].landOnField(user);
+			}
+		}
+	}
+
+	public static int getSum(){ //TODO: Skal denne være static ?
+		return diceCup.getSum();
 	}
 }

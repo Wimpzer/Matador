@@ -12,7 +12,7 @@ public class Jail extends Field {
 
 	@Override
 	public void landOnField(User user) {
-		Dice diceCup = new Dice();
+		Dice diceCup = new Dice(); //TODO: Kan denne laves anerledes?
 		int jailFine = 1000;
 		int rollCount = 0;
 

@@ -2,7 +2,7 @@ package interfaces;
 
 public interface IDice {
 
-	public int roll();
+	public void roll();
 	public String toString();
 	public boolean checkEqual();
 	public int getSum();
