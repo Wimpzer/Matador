@@ -21,8 +21,16 @@ public class Dice implements IDice{
 		return faceValue1;
 	}
 	
+	public void setFaceValue1(int value){
+		faceValue1 = value;
+	}
+	
 	public int getFaceValue2(){
 		return faceValue2;
+	}
+	
+	public void setFaceValue2(int value){
+		faceValue2 = value;
 	}
 	
 	public boolean checkEqual(){

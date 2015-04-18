@@ -12,7 +12,7 @@ public class Controller {
 	int playerTurn = 0;
 
 	public void run(){
-		//				startMenu();
+		//						startMenu();
 		testMenu();
 		game();
 	}
@@ -21,10 +21,10 @@ public class Controller {
 	public void testMenu(){
 		users.add(new User("Bjarke", 1, 0));
 		GUI.addPlayer(users.get(0).getUserName(), users.get(0).getBalance());
-		GUI.setCar(1, "Bjarke");
+		GUI.setCar(users.get(0).getCurrentPosition()+1, "Bjarke");
 		users.add(new User("Joakim", 2, 0));
 		GUI.addPlayer(users.get(1).getUserName(), users.get(1).getBalance());
-		GUI.setCar(1, "Joakim");
+		GUI.setCar(users.get(0).getCurrentPosition()+1, "Joakim");
 	}	
 
 	public void startMenu(){
@@ -38,7 +38,7 @@ public class Controller {
 				String userName = GUI.getUserString("Indtast navn på bruger nr. " + j);
 				users.add(new User(userName, j, 0));
 				GUI.addPlayer(users.get(i).getUserName(), users.get(i).getBalance());
-				GUI.setCar(1, userName);
+				GUI.setCar(users.get(0).getCurrentPosition(), userName);
 			}			
 		}else if(input == false){
 			GUI.showMessage("Dit gamle spil er hentet");
@@ -78,7 +78,7 @@ public class Controller {
 			for (int i = 0; i < users.size(); i++) {
 				GUI.setBalance(users.get(i).getUserName(), users.get(i).getBalance());
 			}
-			
+
 			if(playerTurn == users.size()-1){
 				playerTurn = 0;
 			}else{
@@ -86,7 +86,6 @@ public class Controller {
 			}
 		}
 		GUI.showMessage(users.get(0).getUserName() + " har vundet spillet!");
-		GUI.close();
 	}
 
 	private void playerMove(User user) {
@@ -108,15 +107,19 @@ public class Controller {
 			if(((Street) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
 				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
 				if(input == true){
-					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
-					user.setOwnedShipping(user.getOwnedShipping()+1);
-					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
-					GUI.setOwner(user.getCurrentPosition(), user.getUserName());
+					if(((Street)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
+						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
+						if(inputSure == true){
+							boughtField(user);
+						}
+					}else{					
+						boughtField(user);
+					}
 				}
+			}else if(((Street) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
+				GUI.showMessage("Du ejer allerede dette felt");
 			}else{
-				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
-				((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
-				board.getFields()[user.getCurrentPosition()].landOnField(user);
+				payRent(user);
 			}
 		}
 	}
@@ -126,15 +129,19 @@ public class Controller {
 			if(((Brewery) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
 				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
 				if(input == true){
-					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
-					user.setOwnedShipping(user.getOwnedShipping()+1);
-					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
-					GUI.setOwner(user.getCurrentPosition(), user.getUserName());
+					if(((Brewery)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
+						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
+						if(inputSure == true){
+							boughtField(user);
+						}
+					}else{					
+						boughtField(user);
+					}
 				}
+			}else if(((Brewery) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
+				GUI.showMessage("Du ejer allerede dette felt");
 			}else{
-				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
-				((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
-				board.getFields()[user.getCurrentPosition()].landOnField(user);
+				payRent(user);
 			}
 		}
 	}
@@ -144,17 +151,34 @@ public class Controller {
 			if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
 				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
 				if(input == true){
-					GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
-					user.setOwnedShipping(user.getOwnedShipping()+1);
-					((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
-					GUI.setOwner(user.getCurrentPosition(), user.getUserName());
+					if(((Shipping)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
+						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
+						if(inputSure == true){
+							boughtField(user);
+						}
+					}else{					
+						boughtField(user);
+					}
 				}
+			}else if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
+				GUI.showMessage("Du ejer allerede dette felt");
 			}else{
-				GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName());
-				((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
-				board.getFields()[user.getCurrentPosition()].landOnField(user);
+				payRent(user);
 			}
 		}
+	}
+
+	private void boughtField(User user) {
+		GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
+		user.setOwnedShipping(user.getOwnedShipping()+1);
+		((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+		GUI.setOwner(user.getCurrentPosition()+1, user.getUserName());
+	}
+
+	private void payRent(User user) {
+		GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getFields()[user.getCurrentPosition()]).rent());
+		((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
+		board.getFields()[user.getCurrentPosition()].landOnField(user);
 	}
 
 	public static int getSum(){ //TODO: Skal denne være static ?
