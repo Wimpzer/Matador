@@ -7,7 +7,7 @@ import field.*;
 
 public class Controller {
 	ArrayList<User> users = new ArrayList<User>();
-	Board board = new Board();
+	static Board board = new Board();
 	static Dice diceCup = new Dice();
 	int playerTurn = 0;
 
@@ -184,4 +184,9 @@ public class Controller {
 	public static int getSum(){ //TODO: Skal denne være static ?
 		return diceCup.getSum();
 	}
+	
+	public static Board getBoard(){
+		return board;
+	}
+	
 }
