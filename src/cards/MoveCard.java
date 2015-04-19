@@ -6,7 +6,7 @@ public class MoveCard extends Card {
 	private int move;
 	private int position;
 	private int bonus;
-	
+
 	public MoveCard(String text, int move, int position){
 		super(text);
 		this.move = move;
@@ -15,8 +15,24 @@ public class MoveCard extends Card {
 
 	@Override
 	public void drawnCard(User user) {
-		
-		
+		if(move==0){
+			if(position==31){
+				user.setInJail(true);
+			}
+			else
+			{
+				user.setCurrentPosition(position);
+				if(user.getCurrentPosition() > position){
+					user.deposit(4000);
+				}
+			}
+			//TODO Ryk til rederi mangler
+		}
+		else
+		{
+			user.setCurrentPosition(user.getCurrentPosition() + move);
+		}
+
 	}
-	
+
 }
