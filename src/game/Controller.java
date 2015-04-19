@@ -25,6 +25,9 @@ public class Controller {
 		users.add(new User("Joakim", 2, 0));
 		GUI.addPlayer(users.get(1).getUserName(), users.get(1).getBalance());
 		GUI.setCar(users.get(0).getCurrentPosition()+1, "Joakim");
+		users.add(new User("Andreas", 3, 0));
+		GUI.addPlayer(users.get(2).getUserName(), users.get(2).getBalance());
+		GUI.setCar(users.get(0).getCurrentPosition()+1, "Andreas");
 	}	
 
 	public void startMenu(){
@@ -48,9 +51,11 @@ public class Controller {
 	public void game(){
 		while(users.size() > 1){
 			User user = users.get(playerTurn);
-			if (user.getInJail() == true) {
+			if (user.getInJail() == true) { //TODO: Må man købe når man kommer ud?
 				user.setJailTimeCounter(user.getJailTimeCounter() + 1);
 				board.getFields()[30].landOnField(user);
+				GUI.removeCar(31, user.getUserName());
+				GUI.setCar(user.getCurrentPosition()+1, user.getUserName());
 			}else{
 				playerMove(user);
 				instanceOfShipping(user);
@@ -64,8 +69,17 @@ public class Controller {
 			GUI.setBalance(user.getUserName(), user.getBalance());
 
 			if(user.getBalance() <= 0){
-				GUI.showMessage(user.getUserName() + "er gået fallit. Spillet er slut for dig");
+				GUI.showMessage(user.getUserName() + " er gået fallit. Spillet er slut for dig");
 				GUI.removeCar(user.getCurrentPosition(), user.getUserName());
+				for (Field field : board.getFields()) {
+					if(field instanceof Ownable){
+						Ownable ownable = (Ownable) field;
+						if(ownable.getOwner() == user){
+							ownable.setOwner(null);
+							GUI.removeOwner(ownable.getFieldNumber());
+						}
+					}
+				}
 				users.remove(playerTurn);
 			}else{
 				users.set(playerTurn, user);
@@ -75,7 +89,7 @@ public class Controller {
 				GUI.setBalance(users.get(i).getUserName(), users.get(i).getBalance());
 			}
 
-			if(playerTurn == users.size()-1){
+			if(playerTurn >= users.size()-1){
 				playerTurn = 0;
 			}else{
 				playerTurn++;
@@ -180,9 +194,9 @@ public class Controller {
 	public static int getSum(){ //TODO: Skal denne være static ?
 		return diceCup.getSum();
 	}
-	
+
 	public static Board getBoard(){
 		return board;
 	}
-	
+
 }
