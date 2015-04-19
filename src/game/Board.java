@@ -46,6 +46,18 @@ public class Board {
 		new Street   (40, "Rådhuspladsen)", 8000, 4000, 1000, 4000, 12000, 28000, 34000, 40000, "purple")
 		};
 
+	public int getSimilarCount(Street fieldToCompare){
+		int count = 0;
+		for(Field field : fields){
+			if(field instanceof Street){
+				Street street = (Street) field;
+				if(street.getColour().equals(fieldToCompare.getColour()) && street.getOwner() != null && street.getOwner().getUserName().equals(fieldToCompare.getOwner().getUserName()){
+					count++;
+				}
+			}
+		}
+	}
+	
 	public Field[] getFields()
 	{
 		return fields;
