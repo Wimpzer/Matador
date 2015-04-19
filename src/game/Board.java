@@ -51,11 +51,12 @@ public class Board {
 		for(Field field : fields){
 			if(field instanceof Street){
 				Street street = (Street) field;
-				if(street.getColour().equals(fieldToCompare.getColour()) && street.getOwner() != null && street.getOwner().getUserName().equals(fieldToCompare.getOwner().getUserName()){
+				if(street.getColour().equals(fieldToCompare.getColour()) && street.getOwner() != null && street.getOwner().getUserName().equals(fieldToCompare.getOwner().getUserName())){
 					count++;
 				}
 			}
 		}
+		return count;
 	}
 	
 	public Field[] getFields()
