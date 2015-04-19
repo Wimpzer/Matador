@@ -8,22 +8,26 @@ public class User implements IUser {
 	int userNumber;
 	int currentPosition;
 	Account accountOb = new Account();
+	int startAmount = 30000;
 	private int ownedBrewery;
 	private int ownedShipping;
 	private int freeJailCards;
 	private int jailTimeCounter;
 	private boolean inJail;
+	private int groundValue;
+	private int totalPlayerValue; //TODO: Bruges denne?
 	
 	public User(String userName, int userNumber, int currentPosition) {
 		this.userName = userName;
 		this.userNumber = userNumber;
 		this.currentPosition = currentPosition;
+		deposit(startAmount);
 		this.ownedBrewery = 0;
 		this.ownedShipping = 0;
 		this.freeJailCards = 0;
 		this.jailTimeCounter = 0;
 		this.inJail = false;
-		deposit(30000);
+		this.totalPlayerValue = accountOb.getBalance();
 	}
 	
 	public String getUserName() {
@@ -98,7 +102,20 @@ public class User implements IUser {
 		this.inJail = inJail;
 	}
 	
+	public int getGroundValue(){
+		return groundValue;
+	}
 	
+	public void setGroundValue(int groundValue){
+		this.groundValue = groundValue;
+	}
 	
+	public int getTotalPlayerValue(){
+		return totalPlayerValue;
+	}
+	
+	public void setTotalPlayerValue(int totalPlayerValue){
+		this.totalPlayerValue = totalPlayerValue;
+	}
 	
 }

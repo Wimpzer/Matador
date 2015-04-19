@@ -21,6 +21,7 @@ public abstract class Ownable extends Field {
 		if(getOwner() == null){
 			setOwner(user);
 			user.withdraw(fieldPrice);
+			user.setGroundValue(user.getGroundValue()+fieldPrice);
 		}
 	}
 	
