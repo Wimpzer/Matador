@@ -15,16 +15,16 @@ public class Jail extends Field {
 		Dice diceCup = new Dice(); //TODO: Kan denne laves anerledes?
 		int jailFine = 1000;
 
-		System.out.println("JailTimeCounter: " + user.getJailTimeCounter());
+//		System.out.println("JailTimeCounter: " + user.getJailTimeCounter());
 		if(user.getCurrentPosition() == 30){
 			if(user.getInJail() == true){
 				diceCup.roll();
-				System.out.println("roll(): " + diceCup.getSum());
+//				System.out.println("roll(): " + diceCup.getSum());
 				if(diceCup.checkEqual() == true){
 					user.setInJail(false);
 					user.setJailTimeCounter(0);
 					user.setCurrentPosition(10 + diceCup.getSum());
-					System.out.println("Equal = true");
+//					System.out.println("Equal = true");
 				}
 			}		
 			else if(user.getInJail() == false){
@@ -34,7 +34,7 @@ public class Jail extends Field {
 				}
 				else{
 					user.setInJail(true);
-					System.out.println("InJail = false, sæt true");
+//					System.out.println("InJail = false, sæt true");
 				}
 			}
 			if(user.getJailTimeCounter() == 3){
@@ -42,7 +42,7 @@ public class Jail extends Field {
 				user.setInJail(false);
 				user.setJailTimeCounter(0);
 				user.setCurrentPosition(10 + diceCup.getSum());
-				System.out.println("Paying my way out");
+//				System.out.println("Paying my way out");
 			}
 		}
 	}

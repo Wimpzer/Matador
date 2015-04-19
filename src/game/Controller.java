@@ -185,7 +185,7 @@ public class Controller {
 		GUI.setOwner(user.getCurrentPosition()+1, user.getUserName());
 	}
 
-	private void payRent(User user) {
+	private void payRent(User user) { //TODO: Virker ikke ordenligt!
 		GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getFields()[user.getCurrentPosition()]).rent());
 		((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
 		board.getFields()[user.getCurrentPosition()].landOnField(user);
@@ -198,5 +198,5 @@ public class Controller {
 	public static Board getBoard(){
 		return board;
 	}
-
+	
 }
