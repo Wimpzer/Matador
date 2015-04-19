@@ -51,10 +51,6 @@ public class Controller {
 			if (user.getInJail() == true) {
 				user.setJailTimeCounter(user.getJailTimeCounter() + 1);
 				board.getFields()[30].landOnField(user);
-				if (user.getJailTimeCounter() == 3) {
-					user.withdraw(1000);
-					user.setInJail(false);
-				}
 			}else{
 				playerMove(user);
 				instanceOfShipping(user);

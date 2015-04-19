@@ -1,6 +1,6 @@
 package field;
 
-import user.User;
+import game.Controller;
 
 public class Street extends Ownable{
 	private int houseAmount;
@@ -35,12 +35,14 @@ public class Street extends Ownable{
 
 	@Override
 	public int rent() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void addStreet(Street field) {
-		// TODO Auto-generated method stub
+		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){
+			this.rentPrice = rentPrice * 2;
+		}
+		if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour == "blue" || colour == "purple")){
+			this.rentPrice = rentPrice * 2;
+		}
+		
+		return rentPrice;
 	}
 
 
@@ -61,6 +63,41 @@ public class Street extends Ownable{
 
 	public void setHotelAmount(int hotelAmount) {
 		this.hotelAmount = hotelAmount;
+	}
+
+
+	public int getRentHouse1() {
+		return rentHouse1;
+	}
+
+
+	public int getRentHouse2() {
+		return rentHouse2;
+	}
+
+
+	public int getRentHouse3() {
+		return rentHouse3;
+	}
+
+
+	public int getRentHouse4() {
+		return rentHouse4;
+	}
+
+
+	public int getRentHotel() {
+		return rentHotel;
+	}
+
+
+	public int getHousePrice() {
+		return housePrice;
+	}
+
+
+	public String getColour() {
+		return colour;
 	}
 	
 	
