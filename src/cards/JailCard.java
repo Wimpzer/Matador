@@ -10,7 +10,9 @@ public class JailCard extends Card{
 	@Override
 	public void drawnCard(User user) {
 		//TODO Hvordan fungerer setFreeJail?
-		user.setFreeJailCards(0);
+		if(user.getFreeJailCards() < 3){
+		user.setFreeJailCards(user.getFreeJailCards()+1);
+		}
 	}
 
 }
