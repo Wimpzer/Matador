@@ -15,7 +15,6 @@ public class User implements IUser {
 	private int jailTimeCounter;
 	private boolean inJail;
 	private int groundValue;
-	private int totalPlayerValue; //TODO: Bruges denne?
 	
 	public User(String userName, int userNumber, int currentPosition) {
 		this.userName = userName;
