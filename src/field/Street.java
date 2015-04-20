@@ -29,10 +29,6 @@ public class Street extends Ownable{
 		
 	}
 
-	
-		// TODO Auto-generated constructor stub
-	
-
 	@Override
 	public int rent() {
 		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){

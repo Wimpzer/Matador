@@ -10,10 +10,9 @@ public class LegatCard extends Card{
 
 	@Override
 	public void drawnCard(User user) {
-		//TODO getTotalPlayerValue?
-//		if(user.getTotalPlayerValue() < 15000){
-//			user.deposit(15000);
-//		}
+		if(user.getTotalPlayerValue() < 15000){
+			user.deposit(40000);
+		}
 		
 	}
 
