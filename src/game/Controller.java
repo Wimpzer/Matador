@@ -65,6 +65,7 @@ public class Controller {
 			instanceOfShipping(user);
 			instanceOfBrewery(user);
 			instanceOfStreet(user);
+			instanceOfTaxes(user);
 			if(board.getFields()[user.getCurrentPosition()] instanceof Start || board.getFields()[user.getCurrentPosition()] instanceof Refuge || board.getFields()[user.getCurrentPosition()] instanceof Taxes || board.getFields()[user.getCurrentPosition()] instanceof Chance){
 				board.getFields()[user.getCurrentPosition()].landOnField(user);
 			}
@@ -181,6 +182,24 @@ public class Controller {
 		}
 	}
 
+	private void instanceOfTaxes(User user){
+		if(board.getFields()[user.getCurrentPosition()] instanceof Taxes){
+			if(user.getCurrentPosition() == 4){
+				boolean input = GUI.getUserLeftButtonPressed("Betal indkomstskat: 10% eller 4000 kr.", "10 %", "4000 kr.");
+				if(input == true){
+					int tax = (int) (user.getBalance()*0.1);
+					user.withdraw(tax);
+				}else{
+					board.getFields()[user.getCurrentPosition()].landOnField(user);
+				}
+			}else if(user.getCurrentPosition() == 38){
+				GUI.showMessage("Ekstraordinær statsskat: Betal 2000 kr.");
+				board.getFields()[user.getCurrentPosition()].landOnField(user);
+			}
+			
+		}
+	}
+	
 	private void boughtField(User user, String fieldType) {
 		GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
 		if(fieldType.equals("Shipping"))
