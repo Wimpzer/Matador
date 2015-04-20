@@ -19,6 +19,9 @@ public class MoveCard extends Card {
 			if(position==31){
 				user.setInJail(true);
 			}
+			else if(position==16){
+				//Ryk til rederi indsættes her
+			}
 			else
 			{
 				user.setCurrentPosition(position);
@@ -26,7 +29,6 @@ public class MoveCard extends Card {
 					user.deposit(4000);
 				}
 			}
-			//TODO Ryk til rederi mangler
 		}
 		else
 		{
