@@ -26,7 +26,6 @@ public class User implements IUser {
 		this.freeJailCards = 0;
 		this.jailTimeCounter = 0;
 		this.inJail = false;
-		this.totalPlayerValue = accountOb.getBalance();
 	}
 	
 	public String getUserName() {
@@ -109,7 +108,7 @@ public class User implements IUser {
 		this.groundValue = groundValue;
 	}
 	
-	public int getTotalPlayerValue(){
+	public int getTotalUserValue(){
 		return groundValue + accountOb.getBalance();
 	}
 	
