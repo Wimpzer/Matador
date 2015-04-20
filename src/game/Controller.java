@@ -120,10 +120,10 @@ public class Controller {
 					if(((Street)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
 						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
 						if(inputSure == true){
-							boughtField(user);
+							boughtField(user, "Street");
 						}
 					}else{					
-						boughtField(user);
+						boughtField(user, "Street");
 					}
 				}
 			}else if(((Street) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
@@ -142,10 +142,10 @@ public class Controller {
 					if(((Brewery)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
 						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
 						if(inputSure == true){
-							boughtField(user);
+							boughtField(user, "Brewery");
 						}
 					}else{					
-						boughtField(user);
+						boughtField(user, "Brewery");
 					}
 				}
 			}else if(((Brewery) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
@@ -164,10 +164,10 @@ public class Controller {
 					if(((Shipping)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
 						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
 						if(inputSure == true){
-							boughtField(user);
+							boughtField(user, "Shipping");
 						}
 					}else{					
-						boughtField(user);
+						boughtField(user, "Shipping");
 					}
 				}
 			}else if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
@@ -178,9 +178,12 @@ public class Controller {
 		}
 	}
 
-	private void boughtField(User user) {
+	private void boughtField(User user, String fieldType) {
 		GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
-		user.setOwnedShipping(user.getOwnedShipping()+1);
+		if(fieldType.equals("Shipping"))
+			user.setOwnedShipping(user.getOwnedShipping()+1);
+		if(fieldType.equals("Brewery"))
+			user.setOwnedBrewery(user.getOwnedBrewery()+1);
 		((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
 		GUI.setOwner(user.getCurrentPosition()+1, user.getUserName());
 	}
@@ -198,5 +201,5 @@ public class Controller {
 	public static Board getBoard(){
 		return board;
 	}
-	
+
 }
