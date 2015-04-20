@@ -66,15 +66,15 @@ public class Controller {
 			instanceOfBrewery(user);
 			instanceOfStreet(user);
 			instanceOfTaxes(user);
-			if(board.getFields()[user.getCurrentPosition()] instanceof Start || board.getFields()[user.getCurrentPosition()] instanceof Refuge || board.getFields()[user.getCurrentPosition()] instanceof Taxes || board.getFields()[user.getCurrentPosition()] instanceof Chance){
+			if(board.getFields()[user.getCurrentPosition()] instanceof Start || board.getFields()[user.getCurrentPosition()] instanceof Refuge || board.getFields()[user.getCurrentPosition()] instanceof Chance){
 				board.getFields()[user.getCurrentPosition()].landOnField(user);
 			}
 
 			GUI.setBalance(user.getUserName(), user.getBalance());
-
+			
 			if(user.getBalance() <= 0){
 				GUI.showMessage(user.getUserName() + " er gået fallit. Spillet er slut for dig");
-				GUI.removeCar(user.getCurrentPosition(), user.getUserName());
+				GUI.removeCar(user.getCurrentPosition()+1, user.getUserName());
 				for (Field field : board.getFields()) {
 					if(field instanceof Ownable){
 						Ownable ownable = (Ownable) field;
