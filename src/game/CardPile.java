@@ -18,7 +18,6 @@ public class CardPile {
 		new FineCard("Betal Deres bilforsikring kr. 1.000.", 1000),
 		new PropertyCard("Ejendomsskatterne er steget, ekstraudgifterne er: kr. 800 pr. hus, kr. 2.300 pr. hotel.", 800, 2300),
 		new MoveCard("Ryk frem til Grønningen. Hvis de passerer Start indkasser da kr. 4.000.", 0, 25),
-		//TODO Skal udfylder korrekt
 		new MoveCard("Ryk brikken frem til det nærmeste rederi og betal ejeren to gange den leje, han ellers er berettiget til. Hvis selvskabet ikke ejes af nogen kan de købe det af banken.", 0, 16),
 		new MoveCard("Ryk brikken frem til det nærmeste rederi og betal ejeren to gange den leje, han ellers er berettiget til. Hvis selvskabet ikke ejes af nogen kan de købe det af banken.", 0, 16),
 		new MoveCard("Tag med LB-færgerne - flyt brikken frem, og hvis De passere Start indkasser da kr. 4.000.", 0, 6),

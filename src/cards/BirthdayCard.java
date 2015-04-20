@@ -1,9 +1,10 @@
 package cards;
 
+import game.Controller;
 import user.User;
 
 public class BirthdayCard extends Card{
-	private int giftAmount;
+	private int giftAmount = 200;
 	
 	public BirthdayCard(String text) {
 		super(text);
@@ -11,9 +12,12 @@ public class BirthdayCard extends Card{
 
 	@Override
 	public void drawnCard(User user) {
-		// TODO Hent antallet af spillere, gør igennem User array og træk 200,- fra hver.
-//		user.deposit(giftAmount * users.length);
-//		for(int y: users)
+		user.deposit(giftAmount * Controller.getUserList().size()-1);
+		for(User u: Controller.getUserList()){
+			if(u != user){
+				u.withdraw(giftAmount);
+			}
+		}
 	}
 	
 	

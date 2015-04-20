@@ -23,21 +23,50 @@ public class MoveCard extends Card {
 				user.setCurrentPosition(30);
 			}
 			else if(position==16){
-				//Ryk til rederi indsættes her
-				Shipping ship = (Shipping) Controller.getBoard().getField(5);
-				User usership = ship.getOwner();
-				if(usership == null){
-					
-				}else if(usership == user){
-					
-				}else{
-					usership.deposit(ship.rent()*2);
+				if(user.getCurrentPosition() <= 5 || user.getCurrentPosition() > 36 ){
+					user.setCurrentPosition(5);
+					Shipping ship = (Shipping) Controller.getBoard().getField(5);
+					User shipOwner = ship.getOwner();
+					if(shipOwner != null && shipOwner != user){
+						shipOwner.deposit(ship.rent()*2);
+						user.withdraw(ship.rent()*2);
+					}
 				}
+				
+				if(user.getCurrentPosition() <= 15 || user.getCurrentPosition() > 5 ){
+					user.setCurrentPosition(15);
+					Shipping ship = (Shipping) Controller.getBoard().getField(15);
+					User shipOwner = ship.getOwner();
+					if(shipOwner != null && shipOwner != user){
+						shipOwner.deposit(ship.rent()*2);
+						user.withdraw(ship.rent()*2);
+					}
+				}
+				
+				if(user.getCurrentPosition() <= 25 || user.getCurrentPosition() > 15 ){
+					user.setCurrentPosition(25);
+					Shipping ship = (Shipping) Controller.getBoard().getField(25);
+					User shipOwner = ship.getOwner();
+					if(shipOwner != null && shipOwner != user){
+						shipOwner.deposit(ship.rent()*2);
+						user.withdraw(ship.rent()*2);
+					}
+				}
+				if(user.getCurrentPosition() <= 35 || user.getCurrentPosition() > 25 ){
+					user.setCurrentPosition(35);
+					Shipping ship = (Shipping) Controller.getBoard().getField(35);
+					User shipOwner = ship.getOwner();
+					if(shipOwner != null && shipOwner != user){
+						shipOwner.deposit(ship.rent()*2);
+						user.withdraw(ship.rent()*2);
+					}
+				}
+				
 			}
 			else
 			{
-				user.setCurrentPosition(position);
-				if(user.getCurrentPosition() > position){
+				user.setCurrentPosition(position-1);
+				if(user.getCurrentPosition() > position-1){
 					user.deposit(4000);
 				}
 			}

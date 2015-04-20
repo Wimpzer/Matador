@@ -15,9 +15,7 @@ public class PropertyCard extends Card{
 
 	@Override
 	public void drawnCard(User user) {
-		//TODO Få antallet af huse og hoteller ejet af user
-		Controller.getHotelAmount(user);
-		Controller.getHouseAmount(user);
+		user.withdraw((Controller.getHotelAmount(user) * payHouse) + (Controller.getHouseAmount(user) * payHotel));
 	}
 
 }
