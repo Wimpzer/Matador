@@ -53,21 +53,21 @@ public class Controller {
 			User user = users.get(playerTurn);
 			if (user.getInJail() == true) { //TODO: Må man købe når man kommer ud?
 				user.setJailTimeCounter(user.getJailTimeCounter() + 1);
-				board.getFields()[30].landOnField(user);
+				board.getField(30).landOnField(user);
 				GUI.removeCar(31, user.getUserName());
 				GUI.setCar(user.getCurrentPosition()+1, user.getUserName());
 			}else{
 				playerMove(user);
-				if(board.getFields()[user.getCurrentPosition()] instanceof Jail){
-					board.getFields()[user.getCurrentPosition()].landOnField(user);
+				if(board.getField(user.getCurrentPosition()) instanceof Jail){
+					board.getField(user.getCurrentPosition()).landOnField(user);
 				}
 			}
 			instanceOfShipping(user);
 			instanceOfBrewery(user);
 			instanceOfStreet(user);
 			instanceOfTaxes(user);
-			if(board.getFields()[user.getCurrentPosition()] instanceof Start || board.getFields()[user.getCurrentPosition()] instanceof Refuge || board.getFields()[user.getCurrentPosition()] instanceof Chance){
-				board.getFields()[user.getCurrentPosition()].landOnField(user);
+			if(board.getField(user.getCurrentPosition()) instanceof Start || board.getField(user.getCurrentPosition()) instanceof Refuge || board.getField(user.getCurrentPosition()) instanceof Chance){
+				board.getField(user.getCurrentPosition()).landOnField(user);
 			}
 
 			GUI.setBalance(user.getUserName(), user.getBalance());
@@ -117,11 +117,11 @@ public class Controller {
 	}
 
 	private void instanceOfStreet(User user) {
-		if(board.getFields()[user.getCurrentPosition()] instanceof Street){
-			if(((Street) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
+		if(board.getField(user.getCurrentPosition()) instanceof Street){
+			if(((Street) board.getField(user.getCurrentPosition())).getOwner() == null){
 				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
 				if(input == true){
-					if(((Street)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
+					if(((Street)board.getField(user.getCurrentPosition())).getFieldPrice() > user.getBalance()){
 						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
 						if(inputSure == true){
 							boughtField(user, "Street");
@@ -130,7 +130,7 @@ public class Controller {
 						boughtField(user, "Street");
 					}
 				}
-			}else if(((Street) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
+			}else if(((Street) board.getField(user.getCurrentPosition())).getOwner() == user){
 				GUI.showMessage("Du ejer allerede dette felt");
 			}else{
 				payRent(user);
@@ -139,11 +139,11 @@ public class Controller {
 	}
 
 	private void instanceOfBrewery(User user) {
-		if(board.getFields()[user.getCurrentPosition()] instanceof Brewery){
-			if(((Brewery) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
+		if(board.getField(user.getCurrentPosition()) instanceof Brewery){
+			if(((Brewery) board.getField(user.getCurrentPosition())).getOwner() == null){
 				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
 				if(input == true){
-					if(((Brewery)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
+					if(((Brewery)board.getField(user.getCurrentPosition())).getFieldPrice() > user.getBalance()){
 						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
 						if(inputSure == true){
 							boughtField(user, "Brewery");
@@ -152,7 +152,7 @@ public class Controller {
 						boughtField(user, "Brewery");
 					}
 				}
-			}else if(((Brewery) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
+			}else if(((Brewery) board.getField(user.getCurrentPosition())).getOwner() == user){
 				GUI.showMessage("Du ejer allerede dette felt");
 			}else{
 				payRent(user);
@@ -161,11 +161,11 @@ public class Controller {
 	}
 
 	private void instanceOfShipping(User user) {
-		if(board.getFields()[user.getCurrentPosition()] instanceof Shipping){
-			if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == null){
+		if(board.getField(user.getCurrentPosition()) instanceof Shipping){
+			if(((Shipping) board.getField(user.getCurrentPosition())).getOwner() == null){
 				boolean input = GUI.getUserLeftButtonPressed("Feltet er frit, vil du købe det?", "Ja", "Nej");
 				if(input == true){
-					if(((Shipping)board.getFields()[user.getCurrentPosition()]).getFieldPrice() > user.getBalance()){
+					if(((Shipping)board.getField(user.getCurrentPosition())).getFieldPrice() > user.getBalance()){
 						boolean inputSure = GUI.getUserLeftButtonPressed("Købet vil få dig til at gå falit, er du sikker?", "Ja", "Nej");
 						if(inputSure == true){
 							boughtField(user, "Shipping");
@@ -174,7 +174,7 @@ public class Controller {
 						boughtField(user, "Shipping");
 					}
 				}
-			}else if(((Shipping) board.getFields()[user.getCurrentPosition()]).getOwner() == user){
+			}else if(((Shipping) board.getField(user.getCurrentPosition())).getOwner() == user){
 				GUI.showMessage("Du ejer allerede dette felt");
 			}else{
 				payRent(user);
@@ -183,37 +183,37 @@ public class Controller {
 	}
 
 	private void instanceOfTaxes(User user){
-		if(board.getFields()[user.getCurrentPosition()] instanceof Taxes){
+		if(board.getField(user.getCurrentPosition()) instanceof Taxes){
 			if(user.getCurrentPosition() == 4){
 				boolean input = GUI.getUserLeftButtonPressed("Betal indkomstskat: 10% eller 4000 kr.", "10 %", "4000 kr.");
 				if(input == true){
 					int tax = (int) (user.getBalance()*0.1);
 					user.withdraw(tax);
 				}else{
-					board.getFields()[user.getCurrentPosition()].landOnField(user);
+					board.getField(user.getCurrentPosition()).landOnField(user);
 				}
 			}else if(user.getCurrentPosition() == 38){
 				GUI.showMessage("Ekstraordinær statsskat: Betal 2000 kr.");
-				board.getFields()[user.getCurrentPosition()].landOnField(user);
+				board.getField(user.getCurrentPosition()).landOnField(user);
 			}
 			
 		}
 	}
 	
 	private void boughtField(User user, String fieldType) {
-		GUI.showMessage("Du har købt feltet " + board.getFields()[user.getCurrentPosition()].getName());
+		GUI.showMessage("Du har købt feltet " + board.getField(user.getCurrentPosition()).getName());
 		if(fieldType.equals("Shipping"))
 			user.setOwnedShipping(user.getOwnedShipping()+1);
 		if(fieldType.equals("Brewery"))
 			user.setOwnedBrewery(user.getOwnedBrewery()+1);
-		((Ownable) board.getFields()[user.getCurrentPosition()]).landOnField(user);
+		((Ownable) board.getField(user.getCurrentPosition())).landOnField(user);
 		GUI.setOwner(user.getCurrentPosition()+1, user.getUserName());
 	}
 
 	private void payRent(User user) { //TODO: Virker ikke ordenligt!
-		GUI.showMessage("Feltet ejes af " + ((Ownable)board.getFields()[user.getCurrentPosition()]).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getFields()[user.getCurrentPosition()]).rent());
-		((Ownable) board.getFields()[user.getCurrentPosition()]).rent();
-		board.getFields()[user.getCurrentPosition()].landOnField(user);
+		GUI.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getField(user.getCurrentPosition())).rent());
+		((Ownable) board.getField(user.getCurrentPosition())).rent();
+		board.getField(user.getCurrentPosition()).landOnField(user);
 	}
 
 	public static int getSum(){ //TODO: Skal denne være static ?
