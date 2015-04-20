@@ -1,5 +1,7 @@
 package cards;
 
+import field.Shipping;
+import game.Controller;
 import user.User;
 
 public class MoveCard extends Card {
@@ -18,9 +20,19 @@ public class MoveCard extends Card {
 		if(move==0){
 			if(position==31){
 				user.setInJail(true);
+				user.setCurrentPosition(30);
 			}
 			else if(position==16){
 				//Ryk til rederi indsættes her
+				Shipping ship = (Shipping) Controller.getBoard().getField(5);
+				User usership = ship.getOwner();
+				if(usership == null){
+					
+				}else if(usership == user){
+					
+				}else{
+					usership.deposit(ship.rent()*2);
+				}
 			}
 			else
 			{

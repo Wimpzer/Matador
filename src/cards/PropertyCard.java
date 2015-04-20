@@ -1,5 +1,6 @@
 package cards;
 
+import game.Controller;
 import user.User;
 
 public class PropertyCard extends Card{
@@ -15,7 +16,8 @@ public class PropertyCard extends Card{
 	@Override
 	public void drawnCard(User user) {
 		//TODO Få antallet af huse og hoteller ejet af user
-		
+		Controller.getHotelAmount(user);
+		Controller.getHouseAmount(user);
 	}
 
 }

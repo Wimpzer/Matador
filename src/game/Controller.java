@@ -6,7 +6,7 @@ import user.User;
 import field.*;
 
 public class Controller {
-	ArrayList<User> users = new ArrayList<User>();
+	static ArrayList<User> users = new ArrayList<User>();
 	static Board board = new Board();
 	static Dice diceCup = new Dice();
 	int playerTurn = 0;
@@ -220,6 +220,34 @@ public class Controller {
 		return diceCup.getSum();
 	}
 
+	public static int getHouseAmount(User user){
+		int amount = 0;
+		
+		for (Field field : board.getFields()) {
+			if(field instanceof Street){
+				Street street = (Street) field;
+				amount += street.getHouseAmount();
+			}
+		}
+		return amount;
+	}
+	
+	public static int getHotelAmount(User user){
+		int amount = 0;
+		
+		for (Field field : board.getFields()) {
+			if(field instanceof Street){
+				Street street = (Street) field;
+				amount += street.getHotelAmount();
+			}
+		}
+		return amount;
+	}
+	
+	public static ArrayList<User> getUserList(){
+		return users;
+	}
+	
 	public static Board getBoard(){
 		return board;
 	}
