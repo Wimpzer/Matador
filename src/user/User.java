@@ -111,11 +111,7 @@ public class User implements IUser {
 	}
 	
 	public int getTotalPlayerValue(){
-		return totalPlayerValue;
-	}
-	
-	public void setTotalPlayerValue(int totalPlayerValue){
-		this.totalPlayerValue = totalPlayerValue;
+		return groundValue + accountOb.getBalance();
 	}
 	
 }

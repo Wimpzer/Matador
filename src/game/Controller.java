@@ -58,12 +58,15 @@ public class Controller {
 				GUI.setCar(user.getCurrentPosition()+1, user.getUserName());
 			}else{
 				playerMove(user);
-				instanceOfShipping(user);
-				instanceOfBrewery(user);
-				instanceOfStreet(user);
-				if(board.getFields()[user.getCurrentPosition()] instanceof Start || board.getFields()[user.getCurrentPosition()] instanceof Refuge || board.getFields()[user.getCurrentPosition()] instanceof Jail || board.getFields()[user.getCurrentPosition()] instanceof Taxes || board.getFields()[user.getCurrentPosition()] instanceof Chance){
+				if(board.getFields()[user.getCurrentPosition()] instanceof Jail){
 					board.getFields()[user.getCurrentPosition()].landOnField(user);
 				}
+			}
+			instanceOfShipping(user);
+			instanceOfBrewery(user);
+			instanceOfStreet(user);
+			if(board.getFields()[user.getCurrentPosition()] instanceof Start || board.getFields()[user.getCurrentPosition()] instanceof Refuge || board.getFields()[user.getCurrentPosition()] instanceof Taxes || board.getFields()[user.getCurrentPosition()] instanceof Chance){
+				board.getFields()[user.getCurrentPosition()].landOnField(user);
 			}
 
 			GUI.setBalance(user.getUserName(), user.getBalance());
