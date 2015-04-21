@@ -1,5 +1,6 @@
 package field;
 
+import game.CardPile;
 import user.User;
 
 public class Chance extends Field {
@@ -11,8 +12,7 @@ public class Chance extends Field {
 
 	@Override
 	public void landOnField(User user) {
-		// TODO Auto-generated method stub
-		
+		CardPile.drawCard();
 	}
 
 }

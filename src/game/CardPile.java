@@ -5,7 +5,6 @@ import cards.*;
 
 public class CardPile {
 
-
 	public static Card[] cardlist = {
 		new BonusCard("De modtager Deres aktieudbytte. Modtag kr. 1000 af banken.", 1000),
 		new MoveCard("Ryk frem til start.", 0, 1),
@@ -42,15 +41,40 @@ public class CardPile {
 		new FineCard("De har modtaget en parkeringsbøde. Betal kr. 200 i bøde", 200)
 	};
 
+	private static int listNumber = cardlist.length;
 	
-	static void shuffleCardPile(Card[] sc){
+	private static void shuffleCardPile(){
 		Random rand = new Random();
-		for(int i = 0; i < sc.length; i++){
+		for(int i = 0; i < cardlist.length; i++){
 			int index = rand.nextInt(i + 1);
 			
-			Card a = sc[index];
-			sc[index] = sc[i];
-			sc[i] = a;
+			Card a = cardlist[index];
+			cardlist[index] = cardlist[i];
+			cardlist[i] = a;
 		}
+	}
+	
+	private static void shuffleTimer(){
+		
+		if(listNumber + 1 >= cardlist.length){
+			listNumber = 0;
+			shuffleCardPile();
+		}else{
+			listNumber++;
+		}
+	}
+	
+	public static Card drawCard() {
+		shuffleTimer();
+		return cardlist[listNumber];
+		
+	}
+	
+	public Card[] getCards(){
+		return cardlist;
+	}
+	
+	public Card getCard(int i){
+		return cardlist[i];
 	}
 }
