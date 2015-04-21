@@ -11,7 +11,7 @@ public abstract class Card {
 	
 	abstract public void drawnCard(User user);
 	
-	public String getName(){
+	public String getText(){
 		return text;
 	}
 	
