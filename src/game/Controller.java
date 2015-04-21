@@ -1,8 +1,10 @@
 package game;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import boundary.GUIController;
+import database.Database;
 import desktop_resources.*;
 import user.User;
 import field.*;
@@ -11,7 +13,8 @@ public class Controller {
 	static ArrayList<User> users = new ArrayList<User>();
 	static Board board = new Board();
 	static Dice diceCup = new Dice();
-	int playerTurn = 0;
+	Database databaseOb = new Database();
+	int userTurn = 0;
 
 	public void run(){
 		//						startMenu();
@@ -21,7 +24,8 @@ public class Controller {
 
 	//TEST MENU
 	public void testMenu(){
-//		GUIController.createBoard(board);
+//				GUIController.createBoard(board);
+		//		GUI.create("feltliste.txt");
 		users.add(new User("Bjarke", 1, 0));
 		GUIController.addPlayer(users.get(0));
 		users.add(new User("Joakim", 2, 0));
@@ -52,8 +56,30 @@ public class Controller {
 
 	public void game(){
 		while(users.size() > 1){
-			User user = users.get(playerTurn);
-			if (user.getInJail() == true) { //TODO: Må man købe når man kommer ud?
+			User user = users.get(userTurn);
+
+			String input = GUI.getUserButtonPressed(user.getUserName() + "'s tur.", "Slå", "Køb hus/hotel", "Pantsæt", "Gem spil");
+			if(input.equals("Slå")){
+				takeTurn(user);
+			}else if(input.equals("Køb hus/hotel")){
+
+			}else if(input.equals("Pantsæt")){
+
+			}else if(input.equals("Gem spil")){
+				try {
+					saveGame();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		GUI.showMessage(users.get(0).getUserName() + " har vundet spillet!");
+	}
+
+	private void takeTurn(User user) {
+		{
+			if (user.getInJail() == true) {
 				user.setJailTimeCounter(user.getJailTimeCounter() + 1);
 				board.getField(30).landOnField(user);
 				GUI.removeCar(31, user.getUserName());
@@ -86,27 +112,49 @@ public class Controller {
 						}
 					}
 				}
-				users.remove(playerTurn);
+				users.remove(userTurn);
 			}else{
-				users.set(playerTurn, user);
+				users.set(userTurn, user);
 			}
 
 			for (int i = 0; i < users.size(); i++) {
 				GUI.setBalance(users.get(i).getUserName(), users.get(i).getBalance());
 			}
 
-			if(playerTurn >= users.size()-1){
-				playerTurn = 0;
+			if(userTurn >= users.size()-1){
+				userTurn = 0;
 			}else{
-				playerTurn++;
+				userTurn++;
 			}
 		}
-		GUI.showMessage(users.get(0).getUserName() + " har vundet spillet!");
+	}
+
+	private void saveGame() throws SQLException {
+		int breweryAmount = 0;
+		Brewery[] breweryFields = new Brewery[2];
+		int shippingAmount = 0;
+		Shipping[] shippingFields = new Shipping[4];
+		int streetAmount = 0;
+		Street[] streetFields = new Street[22];
+		
+		for(Field field : board.fields){
+			if(field instanceof Brewery){
+				Brewery brewery = (Brewery) field;
+				breweryFields[breweryAmount++] = brewery;
+			}else if(field instanceof Shipping){
+				Shipping shipping = (Shipping) field;
+				shippingFields[shippingAmount++] = shipping;
+			}else if(field instanceof Street){
+				Street street = (Street) field;
+				streetFields[streetAmount++] = street;
+			}
+		}
+		
+		databaseOb.saveGame(users, breweryFields, shippingFields, streetFields, userTurn);
 	}
 
 	private void playerMove(User user) {
-		GUI.showMessage("Det er spiller " + user.getUserNumber() + "'s tur" + " - Slå med terninger");
-//		diceCup.roll();
+		//		diceCup.roll();
 		diceCup.setFaceValue1(6);
 		diceCup.setFaceValue2(6);
 		GUI.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
@@ -114,6 +162,7 @@ public class Controller {
 		if(user.getCurrentPosition()+diceCup.getSum() > 39){
 			user.setCurrentPosition(user.getCurrentPosition() + diceCup.getSum()-40);
 			user.deposit(4000);
+			GUI.setBalance(user.getUserName(), user.getBalance());
 		}else{
 			user.setCurrentPosition(user.getCurrentPosition() + diceCup.getSum());
 		}

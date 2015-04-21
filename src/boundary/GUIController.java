@@ -60,7 +60,7 @@ public class GUIController {
 				break;
 			}
 		}
-//		GUI.create(fields);
+		GUI.create(fields);
 	}
 	
 	public static void addPlayer(User user){
