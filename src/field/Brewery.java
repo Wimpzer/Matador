@@ -16,11 +16,12 @@ public class Brewery extends Ownable {
 	public int rent() {
 		if(this.getOwner().getOwnedBrewery() == 1){
 			rentPrice = Controller.getSum() * 100;
-		}else if(super.getOwner().getOwnedBrewery() == 2){
+			super.rentPrice = Controller.getSum() * 100;
+		}else if(this.getOwner().getOwnedBrewery() == 2){
 			rentPrice = Controller.getSum() * 200;
+			super.rentPrice = Controller.getSum() * 100;
 		}
 		return rentPrice;
 	}
-	
 
 }

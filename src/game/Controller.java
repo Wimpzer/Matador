@@ -106,7 +106,9 @@ public class Controller {
 
 	private void playerMove(User user) {
 		GUI.showMessage("Det er spiller " + user.getUserNumber() + "'s tur" + " - Slå med terninger");
-		diceCup.roll();
+//		diceCup.roll();
+		diceCup.setFaceValue1(6);
+		diceCup.setFaceValue2(6);
 		GUI.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
 		GUI.removeCar(user.getCurrentPosition()+1, user.getUserName());
 		if(user.getCurrentPosition()+diceCup.getSum() > 39){
