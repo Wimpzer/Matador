@@ -36,7 +36,7 @@ public class Controller {
 		GUI.setCar(users.get(0).getCurrentPosition()+1, "Andreas");
 	}	
 
-	public void startMenu(){
+	public void startMenu() throws SQLException{
 		boolean input = GUI.getUserLeftButtonPressed("Start nyt spil eller hent seneste gemte", "Nyt spil", "Seneste gemte");
 
 		if(input == true){
@@ -50,6 +50,14 @@ public class Controller {
 				GUI.setCar(users.get(0).getCurrentPosition(), userName);
 			}			
 		}else if(input == false){
+			users = databaseOb.loadGameUser();
+			Brewery[] breweryArray = databaseOb.loadBrewery(users);
+			for (Field field : board.getFields()) {
+				if(field instanceof Brewery){
+					field = breweryArray[i];
+				}
+			}
+			
 			GUI.showMessage("Dit gamle spil er hentet");
 		}
 	}

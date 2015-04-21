@@ -252,7 +252,7 @@ public class Database {
 	}
 
 	//for brewery
-	public Brewery[] loadBrewery(User[] users) throws SQLException{
+	public Brewery[] loadBrewery(ArrayList<User> users) throws SQLException{
 		int fieldNumber;
 		int ownerNumber;
 		int i = 0;
