@@ -1,6 +1,8 @@
 package game;
 
 import java.util.ArrayList;
+
+import boundary.GUIController;
 import desktop_resources.*;
 import user.User;
 import field.*;
@@ -19,9 +21,9 @@ public class Controller {
 
 	//TEST MENU
 	public void testMenu(){
+//		GUIController.createBoard(board);
 		users.add(new User("Bjarke", 1, 0));
-		GUI.addPlayer(users.get(0).getUserName(), users.get(0).getBalance());
-		GUI.setCar(users.get(0).getCurrentPosition()+1, "Bjarke");
+		GUIController.addPlayer(users.get(0));
 		users.add(new User("Joakim", 2, 0));
 		GUI.addPlayer(users.get(1).getUserName(), users.get(1).getBalance());
 		GUI.setCar(users.get(0).getCurrentPosition()+1, "Joakim");
@@ -71,7 +73,7 @@ public class Controller {
 			}
 
 			GUI.setBalance(user.getUserName(), user.getBalance());
-			
+
 			if(user.getBalance() <= 0){
 				GUI.showMessage(user.getUserName() + " er gået fallit. Spillet er slut for dig");
 				GUI.removeCar(user.getCurrentPosition()+1, user.getUserName());
@@ -196,10 +198,10 @@ public class Controller {
 				GUI.showMessage("Ekstraordinær statsskat: Betal 2000 kr.");
 				board.getField(user.getCurrentPosition()).landOnField(user);
 			}
-			
+
 		}
 	}
-	
+
 	private void boughtField(User user, String fieldType) {
 		GUI.showMessage("Du har købt feltet " + board.getField(user.getCurrentPosition()).getName());
 		if(fieldType.equals("Shipping"))
@@ -222,7 +224,7 @@ public class Controller {
 
 	public static int getHouseAmount(User user){
 		int amount = 0;
-		
+
 		for (Field field : board.getFields()) {
 			if(field instanceof Street){
 				Street street = (Street) field;
@@ -231,10 +233,10 @@ public class Controller {
 		}
 		return amount;
 	}
-	
+
 	public static int getHotelAmount(User user){
 		int amount = 0;
-		
+
 		for (Field field : board.getFields()) {
 			if(field instanceof Street){
 				Street street = (Street) field;
@@ -243,11 +245,11 @@ public class Controller {
 		}
 		return amount;
 	}
-	
+
 	public static ArrayList<User> getUserList(){
 		return users;
 	}
-	
+
 	public static Board getBoard(){
 		return board;
 	}

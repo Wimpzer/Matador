@@ -1,5 +1,7 @@
 package field;
 
+import java.awt.Color;
+
 import game.Controller;
 
 public class Street extends Ownable{
@@ -11,9 +13,9 @@ public class Street extends Ownable{
 	private int rentHouse4;
 	private int rentHotel;
 	private int housePrice;
-	private String colour;
+	private Color colour;
 	
-	public Street(int fieldNumber, String name, int fieldPrice, int housePrice, int rentPrice, int rentHouse1, int rentHouse2, int rentHouse3, int rentHouse4, int rentHotel, String colour)
+	public Street(int fieldNumber, String name, int fieldPrice, int housePrice, int rentPrice, int rentHouse1, int rentHouse2, int rentHouse3, int rentHouse4, int rentHotel, Color colour)
 	{
 		super(name);
 		this.fieldNumber = fieldNumber;
@@ -34,7 +36,7 @@ public class Street extends Ownable{
 		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){
 			this.rentPrice = rentPrice * 2;
 		}
-		if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour == "blue" || colour == "purple")){
+		if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour == new Color(35, 104, 173) || colour == new Color(115, 77, 136))){
 			this.rentPrice = rentPrice * 2;
 		}
 		
@@ -92,7 +94,7 @@ public class Street extends Ownable{
 	}
 
 
-	public String getColour() {
+	public Color getColour() {
 		return colour;
 	}
 	
