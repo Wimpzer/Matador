@@ -1,8 +1,11 @@
 package game;
 
+import java.util.Random;
 import cards.*;
 
 public class CardPile {
+
+
 	public static Card[] cardlist = {
 		new BonusCard("De modtager Deres aktieudbytte. Modtag kr. 1000 af banken.", 1000),
 		new MoveCard("Ryk frem til start.", 0, 1),
@@ -40,5 +43,14 @@ public class CardPile {
 	};
 
 	
-	
+	static void shuffleCardPile(Card[] sc){
+		Random rand = new Random();
+		for(int i = 0; i < sc.length; i++){
+			int index = rand.nextInt(i + 1);
+			
+			Card a = sc[index];
+			sc[index] = sc[i];
+			sc[i] = a;
+		}
+	}
 }
