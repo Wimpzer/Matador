@@ -7,7 +7,7 @@ import desktop_resources.GUI;
 import field.*;
 import game.Board;
 
-public class GUIController {
+public class GUIBoundary {
 
 	private static Color[] carColour = {Color.black, Color.blue, Color.cyan, Color.orange, Color.green, Color.pink};
 	private static int carNumber = 0;
@@ -19,7 +19,6 @@ public class GUIController {
 		for (Field field : board.getFields()) {
 			if(field instanceof Start){
 				Start newField = (Start) field;
-				System.out.println(field.getFieldNumber());
 				fields[field.getFieldNumber()-1] = new desktop_fields.Start.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(6, 71, 85)).setDescription("Hver gang De passere START, modtag 4000 kr.").setSubText("Modtag 4000 kr.").build();
 				break;
 			}else if(field instanceof Street){
