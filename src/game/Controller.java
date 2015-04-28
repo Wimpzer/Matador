@@ -23,7 +23,7 @@ public class Controller {
 
 	//TEST MENU
 	public void testMenu(){
-				GUIBoundary.createBoard(board);
+//				GUIBoundary.createBoard(board);
 		//		GUI.create("feltliste.txt");
 		users.add(new User("Bjarke", 1, 0));
 		GUIBoundary.addPlayer(users.get(0));
