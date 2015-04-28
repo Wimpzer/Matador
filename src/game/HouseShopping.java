@@ -23,7 +23,97 @@ public class HouseShopping {
 
 		colourInputSwitch(user, board, colourInput);
 	}
+	
+	private String[] countColourMatches(int blueMatch, int pinkMatch,
+			int greenMatch, int grayMatch, int redMatch, int whiteMatch,
+			int yellowMatch, int purpleMatch, int amount, Board board) {
+		
+		for (Field field : board.fields) {
+			if(field instanceof Street){
+				Street street = (Street) field;
+				if(street.getColour().equals(new Color(35, 104, 173))){
+					blueMatch = board.getSimilarCount(street);
+					if(blueMatch == 2)
+						amount++;
+				}else if(street.getColour().equals(new Color(223, 110, 30))){
+					pinkMatch = board.getSimilarCount(street);
+					if(pinkMatch == 3)
+						amount++;
+				}else if(street.getColour().equals(new Color(188, 185, 32))){
+					greenMatch = board.getSimilarCount(street);
+					if(greenMatch == 3)
+						amount++;
+				}else if(street.getColour().equals(new Color(163, 171, 174))){
+					grayMatch = board.getSimilarCount(street);
+					if(grayMatch == 3)
+						amount++;
+				}else if(street.getColour().equals(new Color(217, 71, 96))){
+					redMatch = board.getSimilarCount(street);
+					if(redMatch == 3)
+						amount++;
+				}else if(street.getColour().equals(new Color(221, 215, 219))){
+					whiteMatch = board.getSimilarCount(street);
+					if(whiteMatch == 3)
+						amount++;
+				}else if(street.getColour().equals(new Color(255, 255, 0))){
+					yellowMatch = board.getSimilarCount(street);
+					if(yellowMatch == 3)
+						amount++;
+				}else if(street.getColour().equals(new Color(115, 77, 136))){
+					purpleMatch = board.getSimilarCount(street);
+					if(purpleMatch == 2)
+						amount++;
+				}
+			}
+		}
 
+		String[] buttons = buttonsSize(blueMatch, pinkMatch, greenMatch,
+				grayMatch, redMatch, whiteMatch, yellowMatch, purpleMatch,
+				amount);
+		return buttons;
+	}
+
+	private String[] buttonsSize(int blueMatch, int pinkMatch, int greenMatch,
+			int grayMatch, int redMatch, int whiteMatch, int yellowMatch,
+			int purpleMatch, int amount) {
+		String[] buttons = new String[amount];
+		int nextIndex = 0;
+
+		if(blueMatch == 2){
+			buttons[nextIndex] = "Blue";
+			nextIndex++;
+		}
+		if(pinkMatch == 3){
+			buttons[nextIndex] = "Pink";
+			nextIndex++;
+		}
+		if(greenMatch == 3){
+			buttons[nextIndex] = "Green";
+			nextIndex++;
+		}
+		if(grayMatch == 3){
+			buttons[nextIndex] = "Gray";
+			nextIndex++;
+		}
+		if(redMatch == 3){
+			buttons[nextIndex] = "Red";
+			nextIndex++;
+		}
+		if(whiteMatch == 3){
+			buttons[nextIndex] = "White";
+			nextIndex++;
+		}
+		if(yellowMatch == 3){
+			buttons[nextIndex] = "Yellow";
+			nextIndex++;
+		}
+		if(purpleMatch == 2){
+			buttons[nextIndex] = "Purple";
+			nextIndex++;
+		}
+		return buttons;
+	}
+	
 	private void colourInputSwitch(User user, Board board, String colourInput) {
 		switch (colourInput) {
 		case "Blue":
@@ -465,86 +555,6 @@ public class HouseShopping {
 				break;
 			}
 		}
-	}
-	
-	private String[] countColourMatches(int blueMatch, int pinkMatch,
-			int greenMatch, int grayMatch, int redMatch, int whiteMatch,
-			int yellowMatch, int purpleMatch, int amount, Board board) {
-		for (Field field : board.fields) {
-			if(field instanceof Street){
-				Street street = (Street) field;
-				if(street.getColour().equals(new Color(35, 104, 173))){
-					blueMatch = board.getSimilarCount(street);
-					if(blueMatch == 2)
-						amount++;
-				}else if(street.getColour().equals(new Color(223, 110, 30))){
-					pinkMatch = board.getSimilarCount(street);
-					if(pinkMatch == 3)
-						amount++;
-				}else if(street.getColour().equals(new Color(188, 185, 32))){
-					greenMatch = board.getSimilarCount(street);
-					if(greenMatch == 3)
-						amount++;
-				}else if(street.getColour().equals(new Color(163, 171, 174))){
-					grayMatch = board.getSimilarCount(street);
-					if(grayMatch == 3)
-						amount++;
-				}else if(street.getColour().equals(new Color(217, 71, 96))){
-					redMatch = board.getSimilarCount(street);
-					if(redMatch == 3)
-						amount++;
-				}else if(street.getColour().equals(new Color(221, 215, 219))){
-					whiteMatch = board.getSimilarCount(street);
-					if(whiteMatch == 3)
-						amount++;
-				}else if(street.getColour().equals(new Color(255, 255, 0))){
-					yellowMatch = board.getSimilarCount(street);
-					if(yellowMatch == 3)
-						amount++;
-				}else if(street.getColour().equals(new Color(115, 77, 136))){
-					purpleMatch = board.getSimilarCount(street);
-					if(purpleMatch == 2)
-						amount++;
-				}
-			}
-		}
-
-		String[] buttons = new String[amount];
-		int nextIndex = 0;
-
-		if(blueMatch == 2){
-			buttons[nextIndex] = "Blue";
-			nextIndex++;
-		}
-		if(pinkMatch == 3){
-			buttons[nextIndex] = "Pink";
-			nextIndex++;
-		}
-		if(greenMatch == 3){
-			buttons[nextIndex] = "Green";
-			nextIndex++;
-		}
-		if(grayMatch == 3){
-			buttons[nextIndex] = "Gray";
-			nextIndex++;
-		}
-		if(redMatch == 3){
-			buttons[nextIndex] = "Red";
-			nextIndex++;
-		}
-		if(whiteMatch == 3){
-			buttons[nextIndex] = "White";
-			nextIndex++;
-		}
-		if(yellowMatch == 3){
-			buttons[nextIndex] = "Yellow";
-			nextIndex++;
-		}
-		if(purpleMatch == 2){
-			buttons[nextIndex] = "Purple";
-			nextIndex++;
-		}
-		return buttons;
 	}
 	
 }
