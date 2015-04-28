@@ -51,45 +51,49 @@ public class Controller {
 				GUIBoundary.addPlayer(users.get(i));
 			}			
 		}else if(input == false){
-			databaseOb.connectDatabase();
-			users = databaseOb.loadGameUser();
-			for (User user : users) {
-				GUIBoundary.addPlayer(user);
-			}
-			userTurn = databaseOb.loadUserTurn();
-			Brewery[] breweryArray = databaseOb.loadBrewery(users);
-			Street[] streetArray = databaseOb.loadStreet(users);
-			Shipping[] shippingArray = databaseOb.loadShipping(users);
-			int breweryCounter = 0;
-			int streetCounter = 0;
-			int shippingCounter = 0;
-			for (Field field : board.getFields()) {
-				if(field instanceof Street){
-					field.setFieldNumber(streetArray[streetCounter].getFieldNumber());
-					((Street) field).setOwner(streetArray[streetCounter].getOwner());
-					((Street) field).setHouseAmount(streetArray[streetCounter].getHouseAmount());
-					((Street) field).setHotelAmount(streetArray[streetCounter++].getHotelAmount());
-					if(((Street) field).getOwner() != null){
-						GUIBoundary.setOwner(field.getFieldNumber(), ((Street) field).getOwner().getUserName());
-					}
-				} else if(field instanceof Brewery){
-					field.setFieldNumber(breweryArray[breweryCounter].getFieldNumber());
-					((Brewery) field).setOwner(breweryArray[breweryCounter++].getOwner());
-					if(((Brewery) field).getOwner() != null){
-						GUIBoundary.setOwner(field.getFieldNumber(), ((Brewery) field).getOwner().getUserName());
-					}
-				} else if(field instanceof Shipping){
-					field.setFieldNumber(shippingArray[shippingCounter].getFieldNumber());
-					((Shipping) field).setOwner(shippingArray[shippingCounter].getOwner());
-					if(((Shipping) field).getOwner() != null){
-						GUIBoundary.setOwner(field.getFieldNumber(), ((Shipping) field).getOwner().getUserName());
-					}
+			loadGame();
+		}
+	}
+
+	private void loadGame() throws SQLException {
+		databaseOb.connectDatabase();
+		users = databaseOb.loadGameUser();
+		for (User user : users) {
+			GUIBoundary.addPlayer(user);
+		}
+		userTurn = databaseOb.loadUserTurn();
+		Brewery[] breweryArray = databaseOb.loadBrewery(users);
+		Street[] streetArray = databaseOb.loadStreet(users);
+		Shipping[] shippingArray = databaseOb.loadShipping(users);
+		int breweryCounter = 0;
+		int streetCounter = 0;
+		int shippingCounter = 0;
+		for (Field field : board.getFields()) {
+			if(field instanceof Street){
+				field.setFieldNumber(streetArray[streetCounter].getFieldNumber());
+				((Street) field).setOwner(streetArray[streetCounter].getOwner());
+				((Street) field).setHouseAmount(streetArray[streetCounter].getHouseAmount());
+				((Street) field).setHotelAmount(streetArray[streetCounter++].getHotelAmount());
+				if(((Street) field).getOwner() != null){
+					GUIBoundary.setOwner(field.getFieldNumber(), ((Street) field).getOwner().getUserName());
+				}
+			} else if(field instanceof Brewery){
+				field.setFieldNumber(breweryArray[breweryCounter].getFieldNumber());
+				((Brewery) field).setOwner(breweryArray[breweryCounter++].getOwner());
+				if(((Brewery) field).getOwner() != null){
+					GUIBoundary.setOwner(field.getFieldNumber(), ((Brewery) field).getOwner().getUserName());
+				}
+			} else if(field instanceof Shipping){
+				field.setFieldNumber(shippingArray[shippingCounter].getFieldNumber());
+				((Shipping) field).setOwner(shippingArray[shippingCounter].getOwner());
+				if(((Shipping) field).getOwner() != null){
+					GUIBoundary.setOwner(field.getFieldNumber(), ((Shipping) field).getOwner().getUserName());
 				}
 			}
-			databaseOb.deleteAll();
-
-			GUIBoundary.showMessage("Dit gamle spil er hentet");
 		}
+		databaseOb.deleteAll();
+
+		GUIBoundary.showMessage("Dit gamle spil er hentet");
 	}
 
 	public void game(){
@@ -100,7 +104,7 @@ public class Controller {
 			if(input.equals("Slå")){
 				takeTurn(user);
 			}else if(input.equals("Køb hus/hotel")){
-
+				buyHouse(user);
 			}else if(input.equals("Pantsæt")){
 
 			}else if(input.equals("Gem spil")){
@@ -167,6 +171,10 @@ public class Controller {
 		}
 	}
 
+	private void buyHouse(User user){
+		
+	}
+	
 	private void saveGame() throws SQLException {
 		int breweryAmount = 0;
 		Brewery[] breweryFields = new Brewery[2];
