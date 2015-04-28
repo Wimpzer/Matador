@@ -35,8 +35,7 @@ public class Street extends Ownable{
 	public int rent() {
 		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){
 			this.rentPrice = rentPrice * 2;
-		}
-		if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour == new Color(35, 104, 173) || colour == new Color(115, 77, 136))){
+		}else if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour.equals(new Color(35, 104, 173)) || colour.equals(new Color(115, 77, 136)))){
 			this.rentPrice = rentPrice * 2;
 		}
 		

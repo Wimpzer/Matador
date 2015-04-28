@@ -1,10 +1,12 @@
 package game;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import boundary.GUIBoundary;
 import database.Database;
+import desktop_resources.GUI;
 import user.User;
 import field.*;
 
@@ -172,7 +174,8 @@ public class Controller {
 	}
 
 	private void buyHouse(User user){
-		
+		HouseShopping houseShoppingOb = new HouseShopping();
+		houseShoppingOb.buyHouse(user, getBoard());
 	}
 	
 	private void saveGame() throws SQLException {
@@ -201,6 +204,8 @@ public class Controller {
 
 	private void playerMove(User user) {
 		diceCup.roll();
+		diceCup.setFaceValue1(1);
+		diceCup.setFaceValue2(0);
 		GUIBoundary.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
 		GUIBoundary.removeCar(user.getCurrentPosition()+1, user.getUserName());
 		if(user.getCurrentPosition()+diceCup.getSum() > 39){
