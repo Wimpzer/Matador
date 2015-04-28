@@ -86,7 +86,7 @@ public class GUIBoundary {
 	public static void addPlayer(User user){
 		desktop_codebehind.Car car = new desktop_codebehind.Car.Builder().primaryColor(carColour[carNumber++]).typeTractor().build();
 		GUI.addPlayer(user.getUserName(), user.getBalance());
-		setCar(1, user.getUserName());
+		setCar(user.getCurrentPosition()+1, user.getUserName());
 	}
 	
 	public static void setOwner(int fieldNumber, String name){

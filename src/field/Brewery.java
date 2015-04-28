@@ -11,7 +11,7 @@ public class Brewery extends Ownable {
 		this.fieldNumber = fieldNumber;
 		this.fieldPrice = fieldPrice;
 	}
-
+	
 	@Override
 	public int rent() {
 		if(this.getOwner().getOwnedBrewery() == 1){

@@ -60,19 +60,19 @@ public class Database {
 		String deleteAllString = "DELETE FROM brewery";
 		deleteAll = conn.prepareStatement(deleteAllString);
 		deleteAll.execute();
-		
+
 		deleteAllString = "DELETE FROM shipping";
 		deleteAll = conn.prepareStatement(deleteAllString);
 		deleteAll.execute();
-		
+
 		deleteAllString = "DELETE FROM street";
 		deleteAll = conn.prepareStatement(deleteAllString);
 		deleteAll.execute();
-		
+
 		deleteAllString = "DELETE FROM controller";
 		deleteAll = conn.prepareStatement(deleteAllString);
 		deleteAll.execute();
-		
+
 		deleteAllString = "DELETE FROM user";
 		deleteAll = conn.prepareStatement(deleteAllString);
 		deleteAll.execute();
@@ -205,6 +205,7 @@ public class Database {
 		ResultSet res = loadGameUser.executeQuery();
 
 		while(res.next()){
+			if(res.getInt("userNumber") != 0){
 			userNumber = res.getInt("userNumber");
 			userName = res.getString("userName");
 			currentPosition = res.getInt("currentPosition");
@@ -212,20 +213,22 @@ public class Database {
 			User user = new User(userName, userNumber, currentPosition);
 			user.deposit(balance);
 			users.add(user);
+			}
 		}		
 		return users;
 	}
+
 	//for street
-	public Street[] loadStreet(User[] users) throws SQLException{
+	public Street[] loadStreet(ArrayList<User> users) throws SQLException{
 		int fieldNumber;
 		int ownerNumber;
 		int houseAmount;
 		int hotelAmount;
 		int i = 0;
-		Street[] fields = new Street[10];
+		Street[] fields = new Street[22];
 
 		PreparedStatement loadFields;
-		String loadFieldsString = "SELET * FROM street";
+		String loadFieldsString = "SELECT * FROM street";
 
 		loadFields = conn.prepareStatement(loadFieldsString);
 
@@ -236,7 +239,8 @@ public class Database {
 			ownerNumber = res.getInt("ownerNumber");
 			houseAmount = res.getInt("houseAmount");
 			hotelAmount = res.getInt("hotelAmount");
-			fields[i].setFieldNumber(fieldNumber);
+			
+			fields[i] = new Street(fieldNumber, "", 0, 0, 0, 0, 0, 0, 0, 0, null);
 			fields[i].setHouseAmount(houseAmount);
 			fields[i].setHotelAmount(hotelAmount);
 
@@ -259,7 +263,7 @@ public class Database {
 		Brewery[] fields = new Brewery[2];
 
 		PreparedStatement loadFields;
-		String loadFieldsString = "SELET * FROM brewery";
+		String loadFieldsString = "SELECT * FROM brewery";
 
 		loadFields = conn.prepareStatement(loadFieldsString);
 
@@ -268,7 +272,8 @@ public class Database {
 		while(res.next()){
 			fieldNumber = res.getInt("fieldNumber");
 			ownerNumber = res.getInt("ownerNumber");
-			fields[i].setFieldNumber(fieldNumber);
+
+			fields[i] = new Brewery(fieldNumber, " ", 0);
 
 			for (User user : users) {
 				if(ownerNumber == user.getUserNumber()){
@@ -282,14 +287,14 @@ public class Database {
 	}
 
 	//for shipping
-	public Shipping[] loadShipping(User[] users) throws SQLException{
+	public Shipping[] loadShipping(ArrayList<User> users) throws SQLException{
 		int fieldNumber;
 		int ownerNumber;
 		int i = 0;
 		Shipping[] fields = new Shipping[4];
 
 		PreparedStatement loadFields;
-		String loadFieldsString = "SELET * FROM shipping";
+		String loadFieldsString = "SELECT * FROM shipping";
 
 		loadFields = conn.prepareStatement(loadFieldsString);
 
@@ -298,7 +303,8 @@ public class Database {
 		while(res.next()){
 			fieldNumber = res.getInt("fieldNumber");
 			ownerNumber = res.getInt("ownerNumber");
-			fields[i].setFieldNumber(fieldNumber);
+
+			fields[i] = new Shipping(fieldNumber, " ", 0);
 
 			for (User user : users) {
 				if(ownerNumber == user.getUserNumber()){
@@ -310,6 +316,23 @@ public class Database {
 		}
 
 		return fields;
+	}
+
+	public int loadUserTurn() throws SQLException{
+		int userTurn = 0;
+
+		PreparedStatement loadUserTurn;
+		String loadUserTurnString = "SELECT userTurn FROM controller";
+
+		loadUserTurn = conn.prepareStatement(loadUserTurnString);
+
+		ResultSet res = loadUserTurn.executeQuery();
+
+		while(res.next()){
+			userTurn = res.getInt("userTurn");
+		}
+
+		return userTurn;
 	}
 
 }

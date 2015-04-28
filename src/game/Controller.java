@@ -16,14 +16,19 @@ public class Controller {
 	int userTurn = 0;
 
 	public void run(){
-		//						startMenu();
-		testMenu();
+		try {
+			startMenu();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//		testMenu();
 		game();
 	}
 
 	//TEST MENU
 	public void testMenu(){
-//				GUIBoundary.createBoard(board);
+		//				GUIBoundary.createBoard(board);
 		//		GUI.create("feltliste.txt");
 		users.add(new User("Bjarke", 1, 0));
 		GUIBoundary.addPlayer(users.get(0));
@@ -46,14 +51,43 @@ public class Controller {
 				GUIBoundary.addPlayer(users.get(i));
 			}			
 		}else if(input == false){
+			databaseOb.connectDatabase();
 			users = databaseOb.loadGameUser();
+			for (User user : users) {
+				GUIBoundary.addPlayer(user);
+			}
+			userTurn = databaseOb.loadUserTurn();
 			Brewery[] breweryArray = databaseOb.loadBrewery(users);
+			Street[] streetArray = databaseOb.loadStreet(users);
+			Shipping[] shippingArray = databaseOb.loadShipping(users);
+			int breweryCounter = 0;
+			int streetCounter = 0;
+			int shippingCounter = 0;
 			for (Field field : board.getFields()) {
-				if(field instanceof Brewery){
-					field = breweryArray[i];
+				if(field instanceof Street){
+					field.setFieldNumber(streetArray[streetCounter].getFieldNumber());
+					((Street) field).setOwner(streetArray[streetCounter].getOwner());
+					((Street) field).setHouseAmount(streetArray[streetCounter].getHouseAmount());
+					((Street) field).setHotelAmount(streetArray[streetCounter++].getHotelAmount());
+					if(((Street) field).getOwner() != null){
+						GUIBoundary.setOwner(field.getFieldNumber(), ((Street) field).getOwner().getUserName());
+					}
+				} else if(field instanceof Brewery){
+					field.setFieldNumber(breweryArray[breweryCounter].getFieldNumber());
+					((Brewery) field).setOwner(breweryArray[breweryCounter++].getOwner());
+					if(((Brewery) field).getOwner() != null){
+						GUIBoundary.setOwner(field.getFieldNumber(), ((Brewery) field).getOwner().getUserName());
+					}
+				} else if(field instanceof Shipping){
+					field.setFieldNumber(shippingArray[shippingCounter].getFieldNumber());
+					((Shipping) field).setOwner(shippingArray[shippingCounter].getOwner());
+					if(((Shipping) field).getOwner() != null){
+						GUIBoundary.setOwner(field.getFieldNumber(), ((Shipping) field).getOwner().getUserName());
+					}
 				}
 			}
-			
+			databaseOb.deleteAll();
+
 			GUIBoundary.showMessage("Dit gamle spil er hentet");
 		}
 	}
@@ -140,7 +174,7 @@ public class Controller {
 		Shipping[] shippingFields = new Shipping[4];
 		int streetAmount = 0;
 		Street[] streetFields = new Street[22];
-		
+
 		for(Field field : board.fields){
 			if(field instanceof Brewery){
 				Brewery brewery = (Brewery) field;
@@ -153,7 +187,7 @@ public class Controller {
 				streetFields[streetAmount++] = street;
 			}
 		}
-		
+
 		databaseOb.saveGame(users, breweryFields, shippingFields, streetFields, userTurn);
 	}
 
