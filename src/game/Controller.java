@@ -1,12 +1,10 @@
 package game;
 
-import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import boundary.GUIBoundary;
 import database.Database;
-import desktop_resources.GUI;
 import user.User;
 import field.*;
 
@@ -18,13 +16,13 @@ public class Controller {
 	int userTurn = 0;
 
 	public void run(){
-		try {
-			startMenu();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//		testMenu();
+		//		try {
+		//			startMenu();
+		//		} catch (SQLException e) {
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
+		testMenu();
 		game();
 	}
 
@@ -174,10 +172,16 @@ public class Controller {
 	}
 
 	private void buyHouse(User user){
+
 		HouseShopping houseShoppingOb = new HouseShopping();
-		houseShoppingOb.buyHouse(user, getBoard());
+		try{
+			houseShoppingOb.buyHouse(user, getBoard());
+		}catch(NullPointerException e){
+			GUIBoundary.showMessage("Du ejer ikke nok grunde af en farve");
+		}
+		GUIBoundary.setBalance(user.getUserName(), user.getBalance());
 	}
-	
+
 	private void saveGame() throws SQLException {
 		int breweryAmount = 0;
 		Brewery[] breweryFields = new Brewery[2];
@@ -204,8 +208,8 @@ public class Controller {
 
 	private void playerMove(User user) {
 		diceCup.roll();
-		diceCup.setFaceValue1(1);
-		diceCup.setFaceValue2(0);
+//		diceCup.setFaceValue1(1);
+//		diceCup.setFaceValue2(0);
 		GUIBoundary.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
 		GUIBoundary.removeCar(user.getCurrentPosition()+1, user.getUserName());
 		if(user.getCurrentPosition()+diceCup.getSum() > 39){
@@ -312,10 +316,31 @@ public class Controller {
 		GUIBoundary.setOwner(user.getCurrentPosition()+1, user.getUserName());
 	}
 
-	private void payRent(User user) { //TODO: Virker ikke ordenligt!
-		GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getField(user.getCurrentPosition())).rent());
-		((Ownable) board.getField(user.getCurrentPosition())).rent();
-		board.getField(user.getCurrentPosition()).landOnField(user);
+	private void payRent(User user) { //TODO: Virker ikke ordenligt?
+		if(board.getField(user.getCurrentPosition()) instanceof Street && (((Street) board.getField(user.getCurrentPosition())).getHouseAmount() > 0 || ((Street) board.getField(user.getCurrentPosition())).getHotelAmount() == 1)){
+			int houseAmount = ((Street) board.getField(user.getCurrentPosition())).getHouseAmount();
+			int extraRent = 0;
+			if(houseAmount == 1)
+				extraRent = ((Street) board.getField(user.getCurrentPosition())).getRentHouse1();
+			else if(houseAmount == 2)
+				extraRent = ((Street) board.getField(user.getCurrentPosition())).getRentHouse2();
+			else if(houseAmount == 3)
+				extraRent = ((Street) board.getField(user.getCurrentPosition())).getRentHouse3();
+			else if(houseAmount == 4)
+				extraRent = ((Street) board.getField(user.getCurrentPosition())).getRentHouse4();
+			else if(((Street) board.getField(user.getCurrentPosition())).getHotelAmount() == 1)
+				extraRent = ((Street) board.getField(user.getCurrentPosition())).getRentHotel();
+
+			int newRent = extraRent + ((Ownable) board.getField(user.getCurrentPosition())).rent();
+			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + newRent);
+			user.withdraw(extraRent);
+			((Ownable) board.getField(user.getCurrentPosition())).rent();
+			board.getField(user.getCurrentPosition()).landOnField(user);
+		}else{
+			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getField(user.getCurrentPosition())).rent());
+			((Ownable) board.getField(user.getCurrentPosition())).rent();
+			board.getField(user.getCurrentPosition()).landOnField(user);
+		}
 	}
 
 	public static int getSum(){ //TODO: Skal denne være static ?
