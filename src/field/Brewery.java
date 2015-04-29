@@ -24,4 +24,8 @@ public class Brewery extends Ownable {
 		return rentPrice;
 	}
 
+	@Override
+	public void setRentPrice() {
+	}
+
 }

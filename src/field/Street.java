@@ -14,6 +14,7 @@ public class Street extends Ownable{
 	private int rentHotel;
 	private int housePrice;
 	private Color colour;
+	private int oldRentPrice;
 	
 	public Street(int fieldNumber, String name, int fieldPrice, int housePrice, int rentPrice, int rentHouse1, int rentHouse2, int rentHouse3, int rentHouse4, int rentHotel, Color colour)
 	{
@@ -34,14 +35,23 @@ public class Street extends Ownable{
 	@Override
 	public int rent() {
 		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){
+			oldRentPrice = rentPrice;
 			this.rentPrice = rentPrice * 2;
 		}else if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour.equals(new Color(35, 104, 173)) || colour.equals(new Color(115, 77, 136)))){
+			oldRentPrice = rentPrice;
 			this.rentPrice = rentPrice * 2;
 		}
 		
 		return rentPrice;
 	}
 
+	public void setRentPrice(){
+		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){
+			rentPrice = oldRentPrice;
+		}else if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour.equals(new Color(35, 104, 173)) || colour.equals(new Color(115, 77, 136)))){
+			rentPrice = oldRentPrice;
+		}
+	}
 
 	public int getHouseAmount() {
 		return houseAmount;
@@ -62,6 +72,9 @@ public class Street extends Ownable{
 		this.hotelAmount = hotelAmount;
 	}
 
+	public int getRent(){
+		return rentPrice;
+	}
 
 	public int getRentHouse1() {
 		return rentHouse1;

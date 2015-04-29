@@ -29,4 +29,8 @@ public class Shipping extends Ownable {
 		return rentPrice;
 	}
 
+	@Override
+	public void setRentPrice() {
+	}
+
 }

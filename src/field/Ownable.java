@@ -13,6 +13,8 @@ public abstract class Ownable extends Field {
 	
 	abstract public int rent();
 	
+	abstract public void setRentPrice();
+	
 	public void landOnField(User user){
 		if(getOwner() != null && getOwner() != user){
 			getOwner().deposit(rentPrice);
@@ -24,7 +26,7 @@ public abstract class Ownable extends Field {
 			user.setGroundValue(user.getGroundValue()+fieldPrice);
 		}
 	}
-	
+		
 	public User getOwner(){
 		return owner;
 	}

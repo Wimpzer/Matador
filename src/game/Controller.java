@@ -36,6 +36,8 @@ public class Controller {
 		GUIBoundary.addPlayer(users.get(1));
 		users.add(new User("Andreas", 3, 0));
 		GUIBoundary.addPlayer(users.get(2));
+		users.add(new User("Børge", 4, 0));
+		GUIBoundary.addPlayer(users.get(3));
 	}	
 
 	public void startMenu() throws SQLException{
@@ -208,8 +210,8 @@ public class Controller {
 
 	private void playerMove(User user) {
 		diceCup.roll();
-//		diceCup.setFaceValue1(1);
-//		diceCup.setFaceValue2(0);
+		diceCup.setFaceValue1(1);
+		diceCup.setFaceValue2(0);
 		GUIBoundary.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
 		GUIBoundary.removeCar(user.getCurrentPosition()+1, user.getUserName());
 		if(user.getCurrentPosition()+diceCup.getSum() > 39){
@@ -337,9 +339,10 @@ public class Controller {
 			((Ownable) board.getField(user.getCurrentPosition())).rent();
 			board.getField(user.getCurrentPosition()).landOnField(user);
 		}else{
-			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getField(user.getCurrentPosition())).rent());
 			((Ownable) board.getField(user.getCurrentPosition())).rent();
 			board.getField(user.getCurrentPosition()).landOnField(user);
+			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + ((Street) board.getField(user.getCurrentPosition())).getRent());
+			((Ownable) board.getField(user.getCurrentPosition())).setRentPrice();
 		}
 	}
 
