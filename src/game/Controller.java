@@ -13,6 +13,8 @@ public class Controller {
 	static Board board = new Board();
 	static Dice diceCup = new Dice();
 	Database databaseOb = new Database();
+	HouseShopping houseShoppingOb = new HouseShopping();
+
 	int userTurn = 0;
 
 	public void run(){
@@ -102,11 +104,13 @@ public class Controller {
 		while(users.size() > 1){
 			User user = users.get(userTurn);
 
-			String input = GUIBoundary.getUserButtonPressed(user.getUserName() + "'s tur.", "Slå", "Køb hus/hotel", "Pantsæt", "Gem spil");
+			String input = GUIBoundary.getUserButtonPressed(user.getUserName() + "'s tur.", "Slå", "Køb hus/hotel", "Byd på en gade", "Pantsæt", "Gem spil");
 			if(input.equals("Slå")){
 				takeTurn(user);
 			}else if(input.equals("Køb hus/hotel")){
 				buyHouse(user);
+			}else if(input.equals("Byd på en gade")){
+				streetBid(user);
 			}else if(input.equals("Pantsæt")){
 
 			}else if(input.equals("Gem spil")){
@@ -175,13 +179,71 @@ public class Controller {
 
 	private void buyHouse(User user){
 
-		HouseShopping houseShoppingOb = new HouseShopping();
 		try{
 			houseShoppingOb.buyHouse(user, getBoard());
 		}catch(NullPointerException e){
 			GUIBoundary.showMessage("Du ejer ikke nok grunde af en farve");
 		}
 		GUIBoundary.setBalance(user.getUserName(), user.getBalance());
+	}
+
+	private void streetBid(User user) {
+		String[] buttons = null;
+
+		for (int i = 0; i < users.size(); i++){ //TODO: Hvorfor virker denne ikke?
+			buttons = new String[users.size()];
+			if(user.getUserNumber() != i+1){
+				System.out.println("i: " + i);
+				System.out.println(users.get(i).getUserNumber());
+				buttons[i] = Integer.toString(users.get(i).getUserNumber());
+			}
+		}
+
+		String userNumber = GUIBoundary.getUserButtonPressed("Vælg hvilken spillers grund du vil byde på", buttons);
+
+		int size = 0;
+		String[] temp = new String[22];
+
+		for (int i = 0; i < users.size(); i++) //TODO: Try-catch ?
+			for (Field field : board.getFields()) 
+				if(field instanceof Street)
+					if(Integer.toString(((Street) field).getOwner().getUserNumber()).equals(userNumber))
+						temp[size++] = field.getName();
+
+		String[] fieldButtons = new String[temp.length];
+
+		for (int i = 0; i < fieldButtons.length; i++)
+			fieldButtons[i] = temp[i];
+
+		String fieldName = GUIBoundary.getUserButtonPressed("Vælg hvilken grund du vil byde på", fieldButtons);
+
+		int fieldBid = GUIBoundary.getUserInteger("Hvor meget vil du byde på " + fieldName, 0, 10000);
+
+		boolean acceptedBid = false;
+		User chosenUser = null;
+
+		for (User users : users)
+			if(users.getUserNumber() == Integer.getInteger(userNumber)){
+				chosenUser = users;
+				acceptedBid = GUIBoundary.getUserLeftButtonPressed("Acceptere du " + chosenUser.getUserName() + " budet på " + fieldBid + " for " + fieldName, "Ja", "Nej");
+			}
+
+		Street chosenField = null;
+
+		for (Field field : board.getFields())
+			if(field.getName().equals(fieldName))
+				chosenField = (Street) field;
+
+		if(acceptedBid == true && chosenField != null){
+			chosenField.setOwner(user);
+			GUIBoundary.setOwner(chosenField.getFieldNumber(), user.getUserName());
+			chosenUser.deposit(fieldBid);
+			GUIBoundary.setBalance(chosenUser.getUserName(), chosenUser.getBalance());
+			user.withdraw(fieldBid);
+			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
+
+			GUIBoundary.showMessage("Ejerskabet er hermed overbragt");
+		}	
 	}
 
 	private void saveGame() throws SQLException {
