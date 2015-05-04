@@ -19,46 +19,44 @@ public class GUIBoundary {
 		for (Field field : board.getFields()) {
 			if(field instanceof Start){
 				Start newField = (Start) field;
-				fields[field.getFieldNumber()-1] = new desktop_fields.Start.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(6, 71, 85)).setDescription("Hver gang De passere START, modtag 4000 kr.").setSubText("Modtag 4000 kr.").build();
-				break;
+				fields[field.getFieldNumber()-1] = new desktop_fields.Start.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription("Hver gang De passere START, modtag 4000 kr.").setSubText("Modtag 4000 kr.").build();
 			}else if(field instanceof Street){
 				Street newField = (Street) field;
-				fields[field.getFieldNumber()-1] = new desktop_fields.Street.Builder().setTitle(newField.getName()).setBgColor(newField.getColour()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();
-				break;
+				fields[field.getFieldNumber()-1] = new desktop_fields.Street.Builder().setTitle(newField.getName()).setBgColor(newField.getColour()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();
 			}else if(field instanceof Chance){
-				fields[field.getFieldNumber()-1] = new desktop_fields.Chance.Builder().setFgColor(Color.getHSBColor(38, 54, 71)).build();
-				break;
+				fields[field.getFieldNumber()-1] = new desktop_fields.Chance.Builder().setFgColor(Color.getHSBColor(0, 0, 0)).build();
 			}else if(field instanceof Taxes){
 				Taxes newField = (Taxes) field;
 				if(field.getFieldNumber() == 5){
-					fields[field.getFieldNumber()-1] = new desktop_fields.Tax.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription("Betal indkomstskat: 10% eller 4000 kr.").setSubText(Integer.toString(newField.getFieldNumber())).build();
+					fields[field.getFieldNumber()-1] = new desktop_fields.Tax.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription("Betal indkomstskat: 10% eller 4000 kr.").setSubText(Integer.toString(newField.getFieldNumber())).build();
 				}else if(field.getFieldNumber() == 39){
-					fields[field.getFieldNumber()-1] = new desktop_fields.Tax.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription("Ekstraordinær statsskat: Betal 2000 kr.").setSubText(Integer.toString(newField.getFieldNumber())).build();
+					fields[field.getFieldNumber()-1] = new desktop_fields.Tax.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription("Ekstraordinær statsskat: Betal 2000 kr.").setSubText(Integer.toString(newField.getFieldNumber())).build();
 				}
-				break;
 			}else if(field instanceof Shipping){
 				Shipping newField = (Shipping) field;
-				fields[field.getFieldNumber()-1] = new desktop_fields.Shipping.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();
-				break;
-			}else if(field instanceof Jail){
+				fields[field.getFieldNumber()-1] = new desktop_fields.Shipping.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();			}else if(field instanceof Jail){
 				Jail newField = (Jail) field;
 				if(field.getFieldNumber() == 11){
-					fields[field.getFieldNumber()-1] = new desktop_fields.Jail.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription("På besøg").setSubText(Integer.toString(newField.getFieldNumber())).build();
+					fields[field.getFieldNumber()-1] = new desktop_fields.Jail.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription("På besøg").setSubText(Integer.toString(newField.getFieldNumber())).build();
 				}else if(field.getFieldNumber() == 31){
-
-					fields[field.getFieldNumber()-1] = new desktop_fields.Jail.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription("De fængsles").setSubText(Integer.toString(newField.getFieldNumber())).build();
+					fields[field.getFieldNumber()-1] = new desktop_fields.Jail.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription("De fængsles").setSubText(Integer.toString(newField.getFieldNumber())).build();
 				}
-				break;
 			}else if(field instanceof Brewery){
 				Brewery newField = (Brewery) field;
-				fields[field.getFieldNumber()-1] = new desktop_fields.Brewery.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();
-				break;
+				fields[field.getFieldNumber()-1] = new desktop_fields.Brewery.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();
 			}else if(field instanceof Refuge){
 				Refuge newField = (Refuge) field;
-				fields[field.getFieldNumber()-1] = new desktop_fields.Refuge.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(207, 39, 89)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();
-				break;
+				fields[field.getFieldNumber()-1] = new desktop_fields.Refuge.Builder().setTitle(newField.getName()).setFgColor(Color.getHSBColor(0, 0, 0)).setDescription(newField.getName()).setSubText(Integer.toString(newField.getFieldNumber())).build();
 			}
 		}
+		GUI.create(fields);
+	}
+	
+	public static void c_board(){
+		desktop_fields.Field[] fields = new desktop_fields.Field[4];
+		for(int i = 0; i < 4; i++)
+			fields[i] = new desktop_fields.Refuge.Builder().setTitle("title "+i).build();
+		
 		GUI.create(fields);
 	}
 

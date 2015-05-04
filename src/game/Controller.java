@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import boundary.GUIBoundary;
 import database.Database;
+import desktop_resources.GUI;
 import user.User;
 import field.*;
 
@@ -30,8 +31,7 @@ public class Controller {
 
 	//TEST MENU
 	public void testMenu(){
-		//				GUIBoundary.createBoard(board);
-		//		GUI.create("feltliste.txt");
+		GUIBoundary.createBoard(board);
 		users.add(new User("Bjarke", 1, 0));
 		GUIBoundary.addPlayer(users.get(0));
 		users.add(new User("Joakim", 2, 0));
@@ -116,7 +116,7 @@ public class Controller {
 				//					GUIBoundary.showMessage("Der skete en fejl under bud af gade");
 				//				}
 			}else if(input.equals("Pantsæt")){
-				
+
 			}else if(input.equals("Gem spil")){
 				try {
 					saveGame();
@@ -214,7 +214,7 @@ public class Controller {
 						if(Integer.toString(((Street) field).getOwner().getUserNumber()).equals(userNumber)){
 							System.out.println("inside"); //TODO: Rammer samme felt 4 gange (?)
 							temp[size++] = field.getName();
-	}
+						}
 
 		String[] fieldButtons = new String[size];
 
