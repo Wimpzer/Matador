@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import boundary.GUIBoundary;
 import database.Database;
-import desktop_resources.GUI;
 import user.User;
 import field.*;
 
@@ -110,11 +109,11 @@ public class Controller {
 			}else if(input.equals("Køb hus/hotel")){
 				buyHouse(user);
 			}else if(input.equals("Byd på en gade")){
-				//				try {
-				streetBid(user);
-				//				} catch (NullPointerException e) {
-				//					GUIBoundary.showMessage("Der skete en fejl under bud af gade");
-				//				}
+				try {
+					streetBid(user);
+				} catch (NullPointerException e) {
+					GUIBoundary.showMessage("Der skete en fejl under bud af gade");
+				}
 			}else if(input.equals("Pantsæt")){
 
 			}else if(input.equals("Gem spil")){
@@ -192,29 +191,22 @@ public class Controller {
 	}
 
 	private void streetBid(User user) {
-		String[] buttons = null;
+		String[] buttons = new String[users.size()];
 
-		for (int i = 0; i < users.size(); i++){ //TODO: Hvorfor virker denne ikke?
-			buttons = new String[users.size()];
-			System.out.println("i: " + i);
-			System.out.println(users.get(i).getUserNumber());
+		for (int i = 0; i < users.size(); i++)
 			buttons[i] = Integer.toString(users.get(i).getUserNumber());
-			System.out.println("buttons: " + buttons[i]);
-		}
 
 		String userNumber = GUIBoundary.getUserButtonPressed("Vælg hvilken spillers grund du vil byde på", buttons);
 
 		int size = 0;
 		String[] temp = new String[22];
 
-		for (int i = 0; i < users.size(); i++)
-			for (Field field : board.getFields()) 
-				if(field instanceof Street)
-					if(((Street) field).getOwner() != null)
-						if(Integer.toString(((Street) field).getOwner().getUserNumber()).equals(userNumber)){
-							System.out.println("inside"); //TODO: Rammer samme felt 4 gange (?)
-							temp[size++] = field.getName();
-						}
+		for (Field field : board.getFields()) 
+			if(field instanceof Street)
+				if(((Street) field).getOwner() != null)
+					if(Integer.toString(((Street) field).getOwner().getUserNumber()).equals(userNumber))
+						temp[size++] = field.getName();
+
 
 		String[] fieldButtons = new String[size];
 
@@ -228,9 +220,9 @@ public class Controller {
 		boolean acceptedBid = false;
 		User chosenUser = null;
 
-		for (User users : users)
-			if(users.getUserNumber() == Integer.getInteger(userNumber)){ //TODO: NullPointerException
-				chosenUser = users;
+		for (User oneUser : users)
+			if(Integer.toString(oneUser.getUserNumber()).equals(userNumber)){
+				chosenUser = oneUser;
 				acceptedBid = GUIBoundary.getUserLeftButtonPressed("Acceptere du " + chosenUser.getUserName() + " budet på " + fieldBid + " for " + fieldName, "Ja", "Nej");
 			}
 
@@ -240,12 +232,14 @@ public class Controller {
 			if(field.getName().equals(fieldName))
 				chosenField = (Street) field;
 
-		if(acceptedBid == true && chosenField != null){ //TODO: Tilføj ground value
+		if(acceptedBid == true && chosenField != null){
 			chosenField.setOwner(user);
 			GUIBoundary.setOwner(chosenField.getFieldNumber(), user.getUserName());
 			chosenUser.deposit(fieldBid);
+			chosenUser.setGroundValue(chosenUser.getGroundValue() - chosenField.getFieldPrice());
 			GUIBoundary.setBalance(chosenUser.getUserName(), chosenUser.getBalance());
 			user.withdraw(fieldBid);
+			user.setGroundValue(user.getGroundValue() - chosenField.getFieldPrice());
 			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
 
 			GUIBoundary.showMessage("Ejerskabet er hermed overbragt");
