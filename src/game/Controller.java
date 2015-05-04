@@ -215,35 +215,41 @@ public class Controller {
 
 		String fieldName = GUIBoundary.getUserButtonPressed("Vælg hvilken grund du vil byde på", fieldButtons);
 
-		int fieldBid = GUIBoundary.getUserInteger("Hvor meget vil du byde på " + fieldName, 0, 10000);
-
-		boolean acceptedBid = false;
-		User chosenUser = null;
-
-		for (User oneUser : users)
-			if(Integer.toString(oneUser.getUserNumber()).equals(userNumber)){
-				chosenUser = oneUser;
-				acceptedBid = GUIBoundary.getUserLeftButtonPressed("Acceptere du " + chosenUser.getUserName() + " budet på " + fieldBid + " for " + fieldName, "Ja", "Nej");
-			}
-
 		Street chosenField = null;
 
 		for (Field field : board.getFields())
 			if(field.getName().equals(fieldName))
 				chosenField = (Street) field;
 
-		if(acceptedBid == true && chosenField != null){
-			chosenField.setOwner(user);
-			GUIBoundary.setOwner(chosenField.getFieldNumber(), user.getUserName());
-			chosenUser.deposit(fieldBid);
-			chosenUser.setGroundValue(chosenUser.getGroundValue() - chosenField.getFieldPrice());
-			GUIBoundary.setBalance(chosenUser.getUserName(), chosenUser.getBalance());
-			user.withdraw(fieldBid);
-			user.setGroundValue(user.getGroundValue() - chosenField.getFieldPrice());
-			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
+		if(chosenField.getHouseAmount() > 0 || chosenField.getHotelAmount() == 1){
+			GUIBoundary.showMessage("Grunde med huse eller hotel kan ikke købes");
+		}else{
+			int fieldBid = GUIBoundary.getUserInteger("Hvor meget vil du byde på " + fieldName, 0, 10000);
 
-			GUIBoundary.showMessage("Ejerskabet er hermed overbragt");
-		}	
+			boolean acceptedBid = false;
+			User chosenUser = null;
+
+			for (User oneUser : users)
+				if(Integer.toString(oneUser.getUserNumber()).equals(userNumber)){
+					chosenUser = oneUser;
+					acceptedBid = GUIBoundary.getUserLeftButtonPressed("Acceptere du " + chosenUser.getUserName() + " budet på " + fieldBid + " for " + fieldName, "Ja", "Nej");
+				}
+
+
+
+			if(acceptedBid == true && chosenField != null){
+				chosenField.setOwner(user);
+				GUIBoundary.setOwner(chosenField.getFieldNumber(), user.getUserName());
+				chosenUser.deposit(fieldBid);
+				chosenUser.setGroundValue(chosenUser.getGroundValue() - chosenField.getFieldPrice());
+				GUIBoundary.setBalance(chosenUser.getUserName(), chosenUser.getBalance());
+				user.withdraw(fieldBid);
+				user.setGroundValue(user.getGroundValue() - chosenField.getFieldPrice());
+				GUIBoundary.setBalance(user.getUserName(), user.getBalance());
+
+				GUIBoundary.showMessage("Ejerskabet er hermed overbragt");
+			}
+		}
 	}
 
 	private void saveGame() throws SQLException {
