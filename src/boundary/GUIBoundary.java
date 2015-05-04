@@ -51,14 +51,6 @@ public class GUIBoundary {
 		}
 		GUI.create(fields);
 	}
-	
-	public static void c_board(){
-		desktop_fields.Field[] fields = new desktop_fields.Field[4];
-		for(int i = 0; i < 4; i++)
-			fields[i] = new desktop_fields.Refuge.Builder().setTitle("title "+i).build();
-		
-		GUI.create(fields);
-	}
 
 	public static void showMessage(String string){
 		GUI.showMessage(string);
@@ -70,7 +62,6 @@ public class GUIBoundary {
 
 	public static String getUserButtonPressed(String msg, String...buttons){
 		return GUI.getUserButtonPressed(msg, buttons);
-
 	}
 
 	public static boolean getUserLeftButtonPressed(String msg, String trueButton, String falseButton){
@@ -83,7 +74,7 @@ public class GUIBoundary {
 
 	public static void addPlayer(User user){
 		desktop_codebehind.Car car = new desktop_codebehind.Car.Builder().primaryColor(carColour[carNumber++]).typeTractor().build();
-		GUI.addPlayer(user.getUserName(), user.getBalance());
+		GUI.addPlayer(user.getUserName(), user.getBalance(), car);
 		setCar(user.getCurrentPosition()+1, user.getUserName());
 	}
 
