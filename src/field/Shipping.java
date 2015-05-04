@@ -7,6 +7,7 @@ public class Shipping extends Ownable {
 		this.fieldNumber = fieldNumber;
 		this.rentPrice = rentPrice;
 		this.fieldPrice = 4000;
+		setFieldActive(true);
 	}
 
 	@Override
@@ -31,6 +32,16 @@ public class Shipping extends Ownable {
 
 	@Override
 	public void setRentPrice() {
+	}
+
+	@Override
+	public boolean getFieldActive() {
+		return fieldActive;
+	}
+
+	@Override
+	public void setFieldActive(boolean fieldActive) {
+		this.fieldActive = fieldActive;
 	}
 
 }

@@ -10,6 +10,7 @@ public class Brewery extends Ownable {
 		super(name);
 		this.fieldNumber = fieldNumber;
 		this.fieldPrice = fieldPrice;
+		setFieldActive(true);
 	}
 	
 	@Override
@@ -26,6 +27,16 @@ public class Brewery extends Ownable {
 
 	@Override
 	public void setRentPrice() {
+	}
+
+	@Override
+	public boolean getFieldActive() {
+		return fieldActive;
+	}
+
+	@Override
+	public void setFieldActive(boolean fieldActive) {
+		this.fieldActive = fieldActive;
 	}
 
 }

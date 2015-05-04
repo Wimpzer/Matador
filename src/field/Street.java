@@ -29,7 +29,7 @@ public class Street extends Ownable{
 		this.rentHouse4 = rentHouse4;
 		this.rentHotel = rentHotel;
 		this.colour = colour;
-		
+		setFieldActive(true);
 	}
 
 	@Override
@@ -108,6 +108,16 @@ public class Street extends Ownable{
 
 	public Color getColour() {
 		return colour;
+	}
+
+	@Override
+	public boolean getFieldActive() {
+		return fieldActive;
+	}
+
+	@Override
+	public void setFieldActive(boolean fieldActive) {
+		this.fieldActive = fieldActive;
 	}
 	
 	

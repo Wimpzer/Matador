@@ -115,7 +115,7 @@ public class Controller {
 					GUIBoundary.showMessage("Der skete en fejl under bud af gade");
 				}
 			}else if(input.equals("Pantsæt")){
-
+				pawnOrBuy(user);
 			}else if(input.equals("Gem spil")){
 				try {
 					saveGame();
@@ -252,6 +252,100 @@ public class Controller {
 		}
 	}
 
+	private void pawnOrBuy(User user){
+		boolean pawnOrBuy = GUIBoundary.getUserLeftButtonPressed("Vil du pantsætte eller tilbagekøbe?", "Pantsæt", "Tilbagekøbe");
+
+		if(pawnOrBuy == true){
+			try {
+				pawn(user);
+			} catch (NullPointerException e) {
+				GUIBoundary.showMessage("Du har ingen grunde til at pantsætte");
+			}
+		}else{
+			try {
+				buy(user);
+			} catch (Exception e) {
+				GUIBoundary.showMessage("Du har ingen pantsatte grunde");
+			}
+		}
+	}
+
+	private void pawn(User user) {
+		String[] temp = new String[40];
+		int size = 0;
+
+		for (Field field : board.getFields())
+			if(field instanceof Ownable){
+				Ownable ownable = (Ownable) field;
+				if(ownable.getOwner() == user && ownable.getFieldActive() == true)
+					temp[size++] = field.getName();
+			}
+
+		String[] buttons = new String[size];
+
+		for (int i = 0; i < buttons.length; i++)
+			buttons[i] = temp[i];
+
+		String fieldName = GUIBoundary.getUserButtonPressed("Hvilken grund vil du pantsætte?", buttons);
+
+		Ownable chosenField = null;
+
+		for (Field field : board.getFields())
+			if(field.getName().equals(fieldName))
+				chosenField = (Ownable) field;
+
+		boolean choice = false;
+		
+		if(chosenField instanceof Street){
+			if(((Street) chosenField).getHouseAmount() > 0 || ((Street) chosenField).getHotelAmount() == 1)
+				GUIBoundary.showMessage("Du kan ikke pantsætte grunde med huse eller hoteller");
+			else
+				choice = GUIBoundary.getUserLeftButtonPressed("Pantsætning af " + chosenField.getName() + " vil give dig " + chosenField.getFieldPrice()/2, "Pantsæt", "Annuler");		
+		}else
+			choice = GUIBoundary.getUserLeftButtonPressed("Pantsætning af " + chosenField.getName() + " vil give dig " + chosenField.getFieldPrice()/2, "Pantsæt", "Annuler");
+
+		if(choice == true){
+			chosenField.setFieldActive(false);
+			user.deposit(chosenField.getFieldPrice()/2);
+			user.setGroundValue(user.getGroundValue() - chosenField.getFieldPrice()-2);
+			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
+		}
+	}
+
+	private void buy(User user) {
+		String[] temp = new String[40];
+		int size = 0;
+
+		for (Field field : board.getFields())
+			if(field instanceof Ownable){
+				Ownable ownable = (Ownable) field;
+				if(ownable.getOwner() == user && ownable.getFieldActive() == false)
+					temp[size++] = field.getName();
+			}
+
+		String[] buttons = new String[size];
+
+		for (int i = 0; i < buttons.length; i++)
+			buttons[i] = temp[i];
+
+		String fieldName = GUIBoundary.getUserButtonPressed("Hvilken grund vil du tilbagekøbe?", buttons);
+
+		Ownable chosenField = null;
+
+		for (Field field : board.getFields())
+			if(field.getName().equals(fieldName))
+				chosenField = (Ownable) field;
+
+		boolean choice = GUIBoundary.getUserLeftButtonPressed("Tilbagekøbning af " + chosenField.getName() + " vil give dig " + chosenField.getFieldPrice()/2, "Tilbagekøb", "Annuler");
+
+		if(choice == true){
+			chosenField.setFieldActive(true);
+			user.withdraw(chosenField.getFieldPrice()/2);
+			user.setGroundValue(user.getGroundValue() + chosenField.getFieldPrice()-2);
+			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
+		}
+	}
+
 	private void saveGame() throws SQLException {
 		int breweryAmount = 0;
 		Brewery[] breweryFields = new Brewery[2];
@@ -309,7 +403,8 @@ public class Controller {
 			}else if(((Street) board.getField(user.getCurrentPosition())).getOwner() == user){
 				GUIBoundary.showMessage("Du ejer allerede dette felt");
 			}else{
-				payRent(user);
+				if(((Street) board.getField(user.getCurrentPosition())).getFieldActive() == true)
+					payRent(user);
 			}
 		}
 	}
@@ -331,7 +426,8 @@ public class Controller {
 			}else if(((Brewery) board.getField(user.getCurrentPosition())).getOwner() == user){
 				GUIBoundary.showMessage("Du ejer allerede dette felt");
 			}else{
-				payRent(user);
+				if(((Brewery) board.getField(user.getCurrentPosition())).getFieldActive() == true)
+					payRent(user);
 			}
 		}
 	}
@@ -353,7 +449,8 @@ public class Controller {
 			}else if(((Shipping) board.getField(user.getCurrentPosition())).getOwner() == user){
 				GUIBoundary.showMessage("Du ejer allerede dette felt");
 			}else{
-				payRent(user);
+				if(((Shipping) board.getField(user.getCurrentPosition())).getFieldActive() == true)
+					payRent(user);
 			}
 		}
 	}
@@ -386,7 +483,7 @@ public class Controller {
 		GUIBoundary.setOwner(user.getCurrentPosition()+1, user.getUserName());
 	}
 
-	private void payRent(User user) { //TODO: Virker ikke ordenligt?
+	private void payRent(User user) {
 		if(board.getField(user.getCurrentPosition()) instanceof Street && (((Street) board.getField(user.getCurrentPosition())).getHouseAmount() > 0 || ((Street) board.getField(user.getCurrentPosition())).getHotelAmount() == 1)){
 			int houseAmount = ((Street) board.getField(user.getCurrentPosition())).getHouseAmount();
 			int extraRent = 0;
@@ -414,7 +511,7 @@ public class Controller {
 		}
 	}
 
-	public static int getSum(){ //TODO: Skal denne være static ?
+	public static int getSum(){
 		return diceCup.getSum();
 	}
 

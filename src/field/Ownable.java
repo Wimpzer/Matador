@@ -5,6 +5,7 @@ import user.User;
 public abstract class Ownable extends Field {
 	protected int fieldPrice;
 	protected int rentPrice;
+	protected boolean fieldActive;
 	private User owner;
 
 	public Ownable(String name){
@@ -14,6 +15,10 @@ public abstract class Ownable extends Field {
 	abstract public int rent();
 	
 	abstract public void setRentPrice();
+	
+	abstract public boolean getFieldActive();
+	
+	abstract public void setFieldActive(boolean fieldActive);
 	
 	public void landOnField(User user){
 		if(getOwner() != null && getOwner() != user){
