@@ -27,16 +27,16 @@ public class Controller {
 			e.printStackTrace();
 		}
 		//		testMenu();
-		//				try {
+						try {
 		game();
-		//				} catch (Exception e) {
-		//					try {
-		//						System.out.println("Spillet blev lukket ned grundet en fejl. - Spillet er gemt.");
-		//						saveGame();
-		//					} catch (SQLException e1) {
-		//						e1.printStackTrace();
-		//					}
-		//				}
+						} catch (Exception e) {
+							try {
+								System.out.println("Spillet blev lukket ned grundet en fejl. - Spillet er gemt.");
+								saveGame();
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+						}
 	}
 
 	//TEST MENU

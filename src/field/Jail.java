@@ -1,5 +1,6 @@
 package field;
 
+import boundary.GUIBoundary;
 import game.Dice;
 import user.User;
 
@@ -12,19 +13,18 @@ public class Jail extends Field {
 
 	@Override
 	public void landOnField(User user) {
-		Dice diceCup = new Dice(); //TODO: Kan denne laves anerledes?
+		Dice diceCup = new Dice();
 		int jailFine = 1000;
 
-		System.out.println("JailTimeCounter: " + user.getJailTimeCounter());
+		GUIBoundary.showMessage("Du har været i fængsel i " + user.getJailTimeCounter() + " runder");
 		if(user.getCurrentPosition() == 30){
 			if(user.getInJail() == true){
 				diceCup.roll();
-				System.out.println("roll(): " + diceCup.getSum());
+				GUIBoundary.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
 				if(diceCup.checkEqual() == true){
 					user.setInJail(false);
 					user.setJailTimeCounter(0);
 					user.setCurrentPosition(10 + diceCup.getSum());
-					System.out.println("Equal = true");
 				}
 			}		
 			else if(user.getInJail() == false){
@@ -34,7 +34,6 @@ public class Jail extends Field {
 				}
 				else{
 					user.setInJail(true);
-					System.out.println("InJail = false, sæt true");
 				}
 			}
 			if(user.getJailTimeCounter() == 3){
@@ -42,7 +41,7 @@ public class Jail extends Field {
 				user.setInJail(false);
 				user.setJailTimeCounter(0);
 				user.setCurrentPosition(10 + diceCup.getSum());
-				System.out.println("Paying my way out");
+				GUIBoundary.showMessage("Du er blevet nødsaget til at betale 1000 kr. i kaution");
 			}
 		}
 	}
