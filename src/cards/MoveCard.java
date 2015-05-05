@@ -7,7 +7,6 @@ import user.User;
 public class MoveCard extends Card {
 	private int move;
 	private int position;
-	private int bonus;
 
 	public MoveCard(String text, int move, int position){
 		super(text);
@@ -75,7 +74,7 @@ public class MoveCard extends Card {
 		{
 			user.setCurrentPosition(user.getCurrentPosition() + move);
 		}
-
+		
 	}
 
 }

@@ -21,25 +21,34 @@ public class Controller {
 
 	public void run(){
 		GUIBoundary.createBoard(board);
-				try {
-					startMenu();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-//		testMenu();
+		try {
+			startMenu();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//		testMenu();
+		//				try {
 		game();
+		//				} catch (Exception e) {
+		//					try {
+		//						System.out.println("Spillet blev lukket ned grundet en fejl. - Spillet er gemt.");
+		//						saveGame();
+		//					} catch (SQLException e1) {
+		//						e1.printStackTrace();
+		//					}
+		//				}
 	}
 
 	//TEST MENU
 	public void testMenu(){
 		users.add(new User("Bjarke", 1, 0));
 		GUIBoundary.addPlayer(users.get(0));
-		users.add(new User("Joakim", 2, 0));
+		users.add(new User("Joakim", 2, 39));
 		GUIBoundary.addPlayer(users.get(1));
-		users.add(new User("Andreas", 3, 0));
-		GUIBoundary.addPlayer(users.get(2));
-		users.add(new User("Børge", 4, 0));
-		GUIBoundary.addPlayer(users.get(3));
+		//		users.add(new User("Andreas", 3, 0));
+		//		GUIBoundary.addPlayer(users.get(2));
+		//		users.add(new User("Omar", 4, 0));
+		//		GUIBoundary.addPlayer(users.get(3));
 	}	
 
 	public void startMenu() throws SQLException{
@@ -90,12 +99,21 @@ public class Controller {
 			} else if(field instanceof Shipping){
 				field.setFieldNumber(shippingArray[shippingCounter].getFieldNumber());
 				((Shipping) field).setOwner(shippingArray[shippingCounter++].getOwner());
+				System.out.println(((Shipping) field).getFieldNumber() + " " + ((Shipping) field).getOwner());
+				
 				if(((Shipping) field).getOwner() != null){
 					GUIBoundary.setOwner(field.getFieldNumber(), ((Shipping) field).getOwner().getUserName());
 				}
 			}
 		}
 
+		for (Field fields : board.getFields()) {
+			if(fields instanceof Shipping){
+				if(((Shipping) fields).getOwner() != null)
+				System.out.println(((Shipping) fields).getOwner().getUserName() + " " + fields.getFieldNumber());
+			}
+		}
+		
 		GUIBoundary.showMessage("Dit gamle spil er hentet");
 	}
 
@@ -191,7 +209,6 @@ public class Controller {
 			}catch(NullPointerException e){
 				GUIBoundary.showMessage("Du ejer ikke nok grunde af en farve");
 			}
-			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
 		}else{
 			try {
 				houseShoppingOb.sellHouse(user, board);	
@@ -199,6 +216,7 @@ public class Controller {
 				GUIBoundary.showMessage("Du har ingen huse på dine grunde");
 			}
 		}
+		GUIBoundary.setBalance(user.getUserName(), user.getBalance());
 	}
 
 	private void streetBid(User user) {
@@ -213,10 +231,11 @@ public class Controller {
 		String[] temp = new String[22];
 
 		for (Field field : board.getFields()) 
-			if(field instanceof Street)
-				if(((Street) field).getOwner() != null)
-					if(Integer.toString(((Street) field).getOwner().getUserNumber()).equals(userNumber))
+			if(field instanceof Ownable)
+				if(((Ownable) field).getOwner() != null)
+					if(Integer.toString(((Ownable) field).getOwner().getUserNumber()).equals(userNumber))
 						temp[size++] = field.getName();
+
 
 
 		String[] fieldButtons = new String[size];
@@ -226,15 +245,22 @@ public class Controller {
 
 		String fieldName = GUIBoundary.getUserButtonPressed("Vælg hvilken grund du vil byde på", fieldButtons);
 
-		Street chosenField = null;
+		Ownable chosenField = null;
 
 		for (Field field : board.getFields())
 			if(field.getName().equals(fieldName))
-				chosenField = (Street) field;
+				chosenField = (Ownable) field;
 
-		if(chosenField.getHouseAmount() > 0 || chosenField.getHotelAmount() == 1){
-			GUIBoundary.showMessage("Grunde med huse eller hotel kan ikke købes");
-		}else{
+		boolean noHouses = true;
+		
+		if(chosenField instanceof Street){
+			if(((Street) chosenField).getHouseAmount() > 0 || ((Street) chosenField).getHotelAmount() == 1){
+				GUIBoundary.showMessage("Grunde med huse eller hotel kan ikke købes");
+				noHouses = false;
+			}
+		}
+		
+		if(noHouses){
 			int fieldBid = GUIBoundary.getUserInteger("Hvor meget vil du byde på " + fieldName, 0, 10000);
 
 			boolean acceptedBid = false;
@@ -507,16 +533,13 @@ public class Controller {
 				extraRent = ((Street) board.getField(user.getCurrentPosition())).getRentHouse4();
 			else if(((Street) board.getField(user.getCurrentPosition())).getHotelAmount() == 1)
 				extraRent = ((Street) board.getField(user.getCurrentPosition())).getRentHotel();
-
-			int newRent = extraRent + ((Ownable) board.getField(user.getCurrentPosition())).rent();
-			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + newRent);
+			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + extraRent);
 			user.withdraw(extraRent);
-			((Ownable) board.getField(user.getCurrentPosition())).rent();
-			board.getField(user.getCurrentPosition()).landOnField(user);
+			((Ownable) board.getField(user.getCurrentPosition())).getOwner().deposit(extraRent);
 		}else{
 			((Ownable) board.getField(user.getCurrentPosition())).rent();
 			board.getField(user.getCurrentPosition()).landOnField(user);
-			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + ((Street) board.getField(user.getCurrentPosition())).getRent());
+			GUIBoundary.showMessage("Feltet ejes af " + ((Ownable)board.getField(user.getCurrentPosition())).getOwner().getUserName() + ". Betal leje af: " + ((Ownable) board.getField(user.getCurrentPosition())).rent());
 			((Ownable) board.getField(user.getCurrentPosition())).setRentPrice();
 		}
 	}
@@ -556,5 +579,5 @@ public class Controller {
 	public static Board getBoard(){
 		return board;
 	}
-	
+
 }

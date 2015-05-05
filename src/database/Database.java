@@ -230,7 +230,7 @@ public class Database {
 		Street[] fields = new Street[22];
 
 		PreparedStatement loadFields;
-		String loadFieldsString = "SELECT * FROM street";
+		String loadFieldsString = "SELECT * FROM street ORDER BY fieldNumber";
 
 		loadFields = conn.prepareStatement(loadFieldsString);
 
@@ -265,7 +265,7 @@ public class Database {
 		Brewery[] fields = new Brewery[2];
 
 		PreparedStatement loadFields;
-		String loadFieldsString = "SELECT * FROM brewery";
+		String loadFieldsString = "SELECT * FROM brewery ORDER BY fieldNumber";
 
 		loadFields = conn.prepareStatement(loadFieldsString);
 
@@ -296,7 +296,7 @@ public class Database {
 		Shipping[] fields = new Shipping[4];
 
 		PreparedStatement loadFields;
-		String loadFieldsString = "SELECT * FROM shipping";
+		String loadFieldsString = "SELECT * FROM shipping ORDER BY fieldNumber";
 
 		loadFields = conn.prepareStatement(loadFieldsString);
 
