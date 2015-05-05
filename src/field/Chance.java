@@ -1,5 +1,7 @@
 package field;
 
+import boundary.GUIBoundary;
+import cards.Card;
 import game.CardPile;
 import user.User;
 
@@ -12,7 +14,9 @@ public class Chance extends Field {
 
 	@Override
 	public void landOnField(User user) {
-		CardPile.drawCard();
+		Card drawnCard = CardPile.drawCard();
+		drawnCard.drawnCard(user);
+		GUIBoundary.showMessage(drawnCard.getText());
 	}
 
 }

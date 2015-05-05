@@ -91,7 +91,7 @@ public class Database {
 
 	private void saveUsers(ArrayList<User> users) throws SQLException{
 		PreparedStatement saveUsers;
-		String saveUsersString = "INSERT INTO user (userNumber, userName, currentPosition, balance) VALUES (?, ?, ?, ?)";
+		String saveUsersString = "INSERT INTO user (userNumber, userName, currentPosition, balance, jailCard) VALUES (?, ?, ?, ?, ?)";
 
 		saveUsers = conn.prepareStatement(saveUsersString);
 
@@ -100,6 +100,7 @@ public class Database {
 			saveUsers.setString(2, users.get(i).getUserName());
 			saveUsers.setInt(3, users.get(i).getCurrentPosition());
 			saveUsers.setInt(4, users.get(i).getBalance());
+			saveUsers.setInt(5, users.get(i).getFreeJailCards());
 			saveUsers.executeUpdate();
 		}
 	}
@@ -195,6 +196,7 @@ public class Database {
 		String userName;
 		int currentPosition;
 		int balance;
+		int jailCards;
 		ArrayList<User> users = new ArrayList<User>();
 
 		PreparedStatement loadGameUser;
@@ -210,7 +212,8 @@ public class Database {
 			userName = res.getString("userName");
 			currentPosition = res.getInt("currentPosition");
 			balance = res.getInt("balance");
-			User user = new User(userName, userNumber, currentPosition, balance);
+			jailCards = res.getInt("jailCard");
+			User user = new User(userName, userNumber, currentPosition, balance, jailCards);
 			users.add(user);
 			}
 		}		

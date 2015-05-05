@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import boundary.GUIBoundary;
 import database.Database;
+import desktop_resources.GUI;
 import user.User;
 import field.*;
 
 public class Controller {
 	static ArrayList<User> users = new ArrayList<User>();
 	static Board board = new Board();
+	CardPile cardPile = new CardPile();
 	static Dice diceCup = new Dice();
 	Database databaseOb = new Database();
 	HouseShopping houseShoppingOb = new HouseShopping();
@@ -18,10 +20,10 @@ public class Controller {
 	int userTurn = 0;
 
 	public void run(){
+		GUIBoundary.createBoard(board);
 				try {
 					startMenu();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 //		testMenu();
@@ -30,7 +32,6 @@ public class Controller {
 
 	//TEST MENU
 	public void testMenu(){
-		GUIBoundary.createBoard(board);
 		users.add(new User("Bjarke", 1, 0));
 		GUIBoundary.addPlayer(users.get(0));
 		users.add(new User("Joakim", 2, 0));
@@ -132,7 +133,6 @@ public class Controller {
 			if (user.getInJail() == true) {
 				user.setJailTimeCounter(user.getJailTimeCounter() + 1);
 				board.getField(30).landOnField(user);
-				GUIBoundary.removeCar(31, user.getUserName());
 				GUIBoundary.setCar(user.getCurrentPosition()+1, user.getUserName());
 			}else{
 				playerMove(user);
@@ -146,6 +146,8 @@ public class Controller {
 			instanceOfTaxes(user);
 			if(board.getField(user.getCurrentPosition()) instanceof Start || board.getField(user.getCurrentPosition()) instanceof Refuge || board.getField(user.getCurrentPosition()) instanceof Chance){
 				board.getField(user.getCurrentPosition()).landOnField(user);
+				GUI.removeAllCars(user.getUserName());
+				GUIBoundary.setCar(user.getCurrentPosition()+1, user.getUserName());
 			}
 
 			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
@@ -384,7 +386,6 @@ public class Controller {
 		diceCup.setFaceValue1(1);
 		diceCup.setFaceValue2(0);
 		GUIBoundary.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
-		GUIBoundary.removeCar(user.getCurrentPosition()+1, user.getUserName());
 		if(user.getCurrentPosition()+diceCup.getSum() > 39){
 			user.setCurrentPosition(user.getCurrentPosition() + diceCup.getSum()-40);
 			user.deposit(4000);
@@ -555,5 +556,5 @@ public class Controller {
 	public static Board getBoard(){
 		return board;
 	}
-
+	
 }

@@ -33,7 +33,7 @@ public class MoveCard extends Card {
 					}
 				}
 				
-				if(user.getCurrentPosition() <= 15 || user.getCurrentPosition() > 5 ){
+				if(user.getCurrentPosition() <= 15 && user.getCurrentPosition() > 5 ){
 					user.setCurrentPosition(15);
 					Shipping ship = (Shipping) Controller.getBoard().getField(15);
 					User shipOwner = ship.getOwner();
@@ -43,7 +43,7 @@ public class MoveCard extends Card {
 					}
 				}
 				
-				if(user.getCurrentPosition() <= 25 || user.getCurrentPosition() > 15 ){
+				if(user.getCurrentPosition() <= 25 && user.getCurrentPosition() > 15 ){
 					user.setCurrentPosition(25);
 					Shipping ship = (Shipping) Controller.getBoard().getField(25);
 					User shipOwner = ship.getOwner();
@@ -52,7 +52,7 @@ public class MoveCard extends Card {
 						user.withdraw(ship.rent()*2);
 					}
 				}
-				if(user.getCurrentPosition() <= 35 || user.getCurrentPosition() > 25 ){
+				if(user.getCurrentPosition() <= 35 && user.getCurrentPosition() > 25 ){
 					user.setCurrentPosition(35);
 					Shipping ship = (Shipping) Controller.getBoard().getField(35);
 					User shipOwner = ship.getOwner();

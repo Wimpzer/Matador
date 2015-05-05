@@ -95,6 +95,7 @@ public class GUIBoundary {
 	}
 
 	public static void setCar(int fieldNumber, String name){
+		GUI.removeAllCars(name);
 		GUI.setCar(fieldNumber, name);
 	}
 
