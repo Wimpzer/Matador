@@ -37,7 +37,7 @@ public class Street extends Ownable{
 		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){
 			oldRentPrice = rentPrice;
 			this.rentPrice = rentPrice * 2;
-		}else if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour.equals(new Color(35, 104, 173)) || colour.equals(new Color(115, 77, 136)))){
+		}else if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour.equals(((Street)Controller.getBoard().getField(1)).getColour()) || colour.equals(((Street)Controller.getBoard().getField(39)).getColour()))){
 			oldRentPrice = rentPrice;
 			this.rentPrice = rentPrice * 2;
 		}
@@ -48,7 +48,7 @@ public class Street extends Ownable{
 	public void setRentPrice(){
 		if (getOwner() != null && Controller.getBoard().getSimilarCount(this) == 3){
 			rentPrice = oldRentPrice;
-		}else if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour.equals(new Color(35, 104, 173)) || colour.equals(new Color(115, 77, 136)))){
+		}else if ((getOwner() != null && Controller.getBoard().getSimilarCount(this) == 2) && (colour.equals(((Street)Controller.getBoard().getField(1)).getColour()) || colour.equals(((Street)Controller.getBoard().getField(39)).getColour()))){
 			rentPrice = oldRentPrice;
 		}
 	}

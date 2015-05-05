@@ -182,12 +182,22 @@ public class Controller {
 
 	private void buyHouse(User user){
 
-		try{
-			houseShoppingOb.buyHouse(user, getBoard());
-		}catch(NullPointerException e){
-			GUIBoundary.showMessage("Du ejer ikke nok grunde af en farve");
+		boolean choice = GUIBoundary.getUserLeftButtonPressed("Køb eller sælg hus", "Køb", "Sælg");
+
+		if(choice){
+			try{
+				houseShoppingOb.buyHouse(user, getBoard());
+			}catch(NullPointerException e){
+				GUIBoundary.showMessage("Du ejer ikke nok grunde af en farve");
+			}
+			GUIBoundary.setBalance(user.getUserName(), user.getBalance());
+		}else{
+			try {
+				houseShoppingOb.sellHouse(user, board);	
+			} catch (NullPointerException e) {
+				GUIBoundary.showMessage("Du har ingen huse på dine grunde");
+			}
 		}
-		GUIBoundary.setBalance(user.getUserName(), user.getBalance());
 	}
 
 	private void streetBid(User user) {
@@ -295,7 +305,7 @@ public class Controller {
 				chosenField = (Ownable) field;
 
 		boolean choice = false;
-		
+
 		if(chosenField instanceof Street){
 			if(((Street) chosenField).getHouseAmount() > 0 || ((Street) chosenField).getHotelAmount() == 1)
 				GUIBoundary.showMessage("Du kan ikke pantsætte grunde med huse eller hoteller");

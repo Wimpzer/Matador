@@ -600,4 +600,49 @@ public class HouseShopping {
 		}
 	}
 
+	public void sellHouse(User user, Board board){
+		String[] temp = new String[22];
+		int size = 0;
+		
+		for (Field field : board.getFields()) {
+			if(field instanceof Street){
+				Street street = (Street) field;
+				if(street.getOwner() == user && (street.getHouseAmount() > 0 || street.getHotelAmount() == 1)){
+					temp[size++] = street.getName();
+				}
+			}
+		}
+		
+		String[] buttons = new String[size];
+		
+		for (int i = 0; i < buttons.length; i++) {
+			buttons[i] = temp[i];
+		}
+		
+		String fieldName = GUIBoundary.getUserButtonPressed("Vælg hvilken grund at sælge hus fra", buttons);
+		
+		Street chosenField = null;
+		
+		for (Field field : board.getFields())
+			if(field.getName().equals(fieldName))
+				chosenField = (Street) field;
+			
+		boolean accept = GUIBoundary.getUserLeftButtonPressed("Salg af hus på " + chosenField.getName() + " vil give " + chosenField.getHousePrice(), "Sælg", "Annuler");
+		
+		if(accept){
+			user.deposit(chosenField.getHousePrice());
+			user.setGroundValue(user.getGroundValue() - chosenField.getHousePrice());
+			if(chosenField.getHotelAmount() == 1){
+				chosenField.setHotelAmount(0);
+				chosenField.setHouseAmount(4);
+				GUIBoundary.setHotel(chosenField.getFieldNumber(), false);
+				GUIBoundary.setHouses(chosenField.getFieldNumber(), 4);
+			}else if(chosenField.getHouseAmount() > 0){
+				chosenField.setHouseAmount(chosenField.getHouseAmount()-1);	
+				GUIBoundary.setHouses(chosenField.getFieldNumber(), chosenField.getHouseAmount());
+			}
+		}
+		
+	}
+	
 }
