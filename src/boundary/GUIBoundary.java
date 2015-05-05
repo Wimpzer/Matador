@@ -26,7 +26,6 @@ public class GUIBoundary {
 			}else if(field instanceof Chance){
 				fields[field.getFieldNumber()-1] = new desktop_fields.Chance.Builder().setFgColor(Color.getHSBColor(0, 0, 0)).build();
 			}else if(field instanceof Taxes){
-				Taxes newField = (Taxes) field;
 				if(field.getFieldNumber() == 5){
 					fields[field.getFieldNumber()-1] = new desktop_fields.Tax.Builder().setTitle("").setFgColor(Color.getHSBColor(0, 0, 0)).setDescription("Betal \nindkomst\n-skat").setSubText("Betal indkomstskat: 10% eller 4000 kr.").build();
 				}else if(field.getFieldNumber() == 39){

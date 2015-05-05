@@ -2,6 +2,13 @@ package user;
 
 import interfaces.IUser;
 
+/**
+ * Contains the needed variables for a player in the game.
+ * Implements the interface IUser.
+ * @author Bjarke
+ *
+ */
+
 public class User implements IUser {
 
 	String userName;
@@ -16,6 +23,14 @@ public class User implements IUser {
 	private boolean inJail;
 	private int groundValue;
 	
+	/**
+	 * Constructor for making a new user, when
+	 * making a new game.
+	 * @param userName
+	 * @param userNumber
+	 * @param currentPosition
+	 */
+	
 	public User(String userName, int userNumber, int currentPosition) {
 		this.userName = userName;
 		this.userNumber = userNumber;
@@ -28,6 +43,19 @@ public class User implements IUser {
 		this.inJail = false;
 	}
 	
+	/**
+	 * Constructor for making a new user, when
+	 * loading the game from database.
+	 * Sets the database balance instead of the
+	 * startAmount, and sets correct amount of
+	 * freeJailCards.
+	 * @param userName
+	 * @param userNumber
+	 * @param currentPosition
+	 * @param balance
+	 * @param jailCards
+	 */
+	
 	public User(String userName, int userNumber, int currentPosition, int balance, int jailCards){
 		this.userName = userName;
 		this.userNumber = userNumber;
@@ -39,6 +67,10 @@ public class User implements IUser {
 		this.jailTimeCounter = 0;
 		this.inJail = false;
 	}
+	
+	/**
+	 * Getter and setters
+	 */
 	
 	public String getUserName() {
 		return userName;
