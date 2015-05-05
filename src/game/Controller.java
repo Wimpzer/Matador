@@ -18,13 +18,13 @@ public class Controller {
 	int userTurn = 0;
 
 	public void run(){
-		//		try {
-		//			startMenu();
-		//		} catch (SQLException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
-		testMenu();
+				try {
+					startMenu();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//		testMenu();
 		game();
 	}
 
@@ -88,13 +88,12 @@ public class Controller {
 				}
 			} else if(field instanceof Shipping){
 				field.setFieldNumber(shippingArray[shippingCounter].getFieldNumber());
-				((Shipping) field).setOwner(shippingArray[shippingCounter].getOwner());
+				((Shipping) field).setOwner(shippingArray[shippingCounter++].getOwner());
 				if(((Shipping) field).getOwner() != null){
 					GUIBoundary.setOwner(field.getFieldNumber(), ((Shipping) field).getOwner().getUserName());
 				}
 			}
 		}
-		databaseOb.deleteAll();
 
 		GUIBoundary.showMessage("Dit gamle spil er hentet");
 	}

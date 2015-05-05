@@ -76,7 +76,7 @@ public class Database {
 		deleteAllString = "DELETE FROM user";
 		deleteAll = conn.prepareStatement(deleteAllString);
 		deleteAll.execute();
-	}
+		}
 
 	public void saveGame(ArrayList<User> users, Brewery[] breweryFields, Shipping[] shippingFields, Street[] streetFields, int userTurn) throws SQLException{
 		connectDatabase();
@@ -84,8 +84,8 @@ public class Database {
 		saveBank();
 		saveUsers(users);
 		saveBrewery(breweryFields);
-		saveShipping(shippingFields);
 		saveStreet(streetFields);
+		saveShipping(shippingFields);
 		saveUserTurn(userTurn);
 	}
 
@@ -161,7 +161,7 @@ public class Database {
 		String saveGameString = "INSERT INTO shipping (fieldNumber, ownerNumber) VALUES (?, ?)";
 
 		saveGame = conn.prepareStatement(saveGameString);
-
+		
 		for (int i = 0; i < fields.length; i++) {
 			saveGame.setInt(1, fields[i].getFieldNumber());
 			if(fields[i].getOwner() != null){
@@ -210,8 +210,7 @@ public class Database {
 			userName = res.getString("userName");
 			currentPosition = res.getInt("currentPosition");
 			balance = res.getInt("balance");
-			User user = new User(userName, userNumber, currentPosition);
-			user.deposit(balance);
+			User user = new User(userName, userNumber, currentPosition, balance);
 			users.add(user);
 			}
 		}		

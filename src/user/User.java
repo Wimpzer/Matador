@@ -28,6 +28,18 @@ public class User implements IUser {
 		this.inJail = false;
 	}
 	
+	public User(String userName, int userNumber, int currentPosition, int balance){
+		this.userName = userName;
+		this.userNumber = userNumber;
+		this.currentPosition = currentPosition;
+		deposit(balance);
+		this.ownedBrewery = 0;
+		this.ownedShipping = 0;
+		this.freeJailCards = 0;
+		this.jailTimeCounter = 0;
+		this.inJail = false;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
