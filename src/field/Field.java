@@ -3,6 +3,12 @@ package field;
 import user.User;
 import interfaces.IField;
 
+	/**
+	 * The parent class for all fields.
+	 * 
+	 * @author Bjarke
+	 */
+
 public abstract class Field implements IField{
 	private String name;
 	protected int fieldNumber;

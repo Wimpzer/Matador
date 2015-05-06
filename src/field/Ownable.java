@@ -2,6 +2,12 @@ package field;
 
 import user.User;
 
+	/**
+	 * The parent class for all fields, which can be owned.
+	 * 
+	 * @author Bjarke
+	 */
+
 public abstract class Ownable extends Field {
 	protected int fieldPrice;
 	protected int rentPrice;

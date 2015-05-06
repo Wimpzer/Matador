@@ -4,16 +4,33 @@ import field.Shipping;
 import game.Controller;
 import user.User;
 
+	/**
+	 * 
+	 * @author Andreas
+	 */
+
 public class MoveCard extends Card {
 	private int move;
 	private int position;
 
+	/**
+	 * Sets the text, move, and position for the given card.
+	 * @param text
+	 * @param move Describes the fields the user will have to travel.
+	 * @param position Determines what card is drawn.
+	 */
+	
 	public MoveCard(String text, int move, int position){
 		super(text);
 		this.move = move;
 		this.position = position;
 	}
 
+	/**
+	 * Either moves the user the amount of fields stated in the move variable,
+	 * or moves the user to jail, Raedshuspladsen or nearest shipping, forward only.
+	 */
+	
 	@Override
 	public void drawnCard(User user) {
 		if(move==0){

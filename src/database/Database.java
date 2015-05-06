@@ -12,8 +12,10 @@ import user.User;
 import field.*;
 
 /**
- * @author Bjarke
- *
+ * Contains all needed methods for interacting
+ * with the database.
+ * 
+ * @author Bjarke, Joakim, Andreas
  */
 
 public class Database {
@@ -41,20 +43,23 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Method for making a connection to the database.
+	 * @throws SQLException
+	 */
+	
 	public void connectDatabase() throws SQLException{
 		PreparedStatement connectDatabase = conn.prepareStatement("USE matador");
 		connectDatabase.execute();
 	}
 
 	/**
-	 * Methods for saving the game
-	 * 
-	 * @param users
-	 * @param fields
-	 * @param userTurn
+	 * Deletes all within each table in the database.
+	 * This is done to avoid left-overs from earlier
+	 * saved games.
 	 * @throws SQLException
 	 */
-
+	
 	public void deleteAll() throws SQLException{
 		PreparedStatement deleteAll;
 		String deleteAllString = "DELETE FROM brewery";
@@ -78,6 +83,17 @@ public class Database {
 		deleteAll.execute();
 		}
 
+	/**
+	 * Method which will call all needed methods that is
+	 * needed to save a whole game.
+	 * @param users The users who are in play.
+	 * @param breweryFields
+	 * @param shippingFields
+	 * @param streetFields
+	 * @param userTurn Variable to determine who is up next.
+	 * @throws SQLException
+	 */
+	
 	public void saveGame(ArrayList<User> users, Brewery[] breweryFields, Shipping[] shippingFields, Street[] streetFields, int userTurn) throws SQLException{
 		connectDatabase();
 		deleteAll();
@@ -89,6 +105,12 @@ public class Database {
 		saveUserTurn(userTurn);
 	}
 
+	/*****************************************************
+
+	METHODS FOR SAVING THE GAME
+
+	 *****************************************************/
+	
 	private void saveUsers(ArrayList<User> users) throws SQLException{
 		PreparedStatement saveUsers;
 		String saveUsersString = "INSERT INTO user (userNumber, userName, currentPosition, balance, jailCard) VALUES (?, ?, ?, ?, ?)";
@@ -118,7 +140,6 @@ public class Database {
 		saveUsers.executeUpdate();
 	}
 
-	//For streets
 	private void saveStreet(Street[] fields) throws SQLException{
 		PreparedStatement saveGame;
 		String saveGameString = "INSERT INTO street (fieldNumber, ownerNumber, houseAmount, hotelAmount) VALUES (?, ?, ?, ?)";
@@ -138,7 +159,6 @@ public class Database {
 		}
 	}
 
-	//For Brewery
 	private void saveBrewery(Brewery[] fields) throws SQLException{
 		PreparedStatement saveGame;
 		String saveGameString = "INSERT INTO brewery (fieldNumber, ownerNumber) VALUES (?, ?)";
@@ -156,7 +176,6 @@ public class Database {
 		}
 	}
 
-	//For shipping
 	private void saveShipping(Shipping[] fields) throws SQLException{
 		PreparedStatement saveGame;
 		String saveGameString = "INSERT INTO shipping (fieldNumber, ownerNumber) VALUES (?, ?)";
@@ -184,12 +203,11 @@ public class Database {
 		saveGame.executeUpdate();
 	}
 
-	/**
-	 * Methods for loading the game
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
+	/*****************************************************
+
+	METHODS FOR LOADING THE GAME
+
+	 *****************************************************/
 
 	public ArrayList<User> loadGameUser() throws SQLException{
 		int userNumber;
@@ -220,7 +238,6 @@ public class Database {
 		return users;
 	}
 
-	//for street
 	public Street[] loadStreet(ArrayList<User> users) throws SQLException{
 		int fieldNumber;
 		int ownerNumber;
@@ -257,7 +274,6 @@ public class Database {
 		return fields;
 	}
 
-	//for brewery
 	public Brewery[] loadBrewery(ArrayList<User> users) throws SQLException{
 		int fieldNumber;
 		int ownerNumber;
@@ -288,7 +304,6 @@ public class Database {
 		return fields;
 	}
 
-	//for shipping
 	public Shipping[] loadShipping(ArrayList<User> users) throws SQLException{
 		int fieldNumber;
 		int ownerNumber;

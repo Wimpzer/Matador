@@ -5,8 +5,8 @@ import interfaces.IUser;
 /**
  * Contains the needed variables for a player in the game.
  * Implements the interface IUser.
+ * 
  * @author Bjarke
- *
  */
 
 public class User implements IUser {
@@ -68,9 +68,11 @@ public class User implements IUser {
 		this.inJail = false;
 	}
 	
-	/**
-	 * Getter and setters
-	 */
+	/*****************************************************
+
+	GETTERS AND SETTERS
+
+	 *****************************************************/
 	
 	public String getUserName() {
 		return userName;
