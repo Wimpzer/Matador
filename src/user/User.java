@@ -74,85 +74,195 @@ public class User implements IUser {
 
 	 *****************************************************/
 	
+	/**
+	 * Returns the name of the given user.
+	 */
+	
 	public String getUserName() {
 		return userName;
 	}
+	
+	/**
+	 * Sets the name of the given user.
+	 */
+	
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
+	/**
+	 * Returns the number of the given user.
+	 * @return
+	 */
+	
 	public int getUserNumber() {
 		return userNumber;
 	}
+	
+	/**
+	 * Sets the number of the given user.
+	 * @param userNumber
+	 */
+	
 	public void setUserNumber(int userNumber) {
 		this.userNumber = userNumber;
 	}
+	
+	/**
+	 * Returns the position of the given user.
+	 */
+	
 	public int getCurrentPosition() {
 		return currentPosition;
 	}
+	
+	/**
+	 * Sets the position of the given user.
+	 */
+	
 	public void setCurrentPosition(int currentPosition) {
 		this.currentPosition = currentPosition;
 	}
+	
+	/**
+	 * Calls the deposit method in account.
+	 */
 	
 	@Override
 	public void deposit(int amount) {
 		accountOb.deposit(amount);
 	}
+	
+	/**
+	 * Calls the withdraw method in account.
+	 */
+	
 	@Override
 	public void withdraw(int amount) {
 		accountOb.withdraw(amount);
 	}
+	
+	/**
+	 * Calls the getBalance method in account.
+	 */
+	
 	@Override
 	public int getBalance() {
 		return accountOb.getBalance();
 	}
 
+	/**
+	 * Return the amount of owned brewerys by the given user.
+	 * @return
+	 */
+	
 	public int getOwnedBrewery() {
 		return ownedBrewery;
 	}
 
+	/**
+	 * Sets the amount of owned brewerys by the given user.
+	 * @param ownedBrewery
+	 */
+	
 	public void setOwnedBrewery(int ownedBrewery) {
 		this.ownedBrewery = ownedBrewery;
 	}
 
+	/**
+	 * Return the amount of owned shippings by the given user.
+	 * @return
+	 */
+	
 	public int getOwnedShipping() {
 		return ownedShipping;
 	}
 
+	/**
+	 * Sets the amount of owned brewerys by the given user.
+	 * @param ownedShipping
+	 */
+	
 	public void setOwnedShipping(int ownedShipping) {
 		this.ownedShipping = ownedShipping;
 	}
 
+	/**
+	 * Returns the amount of owned jailCards by the given user.
+	 * @return
+	 */
+	
 	public int getFreeJailCards() {
 		return freeJailCards;
 	}
 
+	/**
+	 * Sets the amount of owned jailCards by the given user.
+	 * @param freeJailCards
+	 */
+	
 	public void setFreeJailCards(int freeJailCards) {
 		this.freeJailCards = freeJailCards;
 	}
 
+	/**
+	 * Returns the time the given player have been in user.
+	 * @return
+	 */
+	
 	public int getJailTimeCounter() {
 		return jailTimeCounter;
 	}
 
+	/**
+	 * Sets the time the given player have been in user.
+	 * @param jailTimeCounter
+	 */
+	
 	public void setJailTimeCounter(int jailTimeCounter) {
 		this.jailTimeCounter = jailTimeCounter;
 	}
 
+	/**
+	 * Returns if given user is in jail or not.
+	 * @return
+	 */
+	
 	public boolean getInJail() {
 		return inJail;
 	}
 
+	/**
+	 * Sets if the given user is in jail or not.
+	 * @param inJail
+	 */
+	
 	public void setInJail(boolean inJail) {
 		this.inJail = inJail;
 	}
+	
+	/**
+	 * Returns the value the given user is worth.
+	 * @return
+	 */
 	
 	public int getGroundValue(){
 		return groundValue;
 	}
 	
+	/**
+	 * Sets the value the given user is worth.
+	 * @param groundValue
+	 */
+	
 	public void setGroundValue(int groundValue){
 		this.groundValue = groundValue;
 	}
+	
+	/**
+	 * Returns the value the given user is worth, including cash.
+	 * @return
+	 */
 	
 	public int getTotalUserValue(){
 		return groundValue + accountOb.getBalance();

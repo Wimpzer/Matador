@@ -4,7 +4,17 @@ import java.awt.Color;
 
 import field.*;
 
+/**
+ * Contains the game board.
+ * @author Andreas, Bjarke, Lida og Omar
+ */
+
 public class Board {
+	
+	/**
+	 * Constructs the game board with all the needed variables.
+	 */
+	
 	public Field[] fields = {
 		new Start    (1, "Start"),
 		new Street   (2, "Rødovrevej", 1200, 1000, 50, 250, 750, 2250, 4000, 6000, new Color(35, 104, 173)),
@@ -48,6 +58,12 @@ public class Board {
 		new Street   (40, "Rådhuspladsen", 8000, 4000, 1000, 4000, 12000, 28000, 34000, 40000, new Color(115, 77, 136))
 		};
 
+	/**
+	 * Counts how many of the same colour of streets, the owner of the fieldToCompare, owns.
+	 * @param fieldToCompare The field which the user have landed on.
+	 * @return
+	 */
+	
 	public int getSimilarCount(Street fieldToCompare){
 		int count = 0;
 		for(Field field : fields){
@@ -61,10 +77,22 @@ public class Board {
 		return count;
 	}
 	
+	/**
+	 * Returns the gameboard.
+	 * @return
+	 */
+	
 	public Field[] getFields()
 	{
 		return fields;
 	}
+	
+	/**
+	 * Returns one field in the game board.
+	 * @param i The position of the field to return.
+	 * @return
+	 */
+	
 	public Field getField(int i)
 	{
 		return fields[i];

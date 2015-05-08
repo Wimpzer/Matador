@@ -1,6 +1,17 @@
 package field;
 
+	/**
+	 * @author Frederik
+	 */
+
 public class Shipping extends Ownable {
+	
+	/**
+	 * Constructor for setting the number, name and rentprice for the given field.
+	 * @param fieldNumber
+	 * @param name
+	 * @param rentPrice
+	 */
 	
 	public Shipping(int fieldNumber, String name, int rentPrice) {
 		super(name);
@@ -10,6 +21,11 @@ public class Shipping extends Ownable {
 		setFieldActive(true);
 	}
 
+	/**
+	 * Determines the rent by finding out how many shipping fields the owner, 
+	 * of the field which the user landed on, has.
+	 */
+	
 	@Override
 	public int rent() {
 		if(this.getOwner().getOwnedShipping() == 1){
@@ -34,11 +50,22 @@ public class Shipping extends Ownable {
 	public void setRentPrice() {
 	}
 
+	/**
+	 * Returns the value fieldActive, which determine if the
+	 * field are pawned or not.
+	 */
+	
 	@Override
 	public boolean getFieldActive() {
 		return fieldActive;
 	}
 
+	/**
+	 * Sets the value fieldActive, which determine if the
+	 * field are pawned or not.
+	 * @param fieldActive
+	 */
+	
 	@Override
 	public void setFieldActive(boolean fieldActive) {
 		this.fieldActive = fieldActive;
