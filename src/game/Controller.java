@@ -110,18 +110,10 @@ public class Controller {
 			} else if(field instanceof Shipping){
 				field.setFieldNumber(shippingArray[shippingCounter].getFieldNumber());
 				((Shipping) field).setOwner(shippingArray[shippingCounter++].getOwner());
-				System.out.println(((Shipping) field).getFieldNumber() + " " + ((Shipping) field).getOwner());
 
 				if(((Shipping) field).getOwner() != null){
 					GUIBoundary.setOwner(field.getFieldNumber(), ((Shipping) field).getOwner().getUserName());
 				}
-			}
-		}
-
-		for (Field fields : board.getFields()) {
-			if(fields instanceof Shipping){
-				if(((Shipping) fields).getOwner() != null)
-					System.out.println(((Shipping) fields).getOwner().getUserName() + " " + fields.getFieldNumber());
 			}
 		}
 
