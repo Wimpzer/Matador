@@ -5,7 +5,6 @@ import game.Controller;
 import user.User;
 
 	/**
-	 * 
 	 * @author Andreas
 	 */
 

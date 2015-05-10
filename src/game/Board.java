@@ -6,7 +6,7 @@ import field.*;
 
 /**
  * Contains the game board.
- * @author Andreas, Bjarke, Lida og Omar
+ * @author Andreas, Bjarke, Lida and Omar
  */
 
 public class Board {

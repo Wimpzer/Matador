@@ -6,7 +6,7 @@ import game.CardPile;
 import user.User;
 
 	/**
-	 * @author Andreas, Bjarke
+	 * @author Andreas and Bjarke
 	 */
 
 public class Chance extends Field {

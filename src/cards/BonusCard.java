@@ -3,7 +3,6 @@ package cards;
 import user.User;
 
 /**
- * 
  * @author Andreas
  */
 

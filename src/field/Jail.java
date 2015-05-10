@@ -5,7 +5,7 @@ import game.Dice;
 import user.User;
 
 	/**
-	 * @author Bjarke, Frederik
+	 * @author Bjarke and Frederik
 	 */
 
 public class Jail extends Field {

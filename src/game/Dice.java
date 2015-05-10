@@ -3,7 +3,7 @@ package game;
 import interfaces.IDice;
 
 	/**
-	 * @author Bjarke, Frederik
+	 * @author Bjarke and Frederik
 	 */
 
 public class Dice implements IDice{

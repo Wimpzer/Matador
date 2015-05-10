@@ -3,11 +3,17 @@ package game;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import main.Test;
 import boundary.GUIBoundary;
 import database.Database;
 import desktop_resources.GUI;
 import user.User;
 import field.*;
+
+	/**
+	 * This is the controller which includes the flow of the game.
+	 * @author Bjarke
+	 */
 
 public class Controller {
 	static ArrayList<User> users = new ArrayList<User>();
@@ -19,6 +25,10 @@ public class Controller {
 
 	int userTurn = 0;
 
+	/**
+	 * The method called by the main class to begin a new game.
+	 */
+	
 	public void run(){
 		GUIBoundary.createBoard(board);
 		try {
@@ -26,31 +36,26 @@ public class Controller {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//		testMenu();
-						try {
-		game();
-						} catch (Exception e) {
-							try {
-								System.out.println("Spillet blev lukket ned grundet en fejl. - Spillet er gemt.");
-								saveGame();
-							} catch (SQLException e1) {
-								e1.printStackTrace();
-							}
-						}
-	}
-
-	//TEST MENU
-	public void testMenu(){
-		users.add(new User("Bjarke", 1, 0));
-		GUIBoundary.addPlayer(users.get(0));
-		users.add(new User("Joakim", 2, 39));
-		GUIBoundary.addPlayer(users.get(1));
-		//		users.add(new User("Andreas", 3, 0));
-		//		GUIBoundary.addPlayer(users.get(2));
-		//		users.add(new User("Omar", 4, 0));
-		//		GUIBoundary.addPlayer(users.get(3));
+//		users = Test.testMenu(users);
+		try {
+			game();
+		} catch (Exception e) {
+			try {
+				System.out.println("Spillet blev lukket ned grundet en fejl. - Spillet er gemt.");
+				saveGame();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}	
 
+	/**
+	 * Gives the player ability to load an old game from the database, or start a new game.
+	 * If new game is started the player is asked for how many playing and the names
+	 * of these.
+	 * @throws SQLException
+	 */
+	
 	public void startMenu() throws SQLException{
 		boolean input = GUIBoundary.getUserLeftButtonPressed("Start nyt spil eller hent seneste gemte", "Nyt spil", "Seneste gemte");
 
@@ -68,6 +73,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Loads the game from the database, by the help of database class, by loading all
+	 * the stored info into the new, program, created game.
+	 * @throws SQLException
+	 */
+	
 	private void loadGame() throws SQLException {
 		databaseOb.connectDatabase();
 		users = databaseOb.loadGameUser();
@@ -100,7 +111,7 @@ public class Controller {
 				field.setFieldNumber(shippingArray[shippingCounter].getFieldNumber());
 				((Shipping) field).setOwner(shippingArray[shippingCounter++].getOwner());
 				System.out.println(((Shipping) field).getFieldNumber() + " " + ((Shipping) field).getOwner());
-				
+
 				if(((Shipping) field).getOwner() != null){
 					GUIBoundary.setOwner(field.getFieldNumber(), ((Shipping) field).getOwner().getUserName());
 				}
@@ -110,13 +121,19 @@ public class Controller {
 		for (Field fields : board.getFields()) {
 			if(fields instanceof Shipping){
 				if(((Shipping) fields).getOwner() != null)
-				System.out.println(((Shipping) fields).getOwner().getUserName() + " " + fields.getFieldNumber());
+					System.out.println(((Shipping) fields).getOwner().getUserName() + " " + fields.getFieldNumber());
 			}
 		}
-		
+
 		GUIBoundary.showMessage("Dit gamle spil er hentet");
 	}
 
+	/**
+	 * Includes the while-loop which will keep the game going until only one player is left.
+	 * Besides the while-loop it allows the user to do pick one of five options to begin
+	 * his turn.
+	 */
+	
 	public void game(){
 		while(users.size() > 1){
 			User user = users.get(userTurn);
@@ -138,14 +155,24 @@ public class Controller {
 				try {
 					saveGame();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					GUIBoundary.showMessage("Der skete en fejl under nedskrivningen af dit spil.");
 				}
 			}
 		}
 		GUIBoundary.showMessage(users.get(0).getUserName() + " har vundet spillet!");
 	}
 
+	/**
+	 * Checks if the user is in jail or not, and do accordingly here after if he is.
+	 * If the user is not in jail, it will call playerMove, and after checks which
+	 * kind of field the user landed on.
+	 * Will update the GUI with balance and location of the given user.
+	 * At the end of the turn the method will check whether the users balance is still
+	 * positive and if he should stay in the game.
+	 * Ends up with updating the GUI with balances of all players.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void takeTurn(User user) {
 		{
 			if (user.getInJail() == true) {
@@ -199,6 +226,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Allows the user to pick if he wants to buy or sell his houses on his owned streets.
+	 * Depending on the users option will call the method belonging.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void buyHouse(User user){
 
 		boolean choice = GUIBoundary.getUserLeftButtonPressed("Køb eller sælg hus", "Køb", "Sælg");
@@ -219,6 +252,14 @@ public class Controller {
 		GUIBoundary.setBalance(user.getUserName(), user.getBalance());
 	}
 
+	/**
+	 * Will let the user pick another players own able fields to bid on.
+	 * After picking the field, he will have to choose how much to bet
+	 * where after the chosen player will have to accept or not.
+	 * Updates both users balance and owner rights.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void streetBid(User user) {
 		String[] buttons = new String[users.size()];
 
@@ -252,14 +293,14 @@ public class Controller {
 				chosenField = (Ownable) field;
 
 		boolean noHouses = true;
-		
+
 		if(chosenField instanceof Street){
 			if(((Street) chosenField).getHouseAmount() > 0 || ((Street) chosenField).getHotelAmount() == 1){
 				GUIBoundary.showMessage("Grunde med huse eller hotel kan ikke købes");
 				noHouses = false;
 			}
 		}
-		
+
 		if(noHouses){
 			int fieldBid = GUIBoundary.getUserInteger("Hvor meget vil du byde på " + fieldName, 0, 10000);
 
@@ -289,6 +330,12 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Allows the user to pick if he wants to pawn or re-buy his fields.
+	 * Depending on the users option will call the method belonging.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void pawnOrBuy(User user){
 		boolean pawnOrBuy = GUIBoundary.getUserLeftButtonPressed("Vil du pantsætte eller tilbagekøbe?", "Pantsæt", "Tilbagekøbe");
 
@@ -307,6 +354,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Will let the user pick which own able field of his he wants to pawn.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void pawn(User user) {
 		String[] temp = new String[40];
 		int size = 0;
@@ -349,6 +401,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Will let the user pick which pawned fields of his he wants to re-buy.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void buy(User user) {
 		String[] temp = new String[40];
 		int size = 0;
@@ -383,6 +440,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Saves the game with help of the database class.
+	 * @throws SQLException
+	 */
+	
 	private void saveGame() throws SQLException {
 		int breweryAmount = 0;
 		Brewery[] breweryFields = new Brewery[2];
@@ -407,10 +469,14 @@ public class Controller {
 		databaseOb.saveGame(users, breweryFields, shippingFields, streetFields, userTurn);
 	}
 
+	/**
+	 * Rolls the dice cup and moves the user the amount of eyes show on the dices.
+	 * If the user passes start he gets 4000,-.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void playerMove(User user) {
 		diceCup.roll();
-		diceCup.setFaceValue1(1);
-		diceCup.setFaceValue2(0);
 		GUIBoundary.setDice(diceCup.getFaceValue1(), diceCup.getFaceValue2());
 		if(user.getCurrentPosition()+diceCup.getSum() > 39){
 			user.setCurrentPosition(user.getCurrentPosition() + diceCup.getSum()-40);
@@ -422,6 +488,14 @@ public class Controller {
 		GUIBoundary.setCar(user.getCurrentPosition()+1, user.getUserName());
 	}
 
+	/**
+	 * Checks whether or not the field the user are on is a Street.
+	 * If so checks if it's owned or not.
+	 * Allows the user to buy the field if not owned, else it will
+	 * pay the rent to the current owner, if not the user himself.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void instanceOfStreet(User user) {
 		if(board.getField(user.getCurrentPosition()) instanceof Street){
 			if(((Street) board.getField(user.getCurrentPosition())).getOwner() == null){
@@ -445,6 +519,14 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Checks whether or not the field the user are on is a Brewery.
+	 * If so checks if it's owned or not.
+	 * Allows the user to buy the field if not owned, else it will
+	 * pay the rent to the current owner, if not the user himself.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void instanceOfBrewery(User user) {
 		if(board.getField(user.getCurrentPosition()) instanceof Brewery){
 			if(((Brewery) board.getField(user.getCurrentPosition())).getOwner() == null){
@@ -468,6 +550,14 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Checks whether or not the field the user are on is a Shipping.
+	 * If so checks if it's owned or not.
+	 * Allows the user to buy the field if not owned, else it will
+	 * pay the rent to the current owner, if not the user himself.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void instanceOfShipping(User user) {
 		if(board.getField(user.getCurrentPosition()) instanceof Shipping){
 			if(((Shipping) board.getField(user.getCurrentPosition())).getOwner() == null){
@@ -491,6 +581,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Checks whether or not the field the user are on is Taxes.
+	 * If so it will withdraw the taxes, amount depending on which
+	 * of the two taxes the user landed on.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void instanceOfTaxes(User user){
 		if(board.getField(user.getCurrentPosition()) instanceof Taxes){
 			if(user.getCurrentPosition() == 4){
@@ -509,6 +606,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Method called if the user decides to buy the field.
+	 * Will update the needed variables. 
+	 * @param user The current user whose turn it is.
+	 * @param fieldType Used for determine if field is a instance of shipping or brewery.
+	 */
+	
 	private void boughtField(User user, String fieldType) {
 		GUIBoundary.showMessage("Du har købt feltet " + board.getField(user.getCurrentPosition()).getName());
 		if(fieldType.equals("Shipping"))
@@ -519,6 +623,13 @@ public class Controller {
 		GUIBoundary.setOwner(user.getCurrentPosition()+1, user.getUserName());
 	}
 
+	/**
+	 * Method called if the user lands on a field that is owned.
+	 * Will pay the correct rent, depending on houses or hotels
+	 * and if all fields of the same colour are owned.
+	 * @param user The current user whose turn it is.
+	 */
+	
 	private void payRent(User user) {
 		if(board.getField(user.getCurrentPosition()) instanceof Street && (((Street) board.getField(user.getCurrentPosition())).getHouseAmount() > 0 || ((Street) board.getField(user.getCurrentPosition())).getHotelAmount() == 1)){
 			int houseAmount = ((Street) board.getField(user.getCurrentPosition())).getHouseAmount();
@@ -544,10 +655,22 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Method used if field class needs to know the sum of the
+	 * dices.
+	 * @return The sum of the two dices in the dice cup.
+	 */
+	
 	public static int getSum(){
 		return diceCup.getSum();
 	}
 
+	/**
+	 * Counts the amount of houses a certain user owns
+	 * @param user The user the game needs to know the amount of owned houses.
+	 * @return The amount of owned houses.
+	 */
+	
 	public static int getHouseAmount(User user){
 		int amount = 0;
 
@@ -560,6 +683,12 @@ public class Controller {
 		return amount;
 	}
 
+	/**
+	 * Counts the amount of hotels a certain user owns
+	 * @param user The user the game needs to know the amount of owned hotels.
+	 * @return The amount of owned hotels.
+	 */
+	
 	public static int getHotelAmount(User user){
 		int amount = 0;
 
@@ -572,10 +701,20 @@ public class Controller {
 		return amount;
 	}
 
+	/**
+	 * Method used if another class needs to know the users.
+	 * @return Returns the list of users.
+	 */
+	
 	public static ArrayList<User> getUserList(){
 		return users;
 	}
 
+	/**
+	 * Method used if another class needs to know the board.
+	 * @return Returns the game board.
+	 */
+	
 	public static Board getBoard(){
 		return board;
 	}

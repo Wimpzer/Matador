@@ -15,7 +15,7 @@ import field.*;
  * Contains all needed methods for interacting
  * with the database.
  * 
- * @author Bjarke, Joakim, Andreas
+ * @author Andreas, Bjarke and Joakim
  */
 
 public class Database {

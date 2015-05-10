@@ -5,8 +5,7 @@ import java.awt.Color;
 import game.Controller;
 
 	/**
-	 * 
-	 * @author Bjarke, Frederik, Joakim og Omar
+	 * @author Bjarke, Frederik, Joakim and Omar
 	 */
 
 public class Street extends Ownable{

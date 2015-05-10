@@ -7,8 +7,24 @@ import field.Field;
 import field.Street;
 import user.User;
 
+/**
+ * Withholds all the methods needed when a user wants to
+ * buy or sell houses or hotel.
+ * @author Bjarke
+ */
+
 public class HouseShopping {
 
+	/**
+	 * This method is called from the controller when a user
+	 * wants to buy a house or hotel.
+	 * It allows the player to pick what colour of field he wants
+	 * to build houses or hotel on.
+	 * Calls a method which uses the users option as a variable.
+	 * @param user The current user whose turn it is.
+	 * @param board The gameboard as a whole.
+	 */
+	
 	public void buyHouse(User user, Board board){
 		int blueMatch, pinkMatch, greenMatch, grayMatch, redMatch, whiteMatch, yellowMatch, purpleMatch;
 		blueMatch = pinkMatch = greenMatch = grayMatch = redMatch = whiteMatch = yellowMatch = purpleMatch = 0;
@@ -73,7 +89,7 @@ public class HouseShopping {
 				amount);
 		return buttons;
 	}
-
+	
 	private String[] buttonsSize(int blueMatch, int pinkMatch, int greenMatch,
 			int grayMatch, int redMatch, int whiteMatch, int yellowMatch,
 			int purpleMatch, int amount) {
@@ -114,7 +130,7 @@ public class HouseShopping {
 		}
 		return buttons;
 	}
-
+	
 	private void colourInputSwitch(User user, Board board, String colourInput) {
 		switch (colourInput) {
 		case "Blue":
@@ -600,6 +616,15 @@ public class HouseShopping {
 		}
 	}
 
+	/**
+	 * This is method called from the controller when a user
+	 * wants to sell a house or hotel.
+	 * Checks if the user got any houses or hotel on his owned
+	 * fields, if so allows him to sell one of those.
+	 * @param user The current user whose turn it is.
+	 * @param board
+	 */
+	
 	public void sellHouse(User user, Board board){
 		String[] temp = new String[22];
 		int size = 0;
