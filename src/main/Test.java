@@ -1,10 +1,16 @@
 package main;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 import boundary.GUIBoundary;
 import field.*;
 import game.Board;
+=======
+import field.*;
+import game.Board;
+import user.Account;
+>>>>>>> 214b4590fb6dbb57ae55cf268ff1160635914a25
 import user.User;
 
 public class Test {
@@ -22,6 +28,7 @@ public class Test {
 
 	}
 
+<<<<<<< HEAD
 	public static ArrayList<User> testMenu(ArrayList<User> users){
 		users.add(new User("Bjarke", 1, 0));
 		GUIBoundary.addPlayer(users.get(0));
@@ -34,6 +41,8 @@ public class Test {
 		return users;
 	}
 	
+=======
+>>>>>>> 214b4590fb6dbb57ae55cf268ff1160635914a25
 	public void account(){
 
 		System.out.println("Start balance: " + user.getBalance());
