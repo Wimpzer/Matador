@@ -3,7 +3,7 @@ package field;
 import user.User;
 
 	/**
-	 * @author Frederik and Lida
+	 * @author Frederik
 	 */
 
 public class Start extends Field {

@@ -5,7 +5,7 @@ import interfaces.IField;
 
 	/**
 	 * The parent class for all fields.
-	 * @author Frederik
+	 * @author Andreas og Frederik
 	 */
 
 public abstract class Field implements IField{

@@ -1,7 +1,7 @@
 package field;
 
 	/**
-	 * @author Frederik and Lida
+	 * @author Frederik
 	 */
 
 public class Shipping extends Ownable {
