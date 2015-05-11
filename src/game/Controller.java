@@ -3,7 +3,6 @@ package game;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import main.Test;
 import boundary.GUIBoundary;
 import database.Database;
 import desktop_resources.GUI;
@@ -36,7 +35,6 @@ public class Controller {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		users = Test.testMenu(users);
 		try {
 			game();
 		} catch (Exception e) {
